@@ -1,4 +1,4 @@
-package app.xet
+package com.xet
 
 import org.junit.Test
 
