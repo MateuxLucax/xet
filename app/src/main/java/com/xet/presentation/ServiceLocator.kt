@@ -8,6 +8,7 @@ import com.xet.domain.usecase.login.DoLogin
 import com.xet.domain.usecase.login.DoLogout
 import com.xet.domain.usecase.login.GetLoggedInUser
 import com.xet.domain.usecase.login.LoginUseCases
+import com.xet.presentation.home.HomeViewModel
 import com.xet.presentation.login.LoginViewModel
 
 object ServiceLocator {
@@ -15,15 +16,18 @@ object ServiceLocator {
     private val loginDataSource: ILoginDataSource = MockLoginDataSource()
     private val loginRepository: ILoginRepository = LoginRepository(loginDataSource)
 
-    fun getLoginUseCases(): LoginUseCases {
-        return LoginUseCases(
-            doLogin = DoLogin(loginRepository),
-            doLogout = DoLogout(loginRepository),
-            loggedInUser = GetLoggedInUser(loginRepository)
-        )
-    }
+    private val loginUseCases = LoginUseCases(
+        doLogin = DoLogin(loginRepository),
+        doLogout = DoLogout(loginRepository),
+        loggedInUser = GetLoggedInUser(loginRepository)
+    )
 
     fun getLoginViewModel(): LoginViewModel {
-        return LoginViewModel(getLoginUseCases().doLogin)
+        return LoginViewModel(loginUseCases)
     }
+
+    fun getHomeViewModel(): HomeViewModel {
+        return HomeViewModel(loginUseCases)
+    }
+
 }

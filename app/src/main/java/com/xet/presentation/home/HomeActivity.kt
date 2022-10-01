@@ -2,12 +2,13 @@ package com.xet.presentation.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.xet.R
-import com.xet.data.Result
 import com.xet.databinding.ActivityHomeBinding
 import com.xet.presentation.ServiceLocator
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity(
+    private var homeViewModel: HomeViewModel = ServiceLocator.getHomeViewModel()
+
+) : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -16,15 +17,7 @@ class HomeActivity : AppCompatActivity() {
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
 
-        val meContainer = binding.homeMe
-
-        val useCase = ServiceLocator.getLoginUseCases().loggedInUser
-        val result = useCase()
-        if (result is Result.Success) {
-            meContainer.text = result.data.displayName
-        } else {
-            meContainer.text = R.string.home_error.toString()
-        }
+        binding.homeMe.text = homeViewModel.loadUser()
 
         setContentView(binding.root)
     }

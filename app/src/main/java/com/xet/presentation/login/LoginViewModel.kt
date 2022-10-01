@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
-import com.xet.domain.usecase.login.DoLogin
-import com.xet.presentation.ServiceLocator
+import com.xet.domain.usecase.login.LoginUseCases
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val useCase: DoLogin = ServiceLocator.getLoginUseCases().doLogin
+    private val useCases: LoginUseCases
 ) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
@@ -22,7 +21,7 @@ class LoginViewModel(
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
-            val result = useCase(username, password)
+            val result = useCases.doLogin(username, password)
 
             if (result is Result.Success) {
                 _loginResult.value = LoginResult(success = result.data)

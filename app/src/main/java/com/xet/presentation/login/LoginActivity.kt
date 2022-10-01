@@ -16,10 +16,11 @@ import com.xet.databinding.ActivityLoginBinding
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.home.HomeActivity
 
-class LoginActivity () : AppCompatActivity() {
+class LoginActivity (
+    private var loginViewModel: LoginViewModel = ServiceLocator.getLoginViewModel()
+) : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private var loginViewModel: LoginViewModel = ServiceLocator.getLoginViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

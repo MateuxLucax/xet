@@ -4,7 +4,9 @@ import com.xet.data.Result
 import com.xet.data.repository.login.ILoginRepository
 import com.xet.domain.model.LoggedInUser
 
-class GetLoggedInUser (private val repository: ILoginRepository) {
+class GetLoggedInUser (
+    private val repository: ILoginRepository
+) {
 
     operator fun invoke(): Result<LoggedInUser> {
         val user = repository.loggedInUser
