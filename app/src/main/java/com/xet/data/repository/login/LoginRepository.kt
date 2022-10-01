@@ -1,19 +1,18 @@
-package com.xet.data
+package com.xet.data.repository.login
 
-import com.xet.data.model.LoggedInUser
+import com.xet.data.Result
+import com.xet.data.datasource.login.ILoginDataSource
+import com.xet.domain.model.LoggedInUser
 
-/**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
- */
+class LoginRepository(private val dataSource: ILoginDataSource): ILoginRepository {
 
-class LoginRepository(val dataSource: LoginDataSource) {
-
-    // in-memory cache of the loggedInUser object
     private var user: LoggedInUser? = null
 
-    val isLoggedIn: Boolean
+    override val isLoggedIn: Boolean
         get() = user != null
+
+    override val loggedInUser
+        get() = user
 
     init {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -21,13 +20,7 @@ class LoginRepository(val dataSource: LoginDataSource) {
         user = null
     }
 
-    fun logout() {
-        user = null
-        dataSource.logout()
-    }
-
-    fun login(username: String, password: String): Result<LoggedInUser> {
-        // handle login
+    override suspend fun login(username: String, password: String): Result<LoggedInUser> {
         val result = dataSource.login(username, password)
 
         if (result is Result.Success) {
@@ -35,6 +28,15 @@ class LoginRepository(val dataSource: LoginDataSource) {
         }
 
         return result
+    }
+
+    override suspend fun logout(): Boolean {
+        if (dataSource.logout()) {
+            user = null
+            return true
+        }
+
+        return false
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
