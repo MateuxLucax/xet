@@ -39,6 +39,8 @@ class LoginRepository(private val dataSource: ILoginDataSource): ILoginRepositor
         return false
     }
 
+    // TODO: create a method to retrieve user (remove logic from GetLoggedInUser UseCase)
+
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
         this.user = loggedInUser
         // If user credentials will be cached in local storage, it is recommended it be encrypted

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to login activity -->
+    <string name="login_username">Usuário</string>
+    <string name="login_password">Senha</string>
+    <string name="login_btn">Entrar</string>
+    <string name="login_btn_short">Entrar</string>
+    <string name="login_invalid_username">Usuário invalido</string>
+    <string name="login_invalid_password">A senha precisa possuir ao menos 3 caracteres</string>
+    <string name="login_failed_error">Erro ao realizar login</string>
+    <string name="login_title">Entrar</string>
+    <string name="login_create_account">Não possui cadastro? Clique aqui!</string>
+
+    <!-- Strings related to home activity -->
+    <string name="home_error">Usuário não encontrado</string>
+    <string name="home_user">Eu</string>
+</resources>

@@ -26,7 +26,7 @@ class LoginViewModel(
             if (result is Result.Success) {
                 _loginResult.value = LoginResult(success = result.data)
             } else {
-                _loginResult.value = LoginResult(error = R.string.login_failed)
+                _loginResult.value = LoginResult(error = R.string.login_failed_error)
             }
         }
     }
@@ -36,13 +36,13 @@ class LoginViewModel(
         val passwordValid = isPasswordValid(password)
         if (!userNameValid && !passwordValid) {
             _loginForm.value = LoginFormState(
-                usernameError = R.string.invalid_username,
-                passwordError = R.string.invalid_password
+                usernameError = R.string.login_invalid_username,
+                passwordError = R.string.login_invalid_password
             )
         } else if (!userNameValid) {
-            _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
+            _loginForm.value = LoginFormState(usernameError = R.string.login_invalid_username)
         } else if (!passwordValid) {
-            _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
+            _loginForm.value = LoginFormState(passwordError = R.string.login_invalid_password)
         } else {
             _loginForm.value = LoginFormState(isDataValid = true)
         }

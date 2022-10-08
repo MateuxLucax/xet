@@ -7,7 +7,6 @@ import com.xet.presentation.ServiceLocator
 
 class HomeActivity(
     private var homeViewModel: HomeViewModel = ServiceLocator.getHomeViewModel()
-
 ) : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
@@ -17,7 +16,7 @@ class HomeActivity(
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
 
-        binding.homeMe.text = homeViewModel.loadUser()
+        binding.homeUser.text = homeViewModel.loadUser()
 
         setContentView(binding.root)
     }

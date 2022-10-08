@@ -1,14 +1,19 @@
 <resources>
-    <string name="app_name">Xet</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password have at least 3 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="homeMe">Hello, %s</string>
+    <string name="app_name" translatable="false">Xet</string>
+
+    <!-- Strings related to login activity -->
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_btn">Sign in</string>
+    <string name="login_btn_short">Sign in</string>
+    <string name="login_invalid_username">Not a valid username</string>
+    <string name="login_invalid_password">Password have at least 3 characters</string>
+    <string name="login_failed_error">"Login failed"</string>
+    <string name="login_title">Sign in</string>
+    <string name="login_create_account">Don\'t have an account? Click here!</string>
+
+    <!-- Strings related to home activity -->
     <string name="home_error">User not found</string>
+    <string name="home_user">Me</string>
+    <string name="main_logo">Main logo</string>
 </resources>

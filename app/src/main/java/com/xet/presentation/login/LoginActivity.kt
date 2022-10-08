@@ -2,6 +2,7 @@ package com.xet.presentation.login
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -32,6 +33,7 @@ class LoginActivity (
         val password = binding.loginPassword
         val loginBtn = binding.loginBtn
         val loading = binding.loginLoading
+        val signUp = binding.loginCreateAccount
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -90,11 +92,20 @@ class LoginActivity (
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
         }
+
+        signUp.setOnContextClickListener {
+            redirectSignUp()
+        }
     }
 
     private fun redirectLoginSuccessful() {
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
+    }
+
+    private fun redirectSignUp(): Boolean {
+        Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT).show()
+        return true;
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
