@@ -1,6 +1,6 @@
 package com.xet.domain.model
 
-data class LoggedInUser(
+data class User(
     val userId: String,
     val displayName: String
 )

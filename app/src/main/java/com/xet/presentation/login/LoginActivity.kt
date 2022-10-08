@@ -2,7 +2,6 @@ package com.xet.presentation.login
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.xet.databinding.ActivityLoginBinding
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.home.HomeActivity
+import com.xet.presentation.signup.SignUpActivity
 
 class LoginActivity (
     private var loginViewModel: LoginViewModel = ServiceLocator.getLoginViewModel()
@@ -93,7 +93,7 @@ class LoginActivity (
             }
         }
 
-        signUp.setOnContextClickListener {
+        signUp.setOnClickListener {
             redirectSignUp()
         }
     }
@@ -103,9 +103,9 @@ class LoginActivity (
         finish()
     }
 
-    private fun redirectSignUp(): Boolean {
-        Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT).show()
-        return true;
+    private fun redirectSignUp() {
+        startActivity(Intent(this, SignUpActivity::class.java))
+        finish()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

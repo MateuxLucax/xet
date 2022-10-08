@@ -1,25 +1,22 @@
 package com.xet.presentation
 
-import com.xet.data.datasource.login.ILoginDataSource
-import com.xet.data.datasource.login.MockLoginDataSource
-import com.xet.data.repository.login.ILoginRepository
-import com.xet.data.repository.login.LoginRepository
-import com.xet.domain.usecase.login.DoLogin
-import com.xet.domain.usecase.login.DoLogout
-import com.xet.domain.usecase.login.GetLoggedInUser
-import com.xet.domain.usecase.login.LoginUseCases
+import com.xet.data.datasource.user.IUserDataSource
+import com.xet.data.datasource.user.MockUserDataSource
+import com.xet.data.repository.user.UserRepository
+import com.xet.domain.usecase.user.*
 import com.xet.presentation.home.HomeViewModel
 import com.xet.presentation.login.LoginViewModel
 
 object ServiceLocator {
 
-    private val loginDataSource: ILoginDataSource = MockLoginDataSource()
-    private val loginRepository: ILoginRepository = LoginRepository(loginDataSource)
+    private val loginDataSource: IUserDataSource = MockUserDataSource()
+    private val loginRepository: com.xet.data.repository.user.IUserRepository = UserRepository(loginDataSource)
 
     private val loginUseCases = LoginUseCases(
         doLogin = DoLogin(loginRepository),
         doLogout = DoLogout(loginRepository),
-        loggedInUser = GetLoggedInUser(loginRepository)
+        loggedInUser = GetLoggedInUser(loginRepository),
+        doSignUp = DoSignUp(loginRepository)
     )
 
     fun getLoginViewModel(): LoginViewModel {
@@ -28,6 +25,10 @@ object ServiceLocator {
 
     fun getHomeViewModel(): HomeViewModel {
         return HomeViewModel(loginUseCases)
+    }
+
+    fun getMainViewModel(): MainActivity.MainViewModel {
+        return MainActivity.MainViewModel(loginUseCases)
     }
 
 }

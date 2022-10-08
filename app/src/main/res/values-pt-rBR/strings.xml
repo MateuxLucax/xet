@@ -11,7 +11,16 @@
     <string name="login_title">Entrar</string>
     <string name="login_create_account">Não possui cadastro? Clique aqui!</string>
 
+    <!-- Strings related to signup activity -->
+    <string name="signup_title">Cadastrar</string>
+    <string name="signup_full_name">Nome completo</string>
+    <string name="signup_login">Já possui acesso? Clique aqui!</string>
+    <string name="signup_btn">Cadastrar</string>
+
     <!-- Strings related to home activity -->
     <string name="home_error">Usuário não encontrado</string>
     <string name="home_user">Eu</string>
+
+    <!-- General -->
+    <string name="main_logo">Logo do Xet</string>
 </resources>

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
-import com.xet.domain.usecase.login.LoginUseCases
+import com.xet.domain.usecase.user.LoginUseCases
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -32,8 +32,8 @@ class LoginViewModel(
     }
 
     fun loginDataChanged(username: String, password: String) {
-        val userNameValid = isUserNameValid(username)
-        val passwordValid = isPasswordValid(password)
+        val userNameValid = username.isNotBlank()
+        val passwordValid = password.isNotBlank()
         if (!userNameValid && !passwordValid) {
             _loginForm.value = LoginFormState(
                 usernameError = R.string.login_invalid_username,
@@ -53,6 +53,6 @@ class LoginViewModel(
     }
 
     private fun isPasswordValid(password: String): Boolean {
-        return password.length > 2
+        return password.isNotBlank()
     }
 }

@@ -3,7 +3,7 @@ package com.xet.presentation.home
 import androidx.lifecycle.ViewModel
 import com.xet.R
 import com.xet.data.Result
-import com.xet.domain.usecase.login.LoginUseCases
+import com.xet.domain.usecase.user.LoginUseCases
 
 class HomeViewModel(
     private val useCases: LoginUseCases

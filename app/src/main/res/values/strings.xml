@@ -12,8 +12,16 @@
     <string name="login_title">Sign in</string>
     <string name="login_create_account">Don\'t have an account? Click here!</string>
 
+    <!-- Strings related to signup activity -->
+    <string name="signup_title">Sign up</string>
+    <string name="signup_full_name">Full name</string>
+    <string name="signup_login">Already got an account? Click here!</string>
+    <string name="signup_btn">Sign up</string>
+
     <!-- Strings related to home activity -->
     <string name="home_error">User not found</string>
     <string name="home_user">Me</string>
-    <string name="main_logo">Main logo</string>
+
+    <!-- General -->
+    <string name="main_logo">Xet logo</string>
 </resources>

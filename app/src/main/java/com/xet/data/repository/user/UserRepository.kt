@@ -1,12 +1,12 @@
-package com.xet.data.repository.login
+package com.xet.data.repository.user
 
 import com.xet.data.Result
-import com.xet.data.datasource.login.ILoginDataSource
-import com.xet.domain.model.LoggedInUser
+import com.xet.data.datasource.user.IUserDataSource
+import com.xet.domain.model.User
 
-class LoginRepository(private val dataSource: ILoginDataSource): ILoginRepository {
+class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
 
-    private var user: LoggedInUser? = null
+    private var user: User? = null
 
     override val isLoggedIn: Boolean
         get() = user != null
@@ -20,8 +20,18 @@ class LoginRepository(private val dataSource: ILoginDataSource): ILoginRepositor
         user = null
     }
 
-    override suspend fun login(username: String, password: String): Result<LoggedInUser> {
+    override suspend fun login(username: String, password: String): Result<User> {
         val result = dataSource.login(username, password)
+
+        if (result is Result.Success) {
+            setLoggedInUser(result.data)
+        }
+
+        return result
+    }
+
+    override suspend fun signUp(fullName: String, username: String, password: String): Result<User> {
+        val result = dataSource.signIn(username, password, password);
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
@@ -41,8 +51,8 @@ class LoginRepository(private val dataSource: ILoginDataSource): ILoginRepositor
 
     // TODO: create a method to retrieve user (remove logic from GetLoggedInUser UseCase)
 
-    private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        this.user = loggedInUser
+    private fun setLoggedInUser(user: User) {
+        this.user = user
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
     }

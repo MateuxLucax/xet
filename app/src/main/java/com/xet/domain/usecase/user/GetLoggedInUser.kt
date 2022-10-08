@@ -1,14 +1,14 @@
-package com.xet.domain.usecase.login
+package com.xet.domain.usecase.user
 
 import com.xet.data.Result
-import com.xet.data.repository.login.ILoginRepository
-import com.xet.domain.model.LoggedInUser
+import com.xet.data.repository.user.IUserRepository
+import com.xet.domain.model.User
 
 class GetLoggedInUser (
-    private val repository: ILoginRepository
+    private val repository: IUserRepository
 ) {
 
-    operator fun invoke(): Result<LoggedInUser> {
+    operator fun invoke(): Result<User> {
         val user = repository.loggedInUser
         return if (user != null) {
             Result.Success(user)
