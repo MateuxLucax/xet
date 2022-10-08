@@ -31,7 +31,7 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     }
 
     override suspend fun signUp(fullName: String, username: String, password: String): Result<User> {
-        val result = dataSource.signIn(username, password, password);
+        val result = dataSource.signIn(fullName, username, password);
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)

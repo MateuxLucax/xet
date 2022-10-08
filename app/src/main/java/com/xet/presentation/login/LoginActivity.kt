@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -18,7 +17,7 @@ import com.xet.presentation.home.HomeActivity
 import com.xet.presentation.signup.SignUpActivity
 
 class LoginActivity (
-    private var loginViewModel: LoginViewModel = ServiceLocator.getLoginViewModel()
+    private var viewModel: LoginViewModel = ServiceLocator.getLoginViewModel()
 ) : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -35,7 +34,7 @@ class LoginActivity (
         val loading = binding.loginLoading
         val signUp = binding.loginCreateAccount
 
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
+        viewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
             loginBtn.isEnabled = loginState.isDataValid
@@ -48,7 +47,7 @@ class LoginActivity (
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
+        viewModel.loginResult.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
@@ -62,39 +61,26 @@ class LoginActivity (
         })
 
         username.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            viewModel.loginDataChanged(
                 username.text.toString(),
                 password.text.toString()
             )
         }
 
         password.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            viewModel.loginDataChanged(
                 username.text.toString(),
                 password.text.toString()
             )
         }
 
-        password.apply {
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
-                }
-                false
-            }
-
-            loginBtn.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
-            }
+        loginBtn.setOnClickListener {
+            loading.visibility = View.VISIBLE
+            viewModel.login(username.text.toString(), password.text.toString())
         }
 
         signUp.setOnClickListener {
-            redirectSignUp()
+            redirectLogin()
         }
     }
 
@@ -103,7 +89,7 @@ class LoginActivity (
         finish()
     }
 
-    private fun redirectSignUp() {
+    private fun redirectLogin() {
         startActivity(Intent(this, SignUpActivity::class.java))
         finish()
     }

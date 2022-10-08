@@ -6,6 +6,7 @@ import com.xet.data.repository.user.UserRepository
 import com.xet.domain.usecase.user.*
 import com.xet.presentation.home.HomeViewModel
 import com.xet.presentation.login.LoginViewModel
+import com.xet.presentation.signup.SignUpViewModel
 
 object ServiceLocator {
 
@@ -29,6 +30,10 @@ object ServiceLocator {
 
     fun getMainViewModel(): MainActivity.MainViewModel {
         return MainActivity.MainViewModel(loginUseCases)
+    }
+
+    fun getSignUpViewModel(): SignUpViewModel {
+        return SignUpViewModel(loginUseCases)
     }
 
 }

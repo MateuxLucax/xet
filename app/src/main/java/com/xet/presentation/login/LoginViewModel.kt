@@ -32,27 +32,12 @@ class LoginViewModel(
     }
 
     fun loginDataChanged(username: String, password: String) {
-        val userNameValid = username.isNotBlank()
-        val passwordValid = password.isNotBlank()
-        if (!userNameValid && !passwordValid) {
-            _loginForm.value = LoginFormState(
-                usernameError = R.string.login_invalid_username,
-                passwordError = R.string.login_invalid_password
-            )
-        } else if (!userNameValid) {
-            _loginForm.value = LoginFormState(usernameError = R.string.login_invalid_username)
-        } else if (!passwordValid) {
-            _loginForm.value = LoginFormState(passwordError = R.string.login_invalid_password)
-        } else {
-            _loginForm.value = LoginFormState(isDataValid = true)
-        }
-    }
-
-    private fun isUserNameValid(username: String): Boolean {
-        return username.isNotBlank()
-    }
-
-    private fun isPasswordValid(password: String): Boolean {
-        return password.isNotBlank()
+        val isUserNameValid = username.isNotBlank()
+        val isPasswordValid = password.isNotBlank()
+        _loginForm.value = LoginFormState(
+            usernameError =  if (!isUserNameValid) R.string.login_invalid_username else null,
+            passwordError = if (!isPasswordValid) R.string.login_invalid_password else null,
+            isDataValid = isUserNameValid && isPasswordValid
+        )
     }
 }

@@ -6,7 +6,7 @@
     <string name="login_btn">Entrar</string>
     <string name="login_btn_short">Entrar</string>
     <string name="login_invalid_username">Usuário invalido</string>
-    <string name="login_invalid_password">A senha precisa possuir ao menos 3 caracteres</string>
+    <string name="login_invalid_password">Senha inválida</string>
     <string name="login_failed_error">Erro ao realizar login</string>
     <string name="login_title">Entrar</string>
     <string name="login_create_account">Não possui cadastro? Clique aqui!</string>
@@ -15,6 +15,10 @@
     <string name="signup_title">Cadastrar</string>
     <string name="signup_full_name">Nome completo</string>
     <string name="signup_login">Já possui acesso? Clique aqui!</string>
+    <string name="signup_invalid_full_name">Preencha seu nome completo!</string>
+    <string name="signup_invalid_username">Preencha seu nome de usuário</string>
+    <string name="signup_invalid_password">A senha deve possuir ao mínimo 8 caracteres</string>
+    <string name="signup_failed_error">"Erro ao realizar login"</string>
     <string name="signup_btn">Cadastrar</string>
 
     <!-- Strings related to home activity -->
