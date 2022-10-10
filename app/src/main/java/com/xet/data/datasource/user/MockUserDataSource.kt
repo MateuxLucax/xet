@@ -9,7 +9,7 @@ class MockUserDataSource : IUserDataSource {
 
     override fun login(username: String, password: String): Result<User> {
         return try {
-            if (username != "foo" || password != "bar") throw Exception("Unauthorized")
+            if (username == "foo" || password == "bar") throw Exception("Unauthorized")
             val fakeUser = User(UUID.randomUUID().toString(), username)
             Result.Success(fakeUser)
         } catch (e: Throwable) {

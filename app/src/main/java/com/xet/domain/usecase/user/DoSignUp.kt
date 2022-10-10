@@ -9,7 +9,7 @@ class DoSignUp(
 ) {
 
     suspend operator fun invoke(fullName: String, username: String, password: String): Result<User> {
-        return repository.signUp(fullName, username, password);
+        return repository.signUp(fullName, username, password)
     }
 
 }

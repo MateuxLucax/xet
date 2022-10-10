@@ -11,9 +11,6 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     override val isLoggedIn: Boolean
         get() = user != null
 
-    override val loggedInUser
-        get() = user
-
     init {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
@@ -31,7 +28,7 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     }
 
     override suspend fun signUp(fullName: String, username: String, password: String): Result<User> {
-        val result = dataSource.signIn(fullName, username, password);
+        val result = dataSource.signIn(fullName, username, password)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
@@ -49,7 +46,15 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
         return false
     }
 
-    // TODO: create a method to retrieve user (remove logic from GetLoggedInUser UseCase)
+
+    override fun getLoggedInUser(): Result<User> {
+        val user = this.user
+        return if (user != null) {
+            Result.Success(user)
+        } else {
+            Result.Error(Exception("User not set"));
+        }
+    }
 
     private fun setLoggedInUser(user: User) {
         this.user = user

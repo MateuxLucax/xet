@@ -37,9 +37,7 @@ class MainActivity(
         private val useCases: LoginUseCases
     ): ViewModel() {
         fun checkLoggedInUser(): Boolean {
-            val result = useCases.loggedInUser()
-
-            return result is Result.Success
+            return useCases.isLoggedInUser()
         }
     }
 }

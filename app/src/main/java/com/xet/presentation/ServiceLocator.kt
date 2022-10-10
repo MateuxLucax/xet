@@ -17,7 +17,8 @@ object ServiceLocator {
         doLogin = DoLogin(loginRepository),
         doLogout = DoLogout(loginRepository),
         loggedInUser = GetLoggedInUser(loginRepository),
-        doSignUp = DoSignUp(loginRepository)
+        doSignUp = DoSignUp(loginRepository),
+        isLoggedInUser = IsUserLoggedIn(loginRepository)
     )
 
     fun getLoginViewModel(): LoginViewModel {

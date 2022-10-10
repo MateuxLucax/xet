@@ -9,12 +9,6 @@ class GetLoggedInUser (
 ) {
 
     operator fun invoke(): Result<User> {
-        val user = repository.loggedInUser
-        return if (user != null) {
-            Result.Success(user)
-        } else {
-            Result.Error(RuntimeException("User not set"))
-        }
+        return repository.getLoggedInUser()
     }
-
 }

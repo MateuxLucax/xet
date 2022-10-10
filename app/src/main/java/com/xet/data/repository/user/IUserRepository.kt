@@ -13,6 +13,6 @@ interface IUserRepository {
 
     val isLoggedIn: Boolean
 
-    val loggedInUser: User?
+    fun getLoggedInUser(): Result<User>
 
 }

@@ -4,5 +4,6 @@ data class LoginUseCases(
     val doLogin: DoLogin,
     val doLogout: DoLogout,
     val loggedInUser: GetLoggedInUser,
-    val doSignUp: DoSignUp
+    val doSignUp: DoSignUp,
+    val isLoggedInUser: IsUserLoggedIn
 )
