@@ -7,4 +7,8 @@
     <color name="colorSecondary">#E8DEF8</color>
     <color name="colorSecondaryVariant">#F3EDF7</color>
     <color name="colorOnSecondary">#1D192B</color>
+
+    <color name="errorColor">#B3261E</color>
+    <color name="successColor">#A5B356</color>
+    <color name="undefinedColor">#79747E</color>
 </resources>

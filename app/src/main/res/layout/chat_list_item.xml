@@ -27,12 +27,16 @@
                 android:layout_height="64dp"
                 app:cardCornerRadius="32dp"
                 android:layout_gravity="center">
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:id="@+id/imageView"
-                    android:contentDescription="@string/chat_list_item_image"
-                    tools:srcCompat="@tools:sample/avatars" />
+                <TextView
+                    android:id="@+id/chat_list_item_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/chat_list_Item_profile_letter"
+                    android:background="?colorPrimary"
+                    android:textColor="?colorOnPrimary"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
             </androidx.cardview.widget.CardView>
 
@@ -44,24 +48,27 @@
                 android:gravity="center"
                 android:layout_marginStart="8dp"
             >
-                <!-- TODO: check a better way to add gaps betwen list items -->
+                <!-- TODO: check a better way to add gaps between list items -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:layout_marginBottom="8dp"
                     android:showDividers="middle"
                 >
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/chat_list_item_name"
+                        android:layout_width="0dp"
+                        android:gravity="start"
                         android:layout_height="wrap_content"
-                        android:text="Pedro Pinto"
+                        android:text="@string/chat_list_item_name"
                         android:layout_weight="1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
+                        android:id="@+id/chat_list_item_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/chat_list_item_status"
@@ -69,9 +76,10 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/chat_list_item_last_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pedro Pinto"
+                    android:text="@string/chat_list_item_last_message"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
         </LinearLayout>

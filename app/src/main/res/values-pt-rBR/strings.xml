@@ -27,10 +27,16 @@
     <string name="chat_list_user_error">Não foi possível carregar o usuário</string>
     <string name="chat_list_item_image">Placeholder</string>
     <string name="chat_list_item_status">status</string>
+    <string name="chat_list_item_last_message">Seu pilantra, ta me devendo!</string>
+    <string name="chat_list_item_name">Pedro Pinto</string>
+    <string name="chat_list_Item_profile_letter">P</string>
 
     <!-- General -->
     <string name="main_logo">Logo do Xet</string>
     <string name="menu_chat">Conversas</string>
     <string name="menu_search">Buscar</string>
     <string name="menu_profile">Perfil</string>
+    <string name="status_online">disponível</string>
+    <string name="status_offline">indisponível</string>
+    <string name="status_undefined">indefinido</string>
 </resources>

@@ -28,10 +28,16 @@
     <string name="chat_list_user_error">Could not load user</string>
     <string name="chat_list_item_image">Placeholder</string>
     <string name="chat_list_item_status">status</string>
+    <string name="chat_list_item_last_message">Hey, u owe me!</string>
+    <string name="chat_list_item_name">Pedro Pinto</string>
+    <string name="chat_list_Item_profile_letter">P</string>
 
     <!-- General -->
     <string name="main_logo">Xet logo</string>
     <string name="menu_chat">Chats</string>
     <string name="menu_search">Search</string>
     <string name="menu_profile">Profile</string>
+    <string name="status_online">online</string>
+    <string name="status_offline">offline</string>
+    <string name="status_undefined">undefined</string>
 </resources>
