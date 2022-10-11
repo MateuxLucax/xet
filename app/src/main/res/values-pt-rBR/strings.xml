@@ -22,9 +22,15 @@
     <string name="signup_btn">Cadastrar</string>
 
     <!-- Strings related to home activity -->
-    <string name="home_error">Usuário não encontrado</string>
-    <string name="home_user">Eu</string>
+
+    <!-- Strings related to chat list fragment -->
+    <string name="chat_list_user_error">Não foi possível carregar o usuário</string>
+    <string name="chat_list_item_image">Placeholder</string>
+    <string name="chat_list_item_status">status</string>
 
     <!-- General -->
     <string name="main_logo">Logo do Xet</string>
+    <string name="menu_chat">Conversas</string>
+    <string name="menu_search">Buscar</string>
+    <string name="menu_profile">Perfil</string>
 </resources>

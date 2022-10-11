@@ -23,9 +23,15 @@
     <string name="signup_btn">Sign up</string>
 
     <!-- Strings related to home activity -->
-    <string name="home_error">User not found</string>
-    <string name="home_user">Me</string>
+
+    <!-- Strings related to chat list fragment -->
+    <string name="chat_list_user_error">Could not load user</string>
+    <string name="chat_list_item_image">Placeholder</string>
+    <string name="chat_list_item_status">status</string>
 
     <!-- General -->
     <string name="main_logo">Xet logo</string>
+    <string name="menu_chat">Chats</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_profile">Profile</string>
 </resources>

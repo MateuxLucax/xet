@@ -1,17 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.Xet" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#6750A4</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#E8DEF8</item>
-        <item name="colorOnSecondary">#1D192B</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorAccent">?colorSecondary</item>
+        <item name="colorPrimaryDark">?colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorContainer">@color/colorSecondaryVariant</item>
         <item name="colorOnBackground">@color/black</item>
         <item name="backgroundColor">@color/white</item>
         <item name="android:textColor">?colorOnBackground</item>
         <item name="android:windowBackground">?backgroundColor</item>
         <item name="strokeColor">?colorPrimary</item>
 
-
-
+        <!-- System settings -->
         <item name="android:statusBarColor">?backgroundColor</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">?backgroundColor</item>
