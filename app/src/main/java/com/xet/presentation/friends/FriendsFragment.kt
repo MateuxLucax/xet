@@ -1,4 +1,4 @@
-package com.xet.presentation.contacts
+package com.xet.presentation.friends
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.xet.R
-import com.xet.databinding.FragmentContactsBinding
+import com.xet.databinding.FragmentFriendsBinding
 import com.xet.presentation.ServiceLocator
-import com.xet.presentation.contacts.components.ContactsAdapter
+import com.xet.presentation.friends.components.FriendsAdapter
 
 private const val USER_ID = "user_id"
 
 class ContactsFragment(
-    private var viewModel: ContactsViewModel = ServiceLocator.getContactsViewModel()
+    private var viewModel: FriendsViewModel = ServiceLocator.getContactsViewModel()
 ) : Fragment() {
     private var userId: String? = null
-    private lateinit var binding: FragmentContactsBinding
+    private lateinit var binding: FragmentFriendsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,22 +31,22 @@ class ContactsFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentContactsBinding.inflate(layoutInflater)
-        val loading = binding.contactListLoading
-        val message = binding.contactListMessage
+        binding = FragmentFriendsBinding.inflate(layoutInflater)
+        val loading = binding.friendListLoading
+        val message = binding.friendListMessage
 
-        viewModel.contactsResult.observe(viewLifecycleOwner, Observer {
-            val loginResult = it ?: return@Observer
+        viewModel.friendsResult.observe(viewLifecycleOwner, Observer {
+            val friendsResult = it ?: return@Observer
 
             loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                message.text = context?.getString(loginResult.error)
+            if (friendsResult.error != null) {
+                message.text = context?.getString(friendsResult.error)
                 context?.getColor(R.color.errorColor)?.let { it1 -> message.setTextColor(it1) }
-            } else if (loginResult.empty != null) {
-                message.text = context?.getString(loginResult.empty)
-            } else if (loginResult.success != null && container != null) {
-                val recyclerView = binding.contactListRecyclerView
-                recyclerView.adapter = ContactsAdapter(loginResult.success, container.context)
+            } else if (friendsResult.empty != null) {
+                message.text = context?.getString(friendsResult.empty)
+            } else if (friendsResult.success != null && container != null) {
+                val recyclerView = binding.friendListRecyclerView
+                recyclerView.adapter = FriendsAdapter(friendsResult.success, container.context)
             }
         })
 

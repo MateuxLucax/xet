@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.contacts.ContactsFragment">
+    tools:context=".presentation.friends.ContactsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contact_list_recycler_view"
+        android:id="@+id/friend_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/contact_list_item" />
+        tools:listitem="@layout/friend_list_item" />
 
     <ProgressBar
-        android:id="@+id/contact_list_loading"
+        android:id="@+id/friend_list_loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -26,10 +26,10 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <TextView
-        android:id="@+id/contact_list_message"
+        android:id="@+id/friend_list_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_list_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/friend_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

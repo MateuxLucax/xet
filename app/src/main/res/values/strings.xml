@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Xet</string>
 
-    <!-- Strings related to login activity -->
+    <!-- login activity -->
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_btn">Sign in</string>
@@ -12,7 +12,7 @@
     <string name="login_title">Sign in</string>
     <string name="login_create_account">Don\'t have an account? Click here!</string>
 
-    <!-- Strings related to signup activity -->
+    <!-- signup activity -->
     <string name="signup_title">Sign up</string>
     <string name="signup_full_name">Full name</string>
     <string name="signup_login">Already got an account? Click here!</string>
@@ -22,17 +22,25 @@
     <string name="signup_failed_error">"Sign up failed"</string>
     <string name="signup_btn">Sign up</string>
 
-    <!-- Strings related to home activity -->
+    <!-- home activity -->
 
-    <!-- Strings related to contacts list fragment -->
-    <string name="contact_list_user_error">Could not load user</string>
-    <string name="contact_list_item_image">Placeholder</string>
-    <string name="contact_list_item_status">status</string>
-    <string name="contact_list_item_last_message">Hey, u owe me!</string>
-    <string name="contact_list_item_name">Pedro Pinto</string>
-    <string name="contact_list_item_profile_letter">P</string>
-    <string name="contacts_list_fail">Failed to load contacts</string>
-    <string name="contacts_list_empty">You do not have any contact</string>
+    <!-- friends list fragment -->
+    <string name="friends_user_error">Could not load user</string>
+    <string name="friends_item_image">Placeholder</string>
+    <string name="friends_item_status">status</string>
+    <string name="friends_item_last_message">Hey, u owe me!</string>
+    <string name="friends_item_name">Pedro Pinto</string>
+    <string name="friends_item_profile_letter">P</string>
+    <string name="friends_fail">Failed to load contacts</string>
+    <string name="friends_empty">You do not have any contact</string>
+
+    <!-- search Fragment -->
+    <string name="search_input_label">Search</string>
+    <string name="search_contact_button">Square with a magnifying glass on the middle</string>
+    <string name="search_friend_description">Chat bubble icon that represents a friend</string>
+    <string name="search_pending_description">Clock icon that represents a friendship invite is pending</string>
+    <string name="search_refused_description">Close icon that represents a user refused to be your friend</string>
+    <string name="search_send_icon">Send icon that represents a invite can be sent to user</string>
 
     <!-- General -->
     <string name="main_logo">Xet logo</string>
@@ -42,5 +50,6 @@
     <string name="status_online">online</string>
     <string name="status_offline">offline</string>
     <string name="status_undefined">undefined</string>
-    <string name="loading">Loading…</string>
+    <string name="login_in">Singing in…</string>
+    <string name="signing_up">Singing up…</string>
 </resources>

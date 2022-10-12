@@ -52,6 +52,7 @@ class SignUpActivity(
             val loginResult = it ?: return@Observer
 
             signUpBtn.text = getString(R.string.signup_btn)
+            signUpBtn.isEnabled = true
             if (loginResult.error != null) {
                 showSignUpFailed(loginResult.error)
             }
@@ -86,7 +87,8 @@ class SignUpActivity(
         }
 
         signUpBtn.setOnClickListener {
-            signUpBtn.text = getString(R.string.loading)
+            signUpBtn.text = getString(R.string.signing_up)
+            signUpBtn.isEnabled = false
             viewModel.signUp(fullName.text.toString(), username.text.toString(), password.text.toString())
         }
 

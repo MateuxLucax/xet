@@ -50,6 +50,7 @@ class LoginActivity (
             val loginResult = it ?: return@Observer
 
             loginBtn.text = getString(R.string.login_btn)
+            loginBtn.isEnabled = true
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
             }
@@ -74,7 +75,8 @@ class LoginActivity (
         }
 
         loginBtn.setOnClickListener {
-            loginBtn.text = getString(R.string.loading)
+            loginBtn.text = getString(R.string.login_in)
+            loginBtn.isEnabled = false
             viewModel.login(username.text.toString(), password.text.toString())
         }
 

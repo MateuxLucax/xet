@@ -1,13 +1,14 @@
 package com.xet.data.datasource.user
 
-import com.xet.data.Result
 import com.xet.domain.model.User
 
 interface IUserDataSource {
 
-    suspend fun login(username: String, password: String): Result<User>
+    @Throws(Exception::class)
+    suspend fun signIn(username: String, password: String): User
 
-    suspend fun signIn(fullName: String, username: String, password: String): Result<User>
+    @Throws(Exception::class)
+    suspend fun signUp(fullName: String, username: String, password: String): User
 
     fun logout(): Boolean
 

@@ -8,8 +8,9 @@ import com.google.android.material.color.MaterialColors
 import com.xet.R
 import com.xet.databinding.ActivityHomeBinding
 import com.xet.presentation.ServiceLocator
-import com.xet.presentation.contacts.ContactsFragment
-
+import com.xet.presentation.friends.ContactsFragment
+import com.xet.presentation.profile.ProfileFragment
+import com.xet.presentation.search.SearchFragment
 
 class HomeActivity(
     private var viewModel: HomeViewModel = ServiceLocator.getHomeViewModel()
@@ -28,14 +29,14 @@ class HomeActivity(
         val userId = viewModel.loadUser()
 
         if (savedInstanceState == null) {
-            setCurrentFragment(ContactsFragment.newInstance("$userId-default"))
+            setCurrentFragment(ContactsFragment.newInstance(userId))
         }
 
         navigationBar.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.menu_chat->setCurrentFragment(ContactsFragment.newInstance("$userId-chat"))
-                R.id.menu_search->setCurrentFragment(ContactsFragment.newInstance("$userId-search"))
-                R.id.menu_profile->setCurrentFragment(ContactsFragment.newInstance("$userId-profile"))
+                R.id.menu_chat -> setCurrentFragment(ContactsFragment.newInstance(userId))
+                R.id.menu_search -> setCurrentFragment(SearchFragment.newInstance(userId))
+                R.id.menu_profile -> setCurrentFragment(ProfileFragment.newInstance(userId))
             }
             true
         }
@@ -49,5 +50,4 @@ class HomeActivity(
             replace(R.id.home_frame_layout, fragment)
             commit()
         }
-
 }

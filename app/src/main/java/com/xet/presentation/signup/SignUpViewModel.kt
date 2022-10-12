@@ -10,7 +10,7 @@ import com.xet.domain.usecase.user.LoginUseCases
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
-    private val useCases: LoginUseCases
+    private val useCases: LoginUseCases,
 ): ViewModel() {
 
     private val _signUpForm = MutableLiveData<SignUpFormState>()

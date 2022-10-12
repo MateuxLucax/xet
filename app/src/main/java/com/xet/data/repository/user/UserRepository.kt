@@ -18,23 +18,25 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     }
 
     override suspend fun login(username: String, password: String): Result<User> {
-        val result = dataSource.login(username, password)
+        return try {
+            val result = dataSource.signIn(username, password)
 
-        if (result is Result.Success) {
-            setLoggedInUser(result.data)
+            setLoggedInUser(result)
+            Result.Success(result)
+        } catch (e: Exception) {
+            Result.Error(e)
         }
-
-        return result
     }
 
     override suspend fun signUp(fullName: String, username: String, password: String): Result<User> {
-        val result = dataSource.signIn(fullName, username, password)
+        return try {
+            val result = dataSource.signUp(fullName, username, password)
 
-        if (result is Result.Success) {
-            setLoggedInUser(result.data)
+            setLoggedInUser(result)
+            Result.Success(result)
+        } catch (e: Exception) {
+            Result.Error(e)
         }
-
-        return result
     }
 
     override suspend fun logout(): Boolean {

@@ -15,7 +15,7 @@ class HomeViewModel(
         return if (result is Result.Success) {
             result.data.userId
         } else {
-            R.string.contact_list_user_error.toString()
+            R.string.friends_user_error.toString()
         }
     }
 
