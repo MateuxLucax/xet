@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.domain.model.Contact
@@ -14,31 +15,33 @@ import com.xet.domain.model.FriendshipStatus
 class SearchAdapter(
     private val contacts: List<Contact>,
     private val context: Context,
-    private val friendCallback: (userId: String) -> Void,
-    private val sendInviteCallBack: () -> Void
+    private val friendCallback: (String) -> Unit,
+    private val sendInviteCallBack: (String) -> Unit
 ): RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(
             contact: Contact,
-            friendCallback: (userId: String) -> Void,
-            sendInviteCallBack: () -> Void
+            friendCallback: (String) -> Unit,
+            sendInviteCallBack: (String) -> Unit
         ) {
             val displayName: TextView = itemView.findViewById(R.id.contact_search_item_name)
             val actionBtn: ImageButton = itemView.findViewById(R.id.contact_search_item_btn)
 
             if (contact.friendshipStatus != null) {
-                actionBtn.setImageDrawable(itemView.context.getDrawable(contact.friendshipStatus.toIcon()))
+                actionBtn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, contact.friendshipStatus.toIcon()))
                 actionBtn.contentDescription = contact.friendshipStatus.toDescription().toString()
                 actionBtn.isActivated = false
                 if (contact.friendshipStatus == FriendshipStatus.FRIEND) {
                     actionBtn.setOnClickListener {
                         friendCallback(contact.userId)
                     }
+                } else {
+                    actionBtn.isEnabled = false
                 }
             } else {
                 actionBtn.setOnClickListener {
-                    sendInviteCallBack()
+                    sendInviteCallBack(contact.userId)
                 }
             }
             displayName.text = contact.displayName
@@ -46,7 +49,7 @@ class SearchAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.friend_list_item, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.contact_search_list_item, parent, false)
         return ViewHolder(view)
     }
 

@@ -73,7 +73,7 @@ object ServiceLocator {
     }
 
     fun getSearchViewModel(): SearchViewModel {
-        return SearchViewModel(searchUseCases)
+        return SearchViewModel(searchUseCases, friendUseCases)
     }
 
 }

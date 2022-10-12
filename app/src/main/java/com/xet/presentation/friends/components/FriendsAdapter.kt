@@ -27,7 +27,7 @@ class FriendsAdapter(
                 status.setText(friend.status.toResourceString())
                 status.setTextColor(itemView.context.getColor(friend.status.toColor()))
             }
-            profileImage.text = friend.displayName[0].toString();
+            profileImage.text = friend.displayName[0].toString()
         }
     }
 
@@ -45,6 +45,4 @@ class FriendsAdapter(
     override fun getItemCount(): Int {
         return friends.size
     }
-
-
 }

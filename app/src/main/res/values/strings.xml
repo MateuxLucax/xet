@@ -41,6 +41,10 @@
     <string name="search_pending_description">Clock icon that represents a friendship invite is pending</string>
     <string name="search_refused_description">Close icon that represents a user refused to be your friend</string>
     <string name="search_send_icon">Send icon that represents a invite can be sent to user</string>
+    <string name="search_list_empty">Could not find any user matching your query</string>
+    <string name="search_list_error">Could not load users</string>
+    <string name="search_invite_sent_successfully">Invite sent to user</string>
+    <string name="search_invite_sent_fail">Could not send invite</string>
 
     <!-- General -->
     <string name="main_logo">Xet logo</string>

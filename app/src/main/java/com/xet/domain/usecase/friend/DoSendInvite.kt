@@ -1,7 +1,7 @@
 package com.xet.domain.usecase.friend
 
-import com.xet.data.repository.friend.IFriendRepository
 import com.xet.data.Result
+import com.xet.data.repository.friend.IFriendRepository
 
 class DoSendInvite(
     private val repository: IFriendRepository

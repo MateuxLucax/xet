@@ -37,7 +37,7 @@ class MockFriendDataSource: IFriendDataSource {
 
     override suspend fun sendInvite(userFrom: String, userTo: String): Boolean {
         withContext(Dispatchers.IO) {
-            Thread.sleep(4_000)
+            Thread.sleep(1_000)
         }
 
         return true

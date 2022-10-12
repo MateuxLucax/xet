@@ -17,7 +17,18 @@ class MockSearchDataSource: ISearchDataSource {
         withContext(Dispatchers.IO) {
             Thread.sleep(2_000)
         }
-        return listOf(
+        return if (query == "test") listOf(
+            Contact(
+                userId = UUID.randomUUID().toString(),
+                displayName = "John John",
+                friendshipStatus = FriendshipStatus.FRIEND
+            ),
+            Contact(
+                userId = UUID.randomUUID().toString(),
+                displayName = "Robert Ala",
+                friendshipStatus = null
+            )
+        ) else listOf(
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "James Mary",
