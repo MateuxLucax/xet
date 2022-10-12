@@ -5,12 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.xet.R
 import com.xet.databinding.ActivityLoginBinding
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.home.HomeActivity
@@ -31,7 +31,6 @@ class LoginActivity (
         val username = binding.loginUsername
         val password = binding.loginPassword
         val loginBtn = binding.loginBtn
-        val loading = binding.loginLoading
         val signUp = binding.loginCreateAccount
 
         viewModel.loginFormState.observe(this@LoginActivity, Observer {
@@ -50,7 +49,7 @@ class LoginActivity (
         viewModel.loginResult.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
-            loading.visibility = View.GONE
+            loginBtn.text = getString(R.string.login_btn)
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
             }
@@ -75,7 +74,7 @@ class LoginActivity (
         }
 
         loginBtn.setOnClickListener {
-            loading.visibility = View.VISIBLE
+            loginBtn.text = getString(R.string.loading)
             viewModel.login(username.text.toString(), password.text.toString())
         }
 

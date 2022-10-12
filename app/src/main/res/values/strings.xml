@@ -24,13 +24,15 @@
 
     <!-- Strings related to home activity -->
 
-    <!-- Strings related to chat list fragment -->
-    <string name="chat_list_user_error">Could not load user</string>
-    <string name="chat_list_item_image">Placeholder</string>
-    <string name="chat_list_item_status">status</string>
-    <string name="chat_list_item_last_message">Hey, u owe me!</string>
-    <string name="chat_list_item_name">Pedro Pinto</string>
-    <string name="chat_list_Item_profile_letter">P</string>
+    <!-- Strings related to contacts list fragment -->
+    <string name="contact_list_user_error">Could not load user</string>
+    <string name="contact_list_item_image">Placeholder</string>
+    <string name="contact_list_item_status">status</string>
+    <string name="contact_list_item_last_message">Hey, u owe me!</string>
+    <string name="contact_list_item_name">Pedro Pinto</string>
+    <string name="contact_list_item_profile_letter">P</string>
+    <string name="contacts_list_fail">Failed to load contacts</string>
+    <string name="contacts_list_empty">You do not have any contact</string>
 
     <!-- General -->
     <string name="main_logo">Xet logo</string>
@@ -40,4 +42,5 @@
     <string name="status_online">online</string>
     <string name="status_offline">offline</string>
     <string name="status_undefined">undefined</string>
+    <string name="loading">Loading…</string>
 </resources>

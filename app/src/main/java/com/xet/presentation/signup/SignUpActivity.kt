@@ -3,11 +3,11 @@ package com.xet.presentation.signup
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.xet.R
 import com.xet.databinding.ActivitySignUpBinding
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.home.HomeActivity
@@ -31,7 +31,6 @@ class SignUpActivity(
         val username = binding.signUpUsername
         val password = binding.signUpPassword
         val signUpBtn = binding.signUpBtn
-        val loading = binding.signUpLoading
 
         viewModel.signUpFormState.observe(this@SignUpActivity, Observer {
             val loginState = it ?: return@Observer
@@ -52,7 +51,7 @@ class SignUpActivity(
         viewModel.signUpResult.observe(this@SignUpActivity, Observer {
             val loginResult = it ?: return@Observer
 
-            loading.visibility = View.GONE
+            signUpBtn.text = getString(R.string.signup_btn)
             if (loginResult.error != null) {
                 showSignUpFailed(loginResult.error)
             }
@@ -87,7 +86,7 @@ class SignUpActivity(
         }
 
         signUpBtn.setOnClickListener {
-            loading.visibility = View.VISIBLE
+            signUpBtn.text = getString(R.string.loading)
             viewModel.signUp(fullName.text.toString(), username.text.toString(), password.text.toString())
         }
 

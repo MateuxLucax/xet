@@ -23,13 +23,15 @@
 
     <!-- Strings related to home activity -->
 
-    <!-- Strings related to chat list fragment -->
-    <string name="chat_list_user_error">Não foi possível carregar o usuário</string>
-    <string name="chat_list_item_image">Placeholder</string>
-    <string name="chat_list_item_status">status</string>
-    <string name="chat_list_item_last_message">Seu pilantra, ta me devendo!</string>
-    <string name="chat_list_item_name">Pedro Pinto</string>
-    <string name="chat_list_Item_profile_letter">P</string>
+    <!-- Strings related to contacts list fragment -->
+    <string name="contact_list_user_error">Não foi possível carregar o usuário</string>
+    <string name="contact_list_item_image">Placeholder</string>
+    <string name="contact_list_item_status">status</string>
+    <string name="contact_list_item_last_message">Seu pilantra, ta me devendo!</string>
+    <string name="contact_list_item_name">Pedro Pinto</string>
+    <string name="contact_list_item_profile_letter">P</string>
+    <string name="contacts_list_fail">Não foi possível carregar os contatos</string>
+    <string name="contacts_list_empty">Sua lista de contatos está vazia</string>
 
     <!-- General -->
     <string name="main_logo">Logo do Xet</string>
@@ -39,4 +41,5 @@
     <string name="status_online">disponível</string>
     <string name="status_offline">indisponível</string>
     <string name="status_undefined">indefinido</string>
+    <string name="loading">Carregando…</string>
 </resources>

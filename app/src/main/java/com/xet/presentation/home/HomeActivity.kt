@@ -3,13 +3,12 @@ package com.xet.presentation.home
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.color.MaterialColors
 import com.xet.R
 import com.xet.databinding.ActivityHomeBinding
 import com.xet.presentation.ServiceLocator
-import com.xet.presentation.chatList.ChatListFragment
+import com.xet.presentation.contacts.ContactsFragment
 
 
 class HomeActivity(
@@ -26,17 +25,17 @@ class HomeActivity(
         setContentView(binding.root)
 
         val navigationBar = binding.homeNavigationBar
-        val user = viewModel.loadUser()
+        val userId = viewModel.loadUser()
 
         if (savedInstanceState == null) {
-            setCurrentFragment(ChatListFragment.newInstance("$user-default"))
+            setCurrentFragment(ContactsFragment.newInstance("$userId-default"))
         }
 
         navigationBar.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.menu_chat->setCurrentFragment(ChatListFragment.newInstance("$user-chat"))
-                R.id.menu_search->setCurrentFragment(ChatListFragment.newInstance("$user-search"))
-                R.id.menu_profile->setCurrentFragment(ChatListFragment.newInstance("$user-profile"))
+                R.id.menu_chat->setCurrentFragment(ContactsFragment.newInstance("$userId-chat"))
+                R.id.menu_search->setCurrentFragment(ContactsFragment.newInstance("$userId-search"))
+                R.id.menu_profile->setCurrentFragment(ContactsFragment.newInstance("$userId-profile"))
             }
             true
         }

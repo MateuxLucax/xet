@@ -1,7 +1,6 @@
 package com.xet.presentation.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
 import com.xet.domain.usecase.user.LoginUseCases
@@ -14,9 +13,9 @@ class HomeViewModel(
         val result = useCases.loggedInUser()
 
         return if (result is Result.Success) {
-            result.data.displayName
+            result.data.userId
         } else {
-            R.string.chat_list_user_error.toString()
+            R.string.contact_list_user_error.toString()
         }
     }
 

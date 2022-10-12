@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.xet.R
-import com.xet.data.Result
 import com.xet.databinding.ActivityMainBinding
 import com.xet.domain.usecase.user.LoginUseCases
 import com.xet.presentation.home.HomeActivity
