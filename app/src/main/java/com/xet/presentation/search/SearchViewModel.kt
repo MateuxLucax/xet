@@ -27,8 +27,8 @@ class SearchViewModel(
     private val _searchResult = MutableLiveData<SearchResult>()
     val searchResult: LiveData<SearchResult> = _searchResult
 
-    private val _inviteResult = MutableLiveData<InviteResult>()
-    val inviteResult: LiveData<InviteResult> = _inviteResult
+    private val _Update_inviteResult = MutableLiveData<UpdateInviteResult>()
+    val updateInviteResult: LiveData<UpdateInviteResult> = _Update_inviteResult
 
     fun search(query: String) {
         viewModelScope.launch {
@@ -50,9 +50,9 @@ class SearchViewModel(
             val result = friendUseCases.sendInvite(currentUserId, userTo)
 
             if (result is Result.Success) {
-                _inviteResult.value = InviteResult(success = R.string.search_invite_sent_successfully)
+                _Update_inviteResult.value = UpdateInviteResult(success = R.string.search_invite_sent_successfully)
             } else {
-                _inviteResult.value = InviteResult(error = R.string.search_invite_sent_fail)
+                _Update_inviteResult.value = UpdateInviteResult(error = R.string.search_invite_sent_fail)
             }
         }
     }

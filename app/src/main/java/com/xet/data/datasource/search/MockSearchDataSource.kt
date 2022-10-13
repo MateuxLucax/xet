@@ -21,33 +21,39 @@ class MockSearchDataSource: ISearchDataSource {
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John John",
-                friendshipStatus = FriendshipStatus.FRIEND
+                friendshipStatus = FriendshipStatus.FRIEND,
+                username = "john.john"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Robert Ala",
-                friendshipStatus = null
+                friendshipStatus = null,
+                username = "robert.ala"
             )
         ) else listOf(
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "James Mary",
-                friendshipStatus = FriendshipStatus.REFUSED
+                friendshipStatus = FriendshipStatus.REFUSED,
+                username = "james.mary"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Robert Patricia",
-                friendshipStatus = FriendshipStatus.PENDING
+                friendshipStatus = FriendshipStatus.PENDING,
+                username = "robert.patricia"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John Jennifer",
-                friendshipStatus = FriendshipStatus.FRIEND
+                friendshipStatus = FriendshipStatus.FRIEND,
+                username = "john.jennifer"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
-                displayName = "John Jennifer",
-                friendshipStatus = null
+                displayName = "Alfred Batman",
+                friendshipStatus = null,
+                username = "alfred.batman"
             )
         )
     }

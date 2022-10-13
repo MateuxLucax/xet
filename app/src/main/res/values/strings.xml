@@ -22,8 +22,6 @@
     <string name="signup_failed_error">"Sign up failed"</string>
     <string name="signup_btn">Sign up</string>
 
-    <!-- home activity -->
-
     <!-- friends list fragment -->
     <string name="friends_user_error">Could not load user</string>
     <string name="friends_item_image">Placeholder</string>
@@ -34,7 +32,7 @@
     <string name="friends_fail">Failed to load contacts</string>
     <string name="friends_empty">You do not have any contact</string>
 
-    <!-- search Fragment -->
+    <!-- search fragment -->
     <string name="search_input_label">Search</string>
     <string name="search_contact_button">Square with a magnifying glass on the middle</string>
     <string name="search_friend_description">Chat bubble icon that represents a friend</string>
@@ -46,7 +44,20 @@
     <string name="search_invite_sent_successfully">Invite sent to user</string>
     <string name="search_invite_sent_fail">Could not send invite</string>
 
-    <!-- General -->
+    <!-- profile fragment -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_invites_title">Invites</string>
+    <string name="profile_update_btn">Update</string>
+    <string name="profile_load_error">Error while retrieving your information</string>
+    <string name="profile_invites_empty">You do not have any pending invite</string>
+    <string name="profile_invites_error">Error while retrieving your invites</string>
+    <string name="profile_update_success">Profile updated!</string>
+    <string name="profile_update_fail">Something went wrong while updating your profile</string>
+    <string name="profile_invite_update_accepted">Invite accepted!</string>
+    <string name="profile_invite_update_refused">Invite refused!</string>
+    <string name="profile_invite_update_fail">Something went wrong while updating your profile</string>
+
+    <!-- general -->
     <string name="main_logo">Xet logo</string>
     <string name="menu_chat">Chats</string>
     <string name="menu_search">Search</string>
@@ -56,4 +67,7 @@
     <string name="status_undefined">undefined</string>
     <string name="login_in">Singing in…</string>
     <string name="signing_up">Singing up…</string>
+    <string name="updating">Updating…</string>
+    <string name="check_icon_description">A check icon</string>
+    <string name="close_icon_description">A close icon</string>
 </resources>

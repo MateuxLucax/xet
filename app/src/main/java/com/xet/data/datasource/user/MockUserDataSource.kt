@@ -12,7 +12,7 @@ class MockUserDataSource : IUserDataSource {
             Thread.sleep(2_000)
         }
         if (username == "foo" || password == "bar") throw Exception("Unauthorized")
-        return User(UUID.randomUUID().toString(), username)
+        return User(UUID.randomUUID().toString(), "John Doe", username)
     }
 
     @Throws(Exception::class)
@@ -22,10 +22,24 @@ class MockUserDataSource : IUserDataSource {
         }
 
         if (fullName == "test" && username == "foo" && password == "12345678") throw Exception("Unauthorized")
-        return User(UUID.randomUUID().toString(), username)
+        return User(UUID.randomUUID().toString(), fullName, username)
     }
 
     override fun logout(): Boolean {
-        return true
+        val random = Random()
+        return random.nextBoolean()
+    }
+
+    override suspend fun updateProfile(
+        userId: String,
+        fullName: String,
+        username: String
+    ): Boolean {
+        withContext(Dispatchers.IO) {
+            Thread.sleep(2_000)
+        }
+
+        val random = Random()
+        return random.nextBoolean()
     }
 }

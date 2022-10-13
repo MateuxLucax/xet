@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
-import com.xet.domain.usecase.user.LoginUseCases
+import com.xet.domain.usecase.user.UserUseCases
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val useCases: LoginUseCases
+    private val useCases: UserUseCases
 ) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()

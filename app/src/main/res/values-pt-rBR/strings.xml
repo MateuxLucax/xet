@@ -21,8 +21,6 @@
     <string name="signup_failed_error">"Erro ao realizar login"</string>
     <string name="signup_btn">Cadastrar</string>
 
-    <!-- home activity -->
-
     <!-- contacts list fragment -->
     <string name="friends_user_error">Não foi possível carregar o usuário</string>
     <string name="friends_item_image">Placeholder</string>
@@ -45,7 +43,20 @@
     <string name="search_invite_sent_successfully">Convite enviado com sucesso</string>
     <string name="search_invite_sent_fail">Erro ao enviar um convite</string>
 
-    <!-- General -->
+    <!-- profile fragment -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_invites_title">Convites</string>
+    <string name="profile_update_btn">Atualizar</string>
+    <string name="profile_load_error">Erro ao carregar suas informações</string>
+    <string name="profile_invites_empty">Você não possui nenhum convite pendente</string>
+    <string name="profile_invites_error">Erro ao buscar seus convites de amizade</string>
+    <string name="profile_update_success">Perfil atualizado!</string>
+    <string name="profile_update_fail">Algo deu errado ao atualizar o perfil</string>
+    <string name="profile_invite_update_accepted">Convite aceito!</string>
+    <string name="profile_invite_update_refused">Convite recusado!</string>
+    <string name="profile_invite_update_fail">Algo deu errado ao atualizar seu convite</string>
+
+    <!-- general -->
     <string name="main_logo">Logo do Xet</string>
     <string name="menu_chat">Conversas</string>
     <string name="menu_search">Buscar</string>
@@ -55,4 +66,7 @@
     <string name="status_undefined">indefinido</string>
     <string name="login_in">Entrando…</string>
     <string name="signing_up">Cadastrando…</string>
+    <string name="updating">Atualizando…</string>
+    <string name="check_icon_description">Ícone de verificado</string>
+    <string name="close_icon_description">Ícone de fechar</string>
 </resources>

@@ -12,22 +12,21 @@ import com.xet.data.repository.search.ISearchRepository
 import com.xet.data.repository.search.SearchRepository
 import com.xet.data.repository.user.IUserRepository
 import com.xet.data.repository.user.UserRepository
-import com.xet.domain.usecase.friend.DoSendInvite
-import com.xet.domain.usecase.friend.FriendUseCases
-import com.xet.domain.usecase.friend.GetFriends
+import com.xet.domain.usecase.friend.*
 import com.xet.domain.usecase.search.GetUsers
 import com.xet.domain.usecase.search.SearchUseCases
 import com.xet.domain.usecase.user.*
 import com.xet.presentation.friends.FriendsViewModel
 import com.xet.presentation.home.HomeViewModel
 import com.xet.presentation.login.LoginViewModel
+import com.xet.presentation.profile.ProfileViewModel
 import com.xet.presentation.search.SearchViewModel
 import com.xet.presentation.signup.SignUpViewModel
 
 object ServiceLocator {
 
-    private val loginDataSource: IUserDataSource = MockUserDataSource()
-    private val loginRepository: IUserRepository = UserRepository(loginDataSource)
+    private val userDatasource: IUserDataSource = MockUserDataSource()
+    private val userRepository: IUserRepository = UserRepository(userDatasource)
 
     private val contactDataSource: IFriendDataSource = MockFriendDataSource()
     private val friendRepository: IFriendRepository = FriendRepository(contactDataSource)
@@ -35,17 +34,20 @@ object ServiceLocator {
     private val searchDataSource: ISearchDataSource = MockSearchDataSource()
     private val searchRepository: ISearchRepository = SearchRepository(searchDataSource)
 
-    private val loginUseCases = LoginUseCases(
-        doLogin = DoLogin(loginRepository),
-        doLogout = DoLogout(loginRepository),
-        loggedInUser = GetLoggedInUser(loginRepository),
-        doSignUp = DoSignUp(loginRepository),
-        isLoggedInUser = IsUserLoggedIn(loginRepository)
+    private val userUseCases = UserUseCases(
+        doLogin = DoLogin(userRepository),
+        doLogout = DoLogout(userRepository),
+        loggedInUser = GetLoggedInUser(userRepository),
+        doSignUp = DoSignUp(userRepository),
+        isLoggedInUser = IsUserLoggedIn(userRepository),
+        doUpdateProfile = DoUpdateProfile(userRepository)
     )
 
     private val friendUseCases = FriendUseCases(
         getFriends = GetFriends(friendRepository),
-        sendInvite = DoSendInvite(friendRepository)
+        sendInvite = DoSendInvite(friendRepository),
+        getInvites = GetInvites(friendRepository),
+        updateInvite = DoUpdateInvite(friendRepository)
     )
 
     private val searchUseCases = SearchUseCases(
@@ -53,19 +55,19 @@ object ServiceLocator {
     )
 
     fun getLoginViewModel(): LoginViewModel {
-        return LoginViewModel(loginUseCases)
+        return LoginViewModel(userUseCases)
     }
 
     fun getHomeViewModel(): HomeViewModel {
-        return HomeViewModel(loginUseCases)
+        return HomeViewModel(userUseCases)
     }
 
     fun getMainViewModel(): MainActivity.MainViewModel {
-        return MainActivity.MainViewModel(loginUseCases)
+        return MainActivity.MainViewModel(userUseCases)
     }
 
     fun getSignUpViewModel(): SignUpViewModel {
-        return SignUpViewModel(loginUseCases)
+        return SignUpViewModel(userUseCases)
     }
 
     fun getContactsViewModel(): FriendsViewModel {
@@ -74,6 +76,10 @@ object ServiceLocator {
 
     fun getSearchViewModel(): SearchViewModel {
         return SearchViewModel(searchUseCases, friendUseCases)
+    }
+
+    fun getProfileViewModel(): ProfileViewModel {
+        return ProfileViewModel(userUseCases, friendUseCases)
     }
 
 }

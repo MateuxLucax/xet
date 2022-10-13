@@ -3,10 +3,10 @@ package com.xet.presentation.home
 import androidx.lifecycle.ViewModel
 import com.xet.R
 import com.xet.data.Result
-import com.xet.domain.usecase.user.LoginUseCases
+import com.xet.domain.usecase.user.UserUseCases
 
 class HomeViewModel(
-    private val useCases: LoginUseCases
+    private val useCases: UserUseCases
 ): ViewModel() {
 
     fun loadUser(): String {

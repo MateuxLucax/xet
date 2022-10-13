@@ -1,6 +1,6 @@
 package com.xet.presentation.search
 
-data class InviteResult(
+data class UpdateInviteResult(
     val success: Int? = null,
     val error: Int? = null
 )

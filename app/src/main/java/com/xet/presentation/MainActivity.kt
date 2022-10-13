@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.xet.R
 import com.xet.databinding.ActivityMainBinding
-import com.xet.domain.usecase.user.LoginUseCases
+import com.xet.domain.usecase.user.UserUseCases
 import com.xet.presentation.home.HomeActivity
 import com.xet.presentation.login.LoginActivity
 
@@ -33,7 +33,7 @@ class MainActivity(
     }
 
     class MainViewModel(
-        private val useCases: LoginUseCases
+        private val useCases: UserUseCases
     ): ViewModel() {
         fun checkLoggedInUser(): Boolean {
             return useCases.isLoggedInUser()

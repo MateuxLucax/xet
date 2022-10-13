@@ -54,12 +54,11 @@
             android:layout_height="match_parent"
             android:autofillHints="@string/login_username"
             android:drawableEnd="@drawable/ic_outline_person_outline_24"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:selectAllOnFocus="true"
             android:textColorHighlight="?colorPrimary"
             tools:ignore="TextContrastCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginPasswordLabel"

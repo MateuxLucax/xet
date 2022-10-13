@@ -42,7 +42,7 @@ class SearchFragment(
             val result = it ?: return@Observer
 
             loading.visibility = View.GONE
-            searchBtn.isActivated = true
+            searchBtn.isEnabled = true
             if (result.error != null) {
                 message.text = context?.getString(result.error)
                 context?.getColor(R.color.errorColor)?.let { it1 -> message.setTextColor(it1) }
@@ -54,7 +54,7 @@ class SearchFragment(
             }
         })
 
-        viewModel.inviteResult.observe(viewLifecycleOwner, Observer {
+        viewModel.updateInviteResult.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
 
             if (result.error != null) {
@@ -74,7 +74,7 @@ class SearchFragment(
 
         userId?.let {
             loading.visibility = View.VISIBLE
-            searchBtn.isActivated = false
+            searchBtn.isEnabled = false
             viewModel.setCurrentUserId(it)
             viewModel.search("")
         }

@@ -58,6 +58,22 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
         }
     }
 
+    override suspend fun updateProfile(
+        fullName: String,
+        username: String
+    ): Result<Boolean> {
+        return try {
+            val userId = user?.userId
+            if (userId != null) {
+                Result.Success(dataSource.updateProfile(userId, fullName, username))
+            } else {
+                Result.Error(Exception("Undefined user id"))
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
     private fun setLoggedInUser(user: User) {
         this.user = user
         // If user credentials will be cached in local storage, it is recommended it be encrypted
