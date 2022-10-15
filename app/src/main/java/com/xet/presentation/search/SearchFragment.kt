@@ -1,14 +1,20 @@
 package com.xet.presentation.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.xet.R
 import com.xet.databinding.FragmentSearchBinding
+import com.xet.domain.model.Contact
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.search.components.SearchAdapter
 
@@ -19,6 +25,7 @@ class SearchFragment(
 ) : Fragment() {
     private var userId: String? = null
     private lateinit var binding: FragmentSearchBinding
+    private var contacts: MutableList<Contact> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +34,7 @@ class SearchFragment(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,21 +44,27 @@ class SearchFragment(
         val loading = binding.searchListLoading
         val message = binding.searchMessage
         val searchInput = binding.searchContact
-        val searchBtn = binding.contactSearchBtn
+        val recyclerView = binding.searchContactRecyclerView
+
+        val adapter = container?.let {
+            SearchAdapter(contacts, it.context, viewModel::sendInvite, this::redirectToMessageActivity)
+        }
+
+        recyclerView.adapter = adapter
+
 
         viewModel.searchResult.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
 
             loading.visibility = View.GONE
-            searchBtn.isEnabled = true
             if (result.error != null) {
                 message.text = context?.getString(result.error)
                 context?.getColor(R.color.errorColor)?.let { it1 -> message.setTextColor(it1) }
             } else if (result.empty != null) {
                 message.text = context?.getString(result.empty)
-            } else if (result.success != null && container != null) {
-                val recyclerView = binding.searchContactRecyclerView
-                recyclerView.adapter = SearchAdapter(result.success, container.context, viewModel::sendInvite, this::redirectToMessageActivity)
+            } else if (result.success != null) {
+                contacts.addAll(result.success)
+                adapter?.notifyDataSetChanged()
             }
         })
 
@@ -64,17 +78,16 @@ class SearchFragment(
             }
         })
 
-        searchBtn.setOnClickListener {
+        searchInput.afterTextChangedDelayed {
             val query = searchInput.text.toString()
-            if (query.isNotBlank()) {
-                viewModel.search(query)
-                searchBtn.isActivated = false
-            }
+            loading.visibility = View.VISIBLE
+            contacts.clear()
+            adapter?.notifyDataSetChanged()
+            viewModel.search(query)
         }
 
         userId?.let {
             loading.visibility = View.VISIBLE
-            searchBtn.isEnabled = false
             viewModel.setCurrentUserId(it)
             viewModel.search("")
         }
@@ -97,4 +110,27 @@ class SearchFragment(
                 }
             }
     }
+}
+
+fun TextView.afterTextChangedDelayed(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        var delay = 1000
+        var countDown = 1500
+
+        var timer: CountDownTimer? = null
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(editable: Editable?) {
+            timer?.cancel()
+            timer = object : CountDownTimer(delay.toLong(), countDown.toLong()) {
+                override fun onTick(millisUntilFinished: Long) {}
+                override fun onFinish() {
+                    afterTextChanged.invoke(editable.toString())
+                }
+            }.start()
+        }
+    })
 }

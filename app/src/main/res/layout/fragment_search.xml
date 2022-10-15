@@ -24,8 +24,7 @@
             android:gravity="top"
             android:hint="@string/search_input_label"
             android:labelFor="@+id/loginUsername"
-            android:layout_weight="1"
-            android:padding="0dp" >
+            android:layout_weight="1" >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchContact"
                 android:layout_width="match_parent"
@@ -35,15 +34,6 @@
                 android:textColorHighlight="?colorPrimary"
                 tools:ignore="TextContrastCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/contact_search_btn"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginEnd="16dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:src="@drawable/ic_outline_search_24"
-            android:contentDescription="@string/search_contact_button" />
 
     </LinearLayout>
 
@@ -59,22 +49,21 @@
             android:visibility="gone"
             android:layout_gravity="center"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchContactRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/contact_search_list_item" />
+
+        <TextView
+            android:id="@+id/searchMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/searchMessage"
-        app:layout_constraintTop_toBottomOf="@+id/searchContactInputGroup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchContactRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/searchContactInputGroup"
-        tools:listitem="@layout/contact_search_list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
