@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.xet.R
 import com.xet.databinding.FragmentFriendsBinding
 import com.xet.presentation.ServiceLocator
-import com.xet.presentation.friends.components.ChatAdapter
+import com.xet.presentation.friends.components.FriendsAdapter
 
 private const val USER_ID = "user_id"
 
@@ -46,7 +46,7 @@ class ContactsFragment(
                 message.text = context?.getString(friendsResult.empty)
             } else if (friendsResult.success != null && container != null) {
                 val recyclerView = binding.friendListRecyclerView
-                recyclerView.adapter = ChatAdapter(friendsResult.success, container.context)
+                recyclerView.adapter = FriendsAdapter(friendsResult.success, container.context)
             }
         })
 

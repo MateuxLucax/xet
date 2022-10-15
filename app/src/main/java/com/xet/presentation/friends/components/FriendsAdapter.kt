@@ -1,6 +1,7 @@
 package com.xet.presentation.friends.components
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.domain.model.Friend
+import com.xet.presentation.chat.ChatActivity
+import com.xet.presentation.signup.SignUpActivity
 
 class FriendsAdapter(
     private val friends: List<Friend>,
     private val context: Context
-): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
+): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(friend: Friend) {
@@ -28,6 +31,15 @@ class FriendsAdapter(
                 status.setTextColor(itemView.context.getColor(friend.status.toColor()))
             }
             profileImage.text = friend.displayName[0].toString()
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, ChatActivity::class.java)
+                intent.putExtra(ChatActivity.FRIEND_ID, friend.userId)
+                intent.putExtra(ChatActivity.FRIEND_NAME, friend.displayName)
+                intent.putExtra(ChatActivity.FRIEND_USER_NAME, friend.username)
+
+                itemView.context.startActivity(intent)
+            }
         }
     }
 
