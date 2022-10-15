@@ -57,6 +57,13 @@
     <string name="profile_invite_update_refused">Invite refused!</string>
     <string name="profile_invite_update_fail">Something went wrong while updating your profile</string>
 
+    <!-- chat activity -->
+    <string name="chat_message_date">12/12/2012 19:03:35</string>
+    <string name="chat_message_text">Oops, and those 100zao you took last week and you still haven\'t given a sign of when you\'re going to pay me. If you call man, you're going to lose some fingers</string>
+    <string name="chat_input_hint">Type your message</string>
+    <string name="chat_title">Alfredo Alvarez</string>
+    <string name="chat_input_btn_text">Icon representing a plane to send message</string>
+
     <!-- general -->
     <string name="main_logo">Xet logo</string>
     <string name="menu_chat">Chats</string>

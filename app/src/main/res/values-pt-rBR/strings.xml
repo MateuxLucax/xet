@@ -56,6 +56,13 @@
     <string name="profile_invite_update_refused">Convite recusado!</string>
     <string name="profile_invite_update_fail">Algo deu errado ao atualizar seu convite</string>
 
+    <!-- chat activity -->
+    <string name="chat_message_date">12/12/2012 19:03:35</string>
+    <string name="chat_message_text">Opa, e aqueles 100zao que tu pegou de mim semana passada e ainda nem deu sinal de quando vai me pagar. Se liga man, vai perder uns dedos</string>
+    <string name="chat_input_hint">Digite sua mensagem</string>
+    <string name="chat_title">Alfredo Alvarez</string>
+    <string name="chat_input_btn_text">Icone de representando envio de mensagem</string>
+
     <!-- general -->
     <string name="main_logo">Logo do Xet</string>
     <string name="menu_chat">Conversas</string>

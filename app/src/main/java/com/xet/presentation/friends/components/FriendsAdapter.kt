@@ -12,7 +12,7 @@ import com.xet.domain.model.Friend
 class FriendsAdapter(
     private val friends: List<Friend>,
     private val context: Context
-): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
+): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(friend: Friend) {
