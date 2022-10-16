@@ -23,10 +23,9 @@ class SignUpViewModel(
         viewModelScope.launch {
             val result = useCases.doSignUp(fullName, username, password)
 
-            if (result is Result.Success) {
-                _signUpResult.value = SignUpResult(success = result.data)
-            } else {
-                _signUpResult.value = SignUpResult(error = R.string.signup_failed_error)
+            _signUpResult.value = when(result) {
+                is Result.Success -> SignUpResult(success = result.data)
+                else -> SignUpResult(error = R.string.signup_failed_error)
             }
         }
     }
