@@ -2,9 +2,7 @@ package com.xet.data.datasource.user
 
 import android.util.Log
 import com.xet.domain.model.User
-import com.xet.dsd.DSD_HOST
-import com.xet.dsd.DSD_PORT
-import com.xet.dsd.jsonRequest
+import com.xet.dsd.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -25,7 +23,7 @@ class UserDataSource: IUserDataSource {
 
     data class SignUpRequest(val username: String, val password: String) {}
     data class SignUpOkResponse(val id: Long) {}
-    data class SignUpErrResponse(val message: String) {}
+    data class SignUpErrResponse(val messageCode: String) {}
 
     override suspend fun signUp(fullName: String, username: String, password: String): User {
         val dto = SignUpRequest(username, password)
@@ -50,15 +48,10 @@ class UserDataSource: IUserDataSource {
                     
                     User(id.toString(), username, username)
                 } else {
-                    val (message) = res.readJson(SignUpErrResponse::class.java)
-                    Log.i(TAG, message)
-
-                    // TODO specialized exception class for server err responses
-                    // specially because we lose information
-                    // a "user does not exist" message just turns into an "error when logging in"
-                    // but we actually need to show the user that the username isn't available
-
-                    throw Exception(res.errKind + ": " + message)
+                    val (codeString) = res.readJson(SignUpErrResponse::class.java)
+                    val code = errCodeFrom(codeString)
+                    Log.i(TAG, code.toString())
+                    throw if (code != null) ErrCodeException(code) else Exception()
                 }
             }
         }

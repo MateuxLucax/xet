@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Xet</string>
 
+    <string name="errcode_placeholder" translatable="false">[MISSING STRING RESOURCE FOR ERROR CODE]</string>
+
     <!-- login activity -->
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
@@ -79,4 +81,6 @@
     <string name="updating">Updating…</string>
     <string name="check_icon_description">A check icon</string>
     <string name="close_icon_description">A close icon</string>
+
+    <string name="username_in_use">This username is already in use</string>
 </resources>

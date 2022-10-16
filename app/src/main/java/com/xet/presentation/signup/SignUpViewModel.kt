@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
 import com.xet.domain.usecase.user.UserUseCases
+import com.xet.dsd.ErrCodeException
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
@@ -23,9 +24,12 @@ class SignUpViewModel(
         viewModelScope.launch {
             val result = useCases.doSignUp(fullName, username, password)
 
-            _signUpResult.value = when(result) {
+            _signUpResult.value = when (result) {
                 is Result.Success -> SignUpResult(success = result.data)
-                else -> SignUpResult(error = R.string.signup_failed_error)
+                is Result.Error -> SignUpResult(error = when (result.exception) {
+                    is ErrCodeException -> result.exception.code.resource
+                    else -> R.string.signup_failed_error
+                })
             }
         }
     }
