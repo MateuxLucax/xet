@@ -6,6 +6,7 @@ import com.xet.data.datasource.search.ISearchDataSource
 import com.xet.data.datasource.search.MockSearchDataSource
 import com.xet.data.datasource.user.IUserDataSource
 import com.xet.data.datasource.user.MockUserDataSource
+import com.xet.data.datasource.user.UserDataSource
 import com.xet.data.repository.friend.FriendRepository
 import com.xet.data.repository.friend.IFriendRepository
 import com.xet.data.repository.search.ISearchRepository
@@ -25,7 +26,7 @@ import com.xet.presentation.signup.SignUpViewModel
 
 object ServiceLocator {
 
-    private val userDatasource: IUserDataSource = MockUserDataSource()
+    private val userDatasource: IUserDataSource = UserDataSource()
     private val userRepository: IUserRepository = UserRepository(userDatasource)
 
     private val contactDataSource: IFriendDataSource = MockFriendDataSource()
