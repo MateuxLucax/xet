@@ -4,12 +4,12 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.color.MaterialColors
-import com.xet.R
 import com.xet.databinding.ActivityChatBinding
-import com.xet.domain.model.Friend
 import com.xet.domain.model.User
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity(
+    private val viewModel: ChatViewModel
+) : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
     private lateinit var friend: User
@@ -18,6 +18,7 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         loadExtras()
+        viewModel.initialize(friend)
 
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
