@@ -1,19 +1,27 @@
 package com.xet.presentation.chat
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import com.google.android.material.color.MaterialColors
 import com.xet.databinding.ActivityChatBinding
+import com.xet.domain.model.Message
 import com.xet.domain.model.User
+import com.xet.presentation.ServiceLocator
+import com.xet.presentation.chat.components.ChatAdapter
 
 class ChatActivity(
-    private val viewModel: ChatViewModel
+    private val viewModel: ChatViewModel = ServiceLocator.getChatViewModel()
 ) : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
     private lateinit var friend: User
+    private val messages: MutableList<Message> = mutableListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,11 +37,32 @@ class ChatActivity(
         val loading = binding.searchListLoading
         val errorMessage = binding.chatErrorMessage
         val header = binding.chatHeader
+        val recyclerView = binding.chatRecyclerView
 
         chatTitle.title = friend.displayName
         chatTitle.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+
+        val adapter = ChatAdapter(messages, this)
+        recyclerView.adapter = adapter
+
+        viewModel.messagesResult.observe(this@ChatActivity, Observer {
+            val result = it ?: return@Observer
+
+            loading.visibility = View.GONE
+            if (result.empty != null) {
+                errorMessage.text = getString(result.empty)
+            } else if (result.success != null) {
+                messages.addAll(result.success)
+                adapter.notifyDataSetChanged()
+            } else if (result.error != null) {
+                errorMessage.text = getString(result.error)
+            }
+        })
+
+        loading.visibility = View.VISIBLE
+        viewModel.loadMessages()
 
         val color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
         window.navigationBarColor = color

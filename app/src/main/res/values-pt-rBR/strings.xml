@@ -62,6 +62,8 @@
     <string name="chat_input_hint">Digite sua mensagem</string>
     <string name="chat_title">Alfredo Alvarez</string>
     <string name="chat_input_btn_text">Icone de representando envio de mensagem</string>
+    <string name="chat_no_messages">Vocês ainda não trocaram mensagens. Diga um olá ao seu amigo!</string>
+    <string name="chat_error">Não foi possível carregar as mensagens.</string>
 
     <!-- general -->
     <string name="main_logo">Logo do Xet</string>

@@ -24,7 +24,7 @@ class ChatAdapter(
             dateText.text = message.sentAt
 
             itemView.background = AppCompatResources.getDrawable(itemView.context, R.drawable.chat_bubble_right)
-            itemView.setMargins(48, 0, 0, 0)
+            itemView.setMargins(48, 0, 0, 16)
         }
 
         fun bindViewLeft(message: Message) {
@@ -37,7 +37,7 @@ class ChatAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.friend_list_item, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.chat_bubble, parent, false)
         return ViewHolder(view)
     }
 

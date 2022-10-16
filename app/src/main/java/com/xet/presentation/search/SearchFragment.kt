@@ -25,7 +25,7 @@ class SearchFragment(
 ) : Fragment() {
     private var userId: String? = null
     private lateinit var binding: FragmentSearchBinding
-    private var contacts: MutableList<Contact> = mutableListOf()
+    private val contacts: MutableList<Contact> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

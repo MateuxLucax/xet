@@ -15,7 +15,6 @@ class MockUserDataSource : IUserDataSource {
         return User(UUID.randomUUID().toString(), "John Doe", username)
     }
 
-    @Throws(Exception::class)
     override suspend fun signUp(fullName: String, username: String, password: String): User {
         withContext(Dispatchers.IO) {
             Thread.sleep(6_000)

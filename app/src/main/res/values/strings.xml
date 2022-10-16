@@ -63,6 +63,8 @@
     <string name="chat_input_hint">Type your message</string>
     <string name="chat_title">Alfredo Alvarez</string>
     <string name="chat_input_btn_text">Icon representing a plane to send message</string>
+    <string name="chat_no_messages">You guys haven\'t exchanged messages yet. Go on and say hello!</string>
+    <string name="chat_error">Could\'t load messages.</string>
 
     <!-- general -->
     <string name="main_logo">Xet logo</string>
