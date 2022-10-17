@@ -1,6 +1,7 @@
 package com.xet.presentation.chat.components
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ class ChatAdapter(
             dateText.text = message.sentAt
 
             itemView.background = AppCompatResources.getDrawable(itemView.context, R.drawable.chat_bubble_right)
-            itemView.setMargins(48, 0, 0, 16)
+            itemView.margin(left = 48F, right = 0F)
         }
 
         fun bindViewLeft(message: Message) {
@@ -56,8 +57,19 @@ class ChatAdapter(
     }
 }
 
-fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
-    val params = layoutParams as ViewGroup.MarginLayoutParams
-    params.setMargins(left, top, right, bottom)
-    layoutParams = params
+fun View.margin(left: Float? = null, top: Float? = null, right: Float? = null, bottom: Float? = null) {
+    layoutParams<ViewGroup.MarginLayoutParams> {
+        left?.run { leftMargin = dpToPx(this) }
+        top?.run { topMargin = dpToPx(this) }
+        right?.run { rightMargin = dpToPx(this) }
+        bottom?.run { bottomMargin = dpToPx(this) }
+    }
 }
+
+inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
+    if (layoutParams is T) block(layoutParams as T)
+}
+
+fun View.dpToPx(dp: Float): Int = context.dpToPx(dp)
+
+fun Context.dpToPx(dp: Float): Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()

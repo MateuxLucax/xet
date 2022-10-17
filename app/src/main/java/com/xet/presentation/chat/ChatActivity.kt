@@ -46,6 +46,7 @@ class ChatActivity(
 
         val adapter = ChatAdapter(messages, this)
         recyclerView.adapter = adapter
+        recyclerView.isNestedScrollingEnabled = false
 
         viewModel.messagesResult.observe(this@ChatActivity, Observer {
             val result = it ?: return@Observer

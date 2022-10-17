@@ -7,14 +7,15 @@
     tools:context=".presentation.chat.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintBottom_toTopOf="@+id/chatMessageInputGroup"
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
         app:stackFromEnd="true"
-        tools:listitem="@layout/chat_bubble" />
+        tools:listitem="@layout/chat_bubble"
+        android:layout_marginBottom="96dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/chatMessageInputGroup"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/chatHeader"
@@ -33,23 +34,24 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/chatMessageInputGroup"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorSecondaryVariant"
-        android:paddingVertical="16dp">
+        android:paddingVertical="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/chatMessageInput"
             style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clipToPadding="true"
             android:gravity="top"
             android:hint="@string/chat_input_hint"
             android:labelFor="@+id/loginUsername"
-            android:layout_weight="1"
-            android:padding="0dp" >
+            android:padding="0dp">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchContact"
                 android:layout_width="match_parent"
@@ -62,26 +64,27 @@
 
         <ImageButton
             android:id="@+id/chatMessageBtn"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginEnd="16dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:src="@drawable/ic_outline_mic_none_24"
-            android:contentDescription="@string/chat_input_btn_text" />
+            android:contentDescription="@string/chat_input_btn_text"
+            android:src="@drawable/ic_outline_mic_none_24" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/chatMessageInputGroup"
-        app:layout_constraintTop_toBottomOf="@+id/chatHeader"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/chatHeader">
+
         <ProgressBar
             android:id="@+id/searchListLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
