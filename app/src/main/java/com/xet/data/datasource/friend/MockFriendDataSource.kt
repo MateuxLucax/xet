@@ -33,7 +33,7 @@ class MockFriendDataSource: IFriendDataSource {
             Friend(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John Jennifer",
-                status = Status.UNDEFINED,
+                status = Status.OFFLINE,
                 lastMessage = null,
                 username = "john.jennifer"
             )

@@ -75,7 +75,6 @@
     <string name="menu_profile">Profile</string>
     <string name="status_online">online</string>
     <string name="status_offline">offline</string>
-    <string name="status_undefined">undefined</string>
     <string name="login_in">Singing in…</string>
     <string name="signing_up">Singing up…</string>
     <string name="updating">Updating…</string>

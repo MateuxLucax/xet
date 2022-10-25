@@ -72,7 +72,6 @@
     <string name="menu_profile">Perfil</string>
     <string name="status_online">disponível</string>
     <string name="status_offline">indisponível</string>
-    <string name="status_undefined">indefinido</string>
     <string name="login_in">Entrando…</string>
     <string name="signing_up">Cadastrando…</string>
     <string name="updating">Atualizando…</string>

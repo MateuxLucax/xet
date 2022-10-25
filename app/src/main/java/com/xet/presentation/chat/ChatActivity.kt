@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -146,9 +147,13 @@ class ChatActivity(
 
     private fun startAudioRecording() {
         if (isAudioPermissionGranted()) {
-            recorder = MediaRecorder(this)
+            recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                MediaRecorder(this)
+            } else {
+                MediaRecorder()
+            }
 
-            audioFile = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) }/audio.3gp    "
+            audioFile = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)}/audio.3gp"
             recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
             recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
