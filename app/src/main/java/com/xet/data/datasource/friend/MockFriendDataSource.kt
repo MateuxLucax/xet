@@ -57,25 +57,25 @@ class MockFriendDataSource: IFriendDataSource {
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "James Mary",
-                friendshipStatus = FriendshipStatus.PENDING,
+                friendshipStatus = FriendshipStatus.NO_FRIEND_REQUEST,
                 username = "james.mary"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Robert Patricia",
-                friendshipStatus = FriendshipStatus.PENDING,
+                friendshipStatus = FriendshipStatus.SENT_FRIEND_REQUEST,
                 username = "robert.patricia"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John Jennifer",
-                friendshipStatus = FriendshipStatus.PENDING,
+                friendshipStatus = FriendshipStatus.RECEIVED_FRIEND_REQUEST,
                 username = "john.jennifer"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Alfred Batman",
-                friendshipStatus = FriendshipStatus.PENDING,
+                friendshipStatus = FriendshipStatus.IS_FRIEND,
                 username = "alfred.batman"
             )
         )

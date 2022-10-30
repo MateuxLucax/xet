@@ -5,6 +5,6 @@ import com.xet.domain.model.Contact
 interface ISearchDataSource {
 
     @Throws(Exception::class)
-    suspend fun search(userId: String, query: String, offset: Number, limit: Number): List<Contact>
+    suspend fun search(token: String, query: String, page: Int): List<Contact>
 
 }

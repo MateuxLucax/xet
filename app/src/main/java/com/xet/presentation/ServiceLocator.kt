@@ -6,8 +6,8 @@ import com.xet.data.datasource.friend.IFriendDataSource
 import com.xet.data.datasource.friend.MockFriendDataSource
 import com.xet.data.datasource.search.ISearchDataSource
 import com.xet.data.datasource.search.MockSearchDataSource
+import com.xet.data.datasource.search.SearchDataSource
 import com.xet.data.datasource.user.IUserDataSource
-import com.xet.data.datasource.user.MockUserDataSource
 import com.xet.data.repository.chat.ChatRepository
 import com.xet.data.repository.chat.IChatRepository
 import com.xet.data.datasource.user.UserDataSource
@@ -39,7 +39,7 @@ object ServiceLocator {
     private val contactDataSource: IFriendDataSource = MockFriendDataSource()
     private val friendRepository: IFriendRepository = FriendRepository(contactDataSource)
 
-    private val searchDataSource: ISearchDataSource = MockSearchDataSource()
+    private val searchDataSource: ISearchDataSource = SearchDataSource()
     private val searchRepository: ISearchRepository = SearchRepository(searchDataSource)
 
     private val chatDataSource: IChatDataSource = MockChatDataSource()

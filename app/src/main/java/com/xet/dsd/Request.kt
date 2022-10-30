@@ -35,7 +35,7 @@ class Request(
         buffer.write(beforeBody.toByteArray())
         buffer.write(body)
 
-        Log.v(TAG, "  whole request as string: ${String(buffer.toByteArray())}")
+        Log.v(TAG, "  whole request:\n${String(buffer.toByteArray())}")
 
         val ostream = socket.getOutputStream()
         ostream.write(buffer.toByteArray())
@@ -82,8 +82,6 @@ class Request(
 
     @Throws(IOException::class)
     private fun readBody(socket: Socket, size: Int): ByteArray {
-        Log.v(TAG, "readBody, size $size")
-
         if (size == 0) {
             return byteArrayOf()
         }
@@ -95,6 +93,8 @@ class Request(
             if (c == -1) break
             body[off++] = c.toByte()
         }
+
+        Log.v(TAG, "readBody, size $size:\n${String(body)}")
 
         return body
     }

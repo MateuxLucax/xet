@@ -9,10 +9,9 @@ import java.util.*
 class MockSearchDataSource: ISearchDataSource {
 
     override suspend fun search(
-        userId: String,
+        token: String,
         query: String,
-        offset: Number,
-        limit: Number
+        page: Int,
     ): List<Contact> {
         withContext(Dispatchers.IO) {
             Thread.sleep(2_000)
@@ -21,38 +20,38 @@ class MockSearchDataSource: ISearchDataSource {
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John John",
-                friendshipStatus = FriendshipStatus.FRIEND,
+                friendshipStatus = FriendshipStatus.IS_FRIEND,
                 username = "john.john"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Robert Ala",
-                friendshipStatus = null,
+                friendshipStatus = FriendshipStatus.NO_FRIEND_REQUEST,
                 username = "robert.ala"
             )
         ) else listOf(
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "James Mary",
-                friendshipStatus = FriendshipStatus.REFUSED,
+                friendshipStatus = FriendshipStatus.NO_FRIEND_REQUEST,
                 username = "james.mary"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Robert Patricia",
-                friendshipStatus = FriendshipStatus.PENDING,
+                friendshipStatus = FriendshipStatus.SENT_FRIEND_REQUEST,
                 username = "robert.patricia"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John Jennifer",
-                friendshipStatus = FriendshipStatus.FRIEND,
+                friendshipStatus = FriendshipStatus.IS_FRIEND,
                 username = "john.jennifer"
             ),
             Contact(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Alfred Batman",
-                friendshipStatus = null,
+                friendshipStatus = FriendshipStatus.NO_FRIEND_REQUEST,
                 username = "alfred.batman"
             )
         )

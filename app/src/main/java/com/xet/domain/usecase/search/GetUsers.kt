@@ -8,8 +8,8 @@ class GetUsers(
     private val repository: ISearchRepository
 ) {
 
-    suspend operator fun invoke(userId: String, query: String, offset: Number, limit: Number): Result<List<Contact>> {
-        return repository.search(userId, query, offset, limit)
+    suspend operator fun invoke(token: String, query: String, page: Int): Result<List<Contact>> {
+        return repository.search(token, query, page)
     }
 
 }

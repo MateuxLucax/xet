@@ -15,8 +15,7 @@ class SearchViewModel(
     private val friendUseCases: FriendUseCases
 ): ViewModel() {
 
-    private val offset = 0
-    private val limit = 20
+    private val page = 1
 
     private var currentUserId: String = ""
 
@@ -32,7 +31,10 @@ class SearchViewModel(
 
     fun search(query: String) {
         viewModelScope.launch {
-            val result = searchUseCases.getUsers(currentUserId, query, offset, limit)
+
+            // FIXME should send user token instead of currentUserId
+
+            val result = searchUseCases.getUsers(currentUserId, query, page)
 
             if (result is Result.Success) {
                 if (result.data.isEmpty()) {

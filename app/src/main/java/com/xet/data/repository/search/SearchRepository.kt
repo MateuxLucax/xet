@@ -9,14 +9,12 @@ class SearchRepository(
 ): ISearchRepository {
 
     override suspend fun search(
-        userId: String,
+        token: String,
         query: String,
-        offset: Number,
-        limit: Number
+        page: Int,
     ): Result<List<Contact>> {
         return try {
-            val result = dataSource.search(userId, query, offset, limit)
-
+            val result = dataSource.search(token, query, page)
             Result.Success(result)
         } catch (e: Exception) {
             Result.Error(e)

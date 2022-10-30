@@ -5,6 +5,6 @@ import com.xet.domain.model.Contact
 
 interface ISearchRepository {
 
-    suspend fun search(userId: String, query: String, offset: Number, limit: Number): Result<List<Contact>>
+    suspend fun search(token: String, query: String, page: Int): Result<List<Contact>>
 
 }

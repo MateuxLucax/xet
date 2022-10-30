@@ -4,5 +4,5 @@ open class Contact(
     override val userId: String,
     override val displayName: String,
     override val username: String,
-    val friendshipStatus: FriendshipStatus?
+    val friendshipStatus: FriendshipStatus
 ) : User (userId, displayName, username)
