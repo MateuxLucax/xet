@@ -2,6 +2,7 @@ package com.xet.dsd
 
 import android.util.Log
 import com.google.gson.Gson
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.Socket
 import java.util.*
@@ -13,9 +14,9 @@ fun jsonRequest(operation: String, body: Any, token: String? = null): Request =
     Request(operation, Gson().toJson(body).toByteArray(), token)
 
 class Request(
-    private val operation: String,
-    private val body: ByteArray,
-    private val token: String? = null
+    val operation: String,
+    val body: ByteArray,
+    val token: String? = null
 ) {
     @Throws(IOException::class)
     private fun send(socket: Socket) {
@@ -29,9 +30,15 @@ class Request(
         }
 
         val beforeBody = (headers + listOf("")).joinToString("\n") + "\n"
+
+        val buffer = ByteArrayOutputStream()
+        buffer.write(beforeBody.toByteArray())
+        buffer.write(body)
+
+        Log.v(TAG, "  whole request as string: ${String(buffer.toByteArray())}")
+
         val ostream = socket.getOutputStream()
-        ostream.write(beforeBody.toByteArray())
-        ostream.write(body)
+        ostream.write(buffer.toByteArray())
     }
 
     @Throws(IOException::class)
@@ -89,7 +96,6 @@ class Request(
             body[off++] = c.toByte()
         }
 
-        Log.v(TAG, "  finished reading body")
         return body
     }
 

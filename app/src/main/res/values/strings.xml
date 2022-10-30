@@ -82,4 +82,10 @@
     <string name="close_icon_description">A close icon</string>
 
     <string name="username_in_use">This username is already in use</string>
+    <string name="errcode_no_response" >No response</string>
+    <string name="errcode_malformed_request" >Malformed request</string>
+    <string name="errcode_token_exired" >Token expired</string>
+    <string name="errcode_unknown_operation" >Unknown operation</string>
+    <string name="errcode_no_user_with_given_id" >No user with the given ID</string>
+    <string name="errcode_failed_to_parse_json" >Failed to parse the request JSON</string>
 </resources>

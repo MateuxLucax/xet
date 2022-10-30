@@ -2,11 +2,12 @@ package com.xet.data.repository.user
 
 import com.xet.data.Result
 import com.xet.data.datasource.user.IUserDataSource
+import com.xet.domain.model.LoggedUser
 import com.xet.domain.model.User
 
 class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
 
-    private var user: User? = null
+    private var user: LoggedUser? = null
 
     override val isLoggedIn: Boolean
         get() = user != null
@@ -17,10 +18,9 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
         user = null
     }
 
-    override suspend fun login(username: String, password: String): Result<User> {
+    override suspend fun login(username: String, password: String): Result<LoggedUser> {
         return try {
             val result = dataSource.signIn(username, password)
-
             setLoggedInUser(result)
             Result.Success(result)
         } catch (e: Exception) {
@@ -31,8 +31,6 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     override suspend fun signUp(fullName: String, username: String, password: String): Result<User> {
         return try {
             val result = dataSource.signUp(fullName, username, password)
-
-            setLoggedInUser(result)
             Result.Success(result)
         } catch (e: Exception) {
             Result.Error(e)
@@ -49,7 +47,7 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     }
 
 
-    override fun getLoggedInUser(): Result<User> {
+    override fun getLoggedInUser(): Result<LoggedUser> {
         val user = this.user
         return if (user != null) {
             Result.Success(user)
@@ -74,7 +72,7 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
         }
     }
 
-    private fun setLoggedInUser(user: User) {
+    private fun setLoggedInUser(user: LoggedUser) {
         this.user = user
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore

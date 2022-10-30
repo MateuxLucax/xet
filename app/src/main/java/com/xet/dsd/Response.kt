@@ -2,7 +2,9 @@ package com.xet.dsd
 
 import com.google.gson.Gson
 
-class Response(val headers: Map<String, String>, val body: ByteArray) {
+class Response(
+    val headers: Map<String, String>,
+    val body: ByteArray) {
 
     val ok: Boolean
     val errKind: String
@@ -21,6 +23,6 @@ class Response(val headers: Map<String, String>, val body: ByteArray) {
         }
     }
 
-    fun <T : Any> readJson(type: Class<T>): T =
+    fun <T : Any> parseJSON(type: Class<T>): T =
         Gson().fromJson(String(body), type)
 }

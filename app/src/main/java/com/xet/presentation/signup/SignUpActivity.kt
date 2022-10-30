@@ -57,7 +57,7 @@ class SignUpActivity(
                 showSignUpFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                redirectSignUp()
+                redirectLogin()
             }
             setResult(Activity.RESULT_OK)
         })
@@ -99,11 +99,6 @@ class SignUpActivity(
 
     private fun redirectLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-    }
-
-    private fun redirectSignUp() {
-        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 
