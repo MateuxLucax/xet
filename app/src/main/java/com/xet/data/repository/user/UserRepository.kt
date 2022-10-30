@@ -58,14 +58,18 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
 
     override suspend fun updateProfile(
         fullName: String,
-        username: String
+        password: String
     ): Result<Boolean> {
         return try {
-            val userId = user?.userId
-            if (userId != null) {
-                Result.Success(dataSource.updateProfile(userId, fullName, username))
+            val token = user?.token
+            if (token != null) {
+                val ok = dataSource.updateProfile(token, fullName, password)
+                if (ok) {
+                    user = user?.updated(fullName, password)
+                }
+                Result.Success(ok)
             } else {
-                Result.Error(Exception("Undefined user id"))
+                Result.Error(Exception("Undefined user token"))
             }
         } catch (e: Exception) {
             Result.Error(e)

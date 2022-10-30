@@ -38,8 +38,8 @@ class ProfileFragment(
         val loading = binding.profileInvitesLoading
         val invitesMessage = binding.profileInvitesMessage
         val updateBtn = binding.profileUpdateBtn
-        val fullName = binding.profileNameInput
-        val username = binding.profileUsernameInput
+        val fullName = binding.profileFullnameInput
+        val password = binding.profilePasswordInput
 
         viewModel.updateProfile.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
@@ -56,7 +56,7 @@ class ProfileFragment(
         updateBtn.setOnClickListener {
             updateBtn.text = context?.getText(R.string.updating)
             updateBtn.isEnabled = false
-            viewModel.updateProfile(fullName.text.toString(), username.text.toString())
+            viewModel.updateProfile(fullName.text.toString(), password.text.toString())
         }
 
         viewModel.invites.observe(viewLifecycleOwner, Observer {
@@ -91,37 +91,37 @@ class ProfileFragment(
             if (loginState.fullNameError != null) {
                 fullName.error = getString(loginState.fullNameError)
             }
-            if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+            if (loginState.passwordError != null) {
+                password.error = getString(loginState.passwordError)
             }
         })
 
-        loadUser(fullName, username)
+        loadUser(fullName, password)
         loading.visibility = View.VISIBLE
         viewModel.loadInvites()
 
         return binding.root
     }
 
-    private fun loadUser(fullNameInput: TextInputEditText, usernameInput: TextInputEditText) {
+    private fun loadUser(fullnameInput: TextInputEditText, passwordInput: TextInputEditText) {
         val result = viewModel.loadUser()
 
         if (result.success != null) {
             val user = result.success
 
-            fullNameInput.setText(user.displayName)
-            usernameInput.setText(user.username)
+            fullnameInput.setText(user.displayName)
+            passwordInput.setText(user.password)
 
-            fullNameInput.afterTextChanged {
+            fullnameInput.afterTextChanged {
                 viewModel.formChanged(
-                    fullNameInput.text.toString(),
-                    usernameInput.text.toString()
+                    fullnameInput.text.toString(),
+                    passwordInput.text.toString()
                 )
             }
-            usernameInput.afterTextChanged {
+            passwordInput.afterTextChanged {
                 viewModel.formChanged(
-                    fullNameInput.text.toString(),
-                    usernameInput.text.toString()
+                    fullnameInput.text.toString(),
+                    passwordInput.text.toString()
                 )
             }
         } else if (result.error != null) {

@@ -27,11 +27,12 @@ class UserDataSource: IUserDataSource {
         Log.v(TAG, "Request body: ${String(request.body)}")
 
         return withContext(Dispatchers.IO) {
-            Socket(DSD_HOST, DSD_PORT).use {
+            val socket = Socket(DSD_HOST, DSD_PORT)
+            socket.use {
                 val response = request.sendAndRead(it)
                 if (response.ok) {
                     val (token, id, fullname) = response.parseJSON(SignInOkResponseData::class.java)
-                    LoggedUser(id.toString(), fullname, username, token)
+                    LoggedUser(id.toString(), fullname, username, token, password)
                 } else {
                     val (messageCode) = response.parseJSON(MessageCodeBody::class.java)
                     throw exceptionFrom(errCodeFrom(messageCode))
@@ -74,11 +75,30 @@ class UserDataSource: IUserDataSource {
         TODO("Not yet implemented")
     }
 
+    private data class UpdateProfileRequestData(
+        val newFullname: String,
+        val newPassword: String
+    ) {}
+
     override suspend fun updateProfile(
-        userId: String,
+        token: String,
         fullName: String,
-        username: String
+        password: String
     ): Boolean {
-        TODO("Not yet implemented")
+        val dto = UpdateProfileRequestData(fullName, password)
+        val request = jsonRequest("edit-user", dto, token)
+
+        return withContext(Dispatchers.IO) {
+            Socket(DSD_HOST, DSD_PORT).use {
+                val response = request.sendAndRead(it)
+
+                if (!response.ok) {
+                    val (code) = response.parseJSON(MessageCodeBody::class.java)
+                    throw exceptionFrom(errCodeFrom(code))
+                }
+
+                true
+            }
+        }
     }
 }

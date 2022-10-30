@@ -14,6 +14,6 @@ interface IUserDataSource {
     fun logout(): Boolean
 
     @Throws(Exception::class)
-    suspend fun updateProfile(userId: String, fullName: String, username: String): Boolean
+    suspend fun updateProfile(token: String, fullName: String, password: String): Boolean
 
 }

@@ -1,8 +1,8 @@
 package com.xet.presentation.profile
 
-import com.xet.domain.model.User
+import com.xet.domain.model.LoggedUser
 
 data class ProfileResult(
-    val success: User? = null,
+    val success: LoggedUser? = null,
     val error: Int? = null
 )

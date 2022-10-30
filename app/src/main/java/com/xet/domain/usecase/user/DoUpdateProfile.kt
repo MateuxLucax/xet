@@ -7,8 +7,8 @@ class DoUpdateProfile(
     private val repository: IUserRepository
 ) {
 
-    suspend operator fun invoke(fullName: String, username: String): Result<Boolean> {
-        return repository.updateProfile(fullName, username)
+    suspend operator fun invoke(fullName: String, password: String): Result<Boolean> {
+        return repository.updateProfile(fullName, password)
     }
 
 }

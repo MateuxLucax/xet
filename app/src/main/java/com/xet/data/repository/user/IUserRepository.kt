@@ -16,6 +16,6 @@ interface IUserRepository {
 
     fun getLoggedInUser(): Result<LoggedUser>
 
-    suspend fun updateProfile(fullName: String, username: String): Result<Boolean>
+    suspend fun updateProfile(fullName: String, password: String): Result<Boolean>
 
 }

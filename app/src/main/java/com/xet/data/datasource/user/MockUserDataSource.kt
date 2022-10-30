@@ -13,7 +13,7 @@ class MockUserDataSource : IUserDataSource {
             Thread.sleep(2_000)
         }
         if (username == "foo" || password == "bar") throw Exception("Unauthorized")
-        return LoggedUser(UUID.randomUUID().toString(), "John Doe", username, "some random token")
+        return LoggedUser(UUID.randomUUID().toString(), "John Doe", username, "some random token", "12345678")
     }
 
     override suspend fun signUp(fullName: String, username: String, password: String): User {
@@ -33,7 +33,7 @@ class MockUserDataSource : IUserDataSource {
     override suspend fun updateProfile(
         userId: String,
         fullName: String,
-        username: String
+        password: String
     ): Boolean {
         withContext(Dispatchers.IO) {
             Thread.sleep(2_000)

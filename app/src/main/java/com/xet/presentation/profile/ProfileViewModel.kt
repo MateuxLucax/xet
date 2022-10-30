@@ -10,7 +10,6 @@ import com.xet.domain.model.User
 import com.xet.domain.usecase.friend.FriendUseCases
 import com.xet.domain.usecase.user.UserUseCases
 import com.xet.presentation.search.UpdateInviteResult
-import com.xet.presentation.signup.SignUpFormState
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
@@ -103,13 +102,13 @@ class ProfileViewModel(
       }
    }
 
-   fun formChanged(fullName: String, username: String) {
+   fun formChanged(fullName: String, password: String) {
       val isFullNameValid = fullName.isNotBlank() && fullName != user.displayName
-      val isUserNameValid = username.isNotBlank() && username != user.username
+      val isPasswordValid = password.length >= 8
       _profileForm.value = ProfileFormState(
-         usernameError =  if (!isUserNameValid) R.string.signup_invalid_username else null,
+         passwordError =  if (!isPasswordValid) R.string.signup_invalid_password else null,
          fullNameError = if (!isFullNameValid) R.string.signup_invalid_full_name else null,
-         isDataValid = isFullNameValid && isUserNameValid
+         isDataValid = isFullNameValid && isPasswordValid
       )
    }
 }

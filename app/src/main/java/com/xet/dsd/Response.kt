@@ -4,7 +4,8 @@ import com.google.gson.Gson
 
 class Response(
     val headers: Map<String, String>,
-    val body: ByteArray) {
+    val body: ByteArray
+) {
 
     val ok: Boolean
     val errKind: String
