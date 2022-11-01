@@ -9,9 +9,9 @@ class FriendRepository(
     private val dataSource: IFriendDataSource
 ): IFriendRepository {
 
-    override suspend fun getFriends(userId: String): Result<List<Friend>> {
+    override suspend fun getFriends(userToken: String): Result<List<Friend>> {
         return try {
-            val result =  dataSource.getFriends(userId)
+            val result =  dataSource.getFriends(userToken)
 
             Result.Success(result)
         } catch (e: Exception) {
@@ -19,9 +19,9 @@ class FriendRepository(
         }
     }
 
-    override suspend fun sendInvite(userFrom: String, userTo: String): Result<Boolean> {
+    override suspend fun sendInvite(tokenUserFrom: String, userTo: String): Result<Boolean> {
         return try {
-            val result =  dataSource.sendInvite(userFrom, userTo)
+            val result =  dataSource.sendInvite(tokenUserFrom, userTo)
 
             Result.Success(result)
         } catch (e: Exception) {
@@ -29,9 +29,9 @@ class FriendRepository(
         }
     }
 
-    override suspend fun getInvites(userId: String): Result<List<Contact>> {
+    override suspend fun getInvites(userToken: String): Result<List<Contact>> {
         return try {
-            val result =  dataSource.getInvites(userId)
+            val result =  dataSource.getInvites(userToken)
 
             Result.Success(result)
         } catch (e: Exception) {

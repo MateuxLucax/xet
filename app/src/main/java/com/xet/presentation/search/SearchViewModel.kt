@@ -17,10 +17,10 @@ class SearchViewModel(
 
     private val page = 1
 
-    private var currentUserId: String = ""
+    private var currentUserToken: String = ""
 
-    fun setCurrentUserId(userId: String) {
-        currentUserId = userId
+    fun setCurrentUserToken(userToken: String) {
+        currentUserToken = userToken
     }
 
     private val _searchResult = MutableLiveData<SearchResult>()
@@ -31,10 +31,7 @@ class SearchViewModel(
 
     fun search(query: String) {
         viewModelScope.launch {
-
-            // FIXME should send user token instead of currentUserId
-
-            val result = searchUseCases.getUsers(currentUserId, query, page)
+            val result = searchUseCases.getUsers(currentUserToken, query, page)
 
             if (result is Result.Success) {
                 if (result.data.isEmpty()) {
@@ -49,7 +46,7 @@ class SearchViewModel(
 
     fun sendInvite(userTo: String) {
         viewModelScope.launch {
-            val result = friendUseCases.sendInvite(currentUserId, userTo)
+            val result = friendUseCases.sendInvite(currentUserToken, userTo)
 
             if (result is Result.Success) {
                 _Update_inviteResult.value = UpdateInviteResult(success = R.string.search_invite_sent_successfully)

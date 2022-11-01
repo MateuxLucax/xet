@@ -11,18 +11,18 @@ import com.xet.databinding.FragmentFriendsBinding
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.friends.components.FriendsAdapter
 
-private const val USER_ID = "user_id"
+private const val USER_TOKEN = "user_token"
 
 class ContactsFragment(
     private var viewModel: FriendsViewModel = ServiceLocator.getContactsViewModel()
 ) : Fragment() {
-    private var userId: String? = null
+    private var userToken: String? = null
     private lateinit var binding: FragmentFriendsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            userId = it.getString(USER_ID)
+            userToken = it.getString(USER_TOKEN)
         }
 
     }
@@ -50,7 +50,7 @@ class ContactsFragment(
             }
         })
 
-        userId?.let {
+        userToken?.let {
             loading.visibility = View.VISIBLE
             viewModel.getContacts(it)
         }
@@ -63,7 +63,7 @@ class ContactsFragment(
         fun newInstance(param1: String) =
             ContactsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(USER_ID, param1)
+                    putString(USER_TOKEN, param1)
                 }
             }
     }

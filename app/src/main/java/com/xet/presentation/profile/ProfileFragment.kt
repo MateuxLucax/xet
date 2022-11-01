@@ -14,18 +14,18 @@ import com.xet.presentation.ServiceLocator
 import com.xet.presentation.login.afterTextChanged
 import com.xet.presentation.profile.components.InvitesAdapter
 
-private const val USER_ID = "userId"
+private const val USER_TOKEN = "userToken"
 
 class ProfileFragment(
     private val viewModel: ProfileViewModel = ServiceLocator.getProfileViewModel()
 ) : Fragment() {
-    private var userId: String? = null
+    private var userToken: String? = null
     private lateinit var binding: FragmentProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            userId = it.getString(USER_ID)
+            userToken = it.getString(USER_TOKEN)
         }
     }
 
@@ -134,7 +134,7 @@ class ProfileFragment(
         fun newInstance(param1: String) =
             ProfileFragment().apply {
                 arguments = Bundle().apply {
-                    putString(USER_ID, param1)
+                    putString(USER_TOKEN, param1)
                 }
             }
     }

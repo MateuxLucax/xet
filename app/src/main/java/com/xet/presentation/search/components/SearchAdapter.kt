@@ -32,7 +32,7 @@ class SearchAdapter(
                 actionBtn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, contact.friendshipStatus.toIcon()))
                 actionBtn.contentDescription = contact.friendshipStatus.toDescription().toString()
                 actionBtn.isActivated = false
-                if (contact.friendshipStatus == FriendshipStatus.FRIEND) {
+                if (contact.friendshipStatus == FriendshipStatus.IS_FRIEND) {
                     actionBtn.setOnClickListener {
                         friendCallback(contact.userId)
                     }

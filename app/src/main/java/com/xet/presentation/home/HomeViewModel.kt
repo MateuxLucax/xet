@@ -13,7 +13,7 @@ class HomeViewModel(
         val result = useCases.loggedInUser()
 
         return if (result is Result.Success) {
-            result.data.userId
+            result.data.token
         } else {
             R.string.friends_user_error.toString()
         }

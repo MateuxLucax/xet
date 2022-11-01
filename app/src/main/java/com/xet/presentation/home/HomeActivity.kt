@@ -25,17 +25,20 @@ class HomeActivity(
         setContentView(binding.root)
 
         val navigationBar = binding.homeNavigationBar
-        val userId = viewModel.loadUser()
+        val userToken = viewModel.loadUser()
 
         if (savedInstanceState == null) {
-            setCurrentFragment(ContactsFragment.newInstance(userId))
+            setCurrentFragment(ContactsFragment.newInstance(userToken))
         }
+
+        // TODO instead of passing the user token, the viewmodel of each fragment could just call userUseCases.loggedInUser()
+        // indeed, that's what the ProfileFragment already does
 
         navigationBar.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.menu_chat -> setCurrentFragment(ContactsFragment.newInstance(userId))
-                R.id.menu_search -> setCurrentFragment(SearchFragment.newInstance(userId))
-                R.id.menu_profile -> setCurrentFragment(ProfileFragment.newInstance(userId))
+                R.id.menu_chat -> setCurrentFragment(ContactsFragment.newInstance(userToken))
+                R.id.menu_search -> setCurrentFragment(SearchFragment.newInstance(userToken))
+                R.id.menu_profile -> setCurrentFragment(ProfileFragment.newInstance(userToken))
             }
             true
         }

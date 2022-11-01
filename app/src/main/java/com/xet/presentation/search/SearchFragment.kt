@@ -18,19 +18,19 @@ import com.xet.domain.model.Contact
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.search.components.SearchAdapter
 
-private const val USER_ID = "userId"
+private const val USER_TOKEN = "userToken"
 
 class SearchFragment(
     private var viewModel: SearchViewModel = ServiceLocator.getSearchViewModel()
 ) : Fragment() {
-    private var userId: String? = null
+    private var userToken: String? = null
     private lateinit var binding: FragmentSearchBinding
     private val contacts: MutableList<Contact> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            userId = it.getString(USER_ID)
+            userToken = it.getString(USER_TOKEN)
         }
     }
 
@@ -86,9 +86,9 @@ class SearchFragment(
             viewModel.search(query)
         }
 
-        userId?.let {
+        userToken?.let {
             loading.visibility = View.VISIBLE
-            viewModel.setCurrentUserId(it)
+            viewModel.setCurrentUserToken(it)
             viewModel.search("")
         }
 
@@ -96,8 +96,8 @@ class SearchFragment(
     }
 
     private fun redirectToMessageActivity(userTo: String) {
-        userId?.let {
-            Toast.makeText(context, "Redirecting to chat between $userId and $userTo", Toast.LENGTH_SHORT).show()
+        userToken?.let {
+            Toast.makeText(context, "Redirecting to chat between $userToken and $userTo", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -106,7 +106,7 @@ class SearchFragment(
         fun newInstance(param1: String) =
             SearchFragment().apply {
                 arguments = Bundle().apply {
-                    putString(USER_ID, param1)
+                    putString(USER_TOKEN, param1)
                 }
             }
     }

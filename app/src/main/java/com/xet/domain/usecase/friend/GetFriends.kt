@@ -8,8 +8,8 @@ class GetFriends(
     private val repository: IFriendRepository
 ) {
 
-    suspend operator fun invoke(userId: String): Result<List<Friend>> {
-        return repository.getFriends(userId)
+    suspend operator fun invoke(userToken: String): Result<List<Friend>> {
+        return repository.getFriends(userToken)
     }
 
 }

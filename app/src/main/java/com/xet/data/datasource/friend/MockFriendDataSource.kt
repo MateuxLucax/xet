@@ -10,7 +10,7 @@ import java.util.*
 
 class MockFriendDataSource: IFriendDataSource {
 
-    override suspend fun getFriends(userId: String): List<Friend> {
+    override suspend fun getFriends(userToken: String): List<Friend> {
         withContext(Dispatchers.IO) {
             Thread.sleep(4_000)
         }
@@ -40,7 +40,7 @@ class MockFriendDataSource: IFriendDataSource {
         )
     }
 
-    override suspend fun sendInvite(userFrom: String, userTo: String): Boolean {
+    override suspend fun sendInvite(tokenUserFrom: String, userTo: String): Boolean {
         withContext(Dispatchers.IO) {
             Thread.sleep(1_000)
         }
@@ -49,7 +49,7 @@ class MockFriendDataSource: IFriendDataSource {
         return random.nextBoolean()
     }
 
-    override suspend fun getInvites(userId: String): List<Contact> {
+    override suspend fun getInvites(userToken: String): List<Contact> {
         withContext(Dispatchers.IO) {
             Thread.sleep(1_000)
         }

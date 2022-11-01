@@ -16,9 +16,9 @@ class FriendsViewModel(
     private val _friendsResult = MutableLiveData<FriendsResult>()
     val friendsResult: LiveData<FriendsResult> = _friendsResult
 
-    fun getContacts(userId: String) {
+    fun getContacts(userToken: String) {
         viewModelScope.launch {
-            val result = useCases.getFriends(userId)
+            val result = useCases.getFriends(userToken)
 
             if (result is Result.Success) {
                 if (result.data.isEmpty()) {
