@@ -16,7 +16,7 @@ class UserDataSource: IUserDataSource {
         val username: String,
         val password: String
     ) {}
-    
+
     private data class SignInOkResponseData(
         val token: String,
         val id: Long,

@@ -23,6 +23,6 @@ suspend fun <R> fetchDSD(request: Request, block: (Response) -> R): R {
 }
 
 fun exceptionFrom(response: Response): Exception {
-    val (code) = response.parseJSON(MessageCodeBody::class.java)
-    return exceptionFrom(errCodeFrom(code))
+    val (messageCode) = response.parseJSON(MessageCodeBody::class.java)
+    return exceptionFrom(errCodeFrom(messageCode))
 }
