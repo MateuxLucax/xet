@@ -7,18 +7,12 @@ import java.net.Socket
 const val DSD_HOST = "192.168.2.2" // lan, localhost wouldn't work (different computers)
 const val DSD_PORT = 1235
 
-suspend fun <R> usingSocketDSD(block: (Socket) -> R): R {
+suspend fun <R> fetchDSD(request: Request, block: (Response) -> R): R {
     return withContext(Dispatchers.IO) {
         Socket(DSD_HOST, DSD_PORT).use {
-            block(it)
+            val response = request.sendAndRead(it)
+            block(response)
         }
-    }
-}
-
-suspend fun <R> fetchDSD(request: Request, block: (Response) -> R): R {
-    return usingSocketDSD {
-        val response = request.sendAndRead(it)
-        block(response)
     }
 }
 
