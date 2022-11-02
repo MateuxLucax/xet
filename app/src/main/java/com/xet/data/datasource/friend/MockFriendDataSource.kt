@@ -1,9 +1,6 @@
 package com.xet.data.datasource.friend
 
-import com.xet.domain.model.Contact
-import com.xet.domain.model.Friend
-import com.xet.domain.model.FriendshipStatus
-import com.xet.domain.model.Status
+import com.xet.domain.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -49,7 +46,7 @@ class MockFriendDataSource: IFriendDataSource {
         return random.nextBoolean()
     }
 
-    override suspend fun getInvites(userToken: String): List<Contact> {
+    override suspend fun getInvites(user: LoggedUser): List<Contact> {
         withContext(Dispatchers.IO) {
             Thread.sleep(1_000)
         }

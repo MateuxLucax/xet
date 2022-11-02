@@ -4,6 +4,7 @@ import com.xet.data.Result
 import com.xet.data.datasource.friend.IFriendDataSource
 import com.xet.domain.model.Contact
 import com.xet.domain.model.Friend
+import com.xet.domain.model.LoggedUser
 
 class FriendRepository(
     private val dataSource: IFriendDataSource
@@ -29,9 +30,9 @@ class FriendRepository(
         }
     }
 
-    override suspend fun getInvites(userToken: String): Result<List<Contact>> {
+    override suspend fun getInvites(user: LoggedUser): Result<List<Contact>> {
         return try {
-            val result =  dataSource.getInvites(userToken)
+            val result =  dataSource.getInvites(user)
 
             Result.Success(result)
         } catch (e: Exception) {

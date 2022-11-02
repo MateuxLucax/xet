@@ -2,6 +2,7 @@ package com.xet.data.datasource.friend
 
 import com.xet.domain.model.Contact
 import com.xet.domain.model.Friend
+import com.xet.domain.model.LoggedUser
 
 interface IFriendDataSource {
 
@@ -12,7 +13,7 @@ interface IFriendDataSource {
     suspend fun sendInvite(tokenUserFrom: String, userTo: String): Boolean
 
     @Throws(Exception::class)
-    suspend fun getInvites(userToken: String): List<Contact>
+    suspend fun getInvites(user: LoggedUser): List<Contact>
 
     @Throws(Exception::class)
     suspend fun updateInvite(userFrom: String, userTo: String, accepted: Boolean): Boolean

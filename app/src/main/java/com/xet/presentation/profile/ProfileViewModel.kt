@@ -1,11 +1,13 @@
 package com.xet.presentation.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
+import com.xet.domain.model.LoggedUser
 import com.xet.domain.model.User
 import com.xet.domain.usecase.friend.FriendUseCases
 import com.xet.domain.usecase.user.UserUseCases
@@ -17,7 +19,7 @@ class ProfileViewModel(
    private val friendUseCases: FriendUseCases
 ): ViewModel() {
 
-   private lateinit var user: User
+   private lateinit var user: LoggedUser
 
    private val initForm = false
 
@@ -54,7 +56,7 @@ class ProfileViewModel(
 
    fun loadInvites() {
       viewModelScope.launch {
-         val result = friendUseCases.getInvites(user.userId)
+         val result = friendUseCases.getInvites(user)
 
          if (result is Result.Success) {
             if (result.data.isEmpty()) {

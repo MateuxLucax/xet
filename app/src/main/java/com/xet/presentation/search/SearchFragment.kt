@@ -48,7 +48,13 @@ class SearchFragment(
         val recyclerView = binding.searchContactRecyclerView
 
         val adapter = container?.let {
-            SearchAdapter(contacts, it.context, viewModel::sendInvite, this::redirectToMessageActivity)
+            val friendCallback = this::redirectToMessageActivity
+            val sendInviteCallback = viewModel::sendInvite
+            SearchAdapter(contacts, it.context, friendCallback, sendInviteCallback)
+
+            // TODO when the user send invite, the other user should be updated
+            //  - change icon
+            //  - change btn listener (in this case, remove)
         }
 
         recyclerView.adapter = adapter
@@ -56,7 +62,6 @@ class SearchFragment(
 
         viewModel.searchResult.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
-
             loading.visibility = View.GONE
             if (result.error != null) {
                 message.text = context?.getString(result.error)
@@ -99,6 +104,7 @@ class SearchFragment(
     private fun redirectToMessageActivity(userTo: String) {
         userToken?.let {
             Toast.makeText(context, "Redirecting to chat between $userToken and $userTo", Toast.LENGTH_SHORT).show()
+            // TODO actually redirect (?)
         }
     }
 

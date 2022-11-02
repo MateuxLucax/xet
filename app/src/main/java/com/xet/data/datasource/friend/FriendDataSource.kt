@@ -1,4 +1,74 @@
 package com.xet.data.datasource.friend
 
-class FriendDataSource {
+import com.xet.domain.model.*
+import com.xet.dsd.*
+
+class FriendDataSource : IFriendDataSource {
+
+    private data class FriendData(
+        val id: Long,
+        val username: String,
+        val fullname: String
+    ) {}
+
+    override suspend fun getFriends(userToken: String): List<Friend> {
+        val request = emptyRequest("get-friends", userToken)
+        return fetchDSD(request) { response ->
+            if (!response.ok) throw exceptionFrom(response)
+            val friendArray = response.parseJSON(Array<FriendData>::class.java)
+            friendArray.map{
+                val status = Status.ONLINE // TODO
+                val lastMessage = null // TODO
+                Friend(it.id.toString(), it.fullname, it.username, status, lastMessage)
+            }.toList()
+        }
+    }
+
+    private data class SendInviteRequest(val userId: Long) {}
+
+    override suspend fun sendInvite(tokenUserFrom: String, userTo: String): Boolean {
+        val body = SendInviteRequest(userId = userTo.toLong())
+        val request = jsonRequest("send-friend-request", body, tokenUserFrom)
+        return fetchDSD(request) { response ->
+            if (response.ok) true
+            else throw exceptionFrom(response)
+        }
+    }
+
+    private data class GetInvitesUserData(
+        val id: Long,
+        val username: String,
+        val fullname: String
+    )
+
+    private data class GetInvitesInviteData(
+        val from: GetInvitesUserData,
+        val to: GetInvitesUserData,
+        // TODO unused for now:
+        val createdAt: String,
+        val updatedAt: String?
+    )
+
+    override suspend fun getInvites(user: LoggedUser): List<Contact> {
+        return fetchDSD(emptyRequest("get-friend-requests", user.token)) { response ->
+            if (!response.ok) throw exceptionFrom(response)
+            val invites = response.parseJSON(Array<GetInvitesInviteData>::class.java)
+            invites.map{
+                val imTheSender = user.userId == it.from.id.toString()
+                val other = if (imTheSender) it.to else it.from
+                val friendshipStatus = if (imTheSender)
+                    FriendshipStatus.RECEIVED_FRIEND_REQUEST
+                else FriendshipStatus.SENT_FRIEND_REQUEST
+                Contact(other.id.toString(), other.fullname, other.username, friendshipStatus)
+            }
+        }
+    }
+
+    override suspend fun updateInvite(
+        userFrom: String,
+        userTo: String,
+        accepted: Boolean
+    ): Boolean {
+        TODO("Not yet implemented")
+    }
 }
