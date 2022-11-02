@@ -27,7 +27,7 @@ enum class FriendshipStatus {
             IS_FRIEND -> R.string.search_friend_description
             SENT_FRIEND_REQUEST -> R.string.TODO
             RECEIVED_FRIEND_REQUEST -> R.string.TODO
-            NO_FRIEND_REQUEST -> R.string.TODO
+            NO_FRIEND_REQUEST -> R.string.search_send_icon
         }
     }
 
@@ -35,8 +35,8 @@ enum class FriendshipStatus {
         return when(this) {
             IS_FRIEND -> R.drawable.ic_outline_chat_bubble_outline_24
             RECEIVED_FRIEND_REQUEST -> R.drawable.ic_outline_access_time_24
-            SENT_FRIEND_REQUEST -> R.drawable.ic_outline_close_24 // TODO
-            NO_FRIEND_REQUEST -> R.drawable.ic_outline_close_24 // TODO
+            SENT_FRIEND_REQUEST -> R.drawable.ic_outline_close_24 // TODO: icon with user and question mark
+            NO_FRIEND_REQUEST -> R.drawable.ic_baseline_person_add_24
         }
     }
 }

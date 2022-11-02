@@ -16,7 +16,7 @@ class SearchDataSource : ISearchDataSource {
     ) {}
 
     private data class SearchUserData(
-        val userId: Long,
+        val id: Long,
         val username: String,
         val fullname: String,
         val friendshipStatus: String
@@ -29,24 +29,17 @@ class SearchDataSource : ISearchDataSource {
     ): List<Contact> {
         val requestData = SearchRequestData(query, page)
         val request = jsonRequest("search-users", requestData, token)
-        return withContext(Dispatchers.IO) {
-            Socket(DSD_HOST, DSD_PORT).use {
-                val response = request.sendAndRead(it)
-                if (response.ok) {
-                    val responseData = response.parseJSON(Array<SearchUserData>::class.java)
-                    responseData.map{ user ->
-                        val friendshipStatus = friendshipStatusFrom(user.friendshipStatus)
-                        if (friendshipStatus != null) {
-                            Contact(user.userId.toString(), user.fullname, user.username, friendshipStatus)
-                        } else {
-                            throw RuntimeException("Unknown friendship status: " + user.friendshipStatus)
-                        }
-                    }.toList()
+        return fetchDSD(request) { response ->
+            if (!response.ok) throw exceptionFrom(response);
+            val responseData = response.parseJSON(Array<SearchUserData>::class.java)
+            responseData.map{ user ->
+                val friendshipStatus = friendshipStatusFrom(user.friendshipStatus)
+                if (friendshipStatus != null) {
+                    Contact(user.id.toString(), user.fullname, user.username, friendshipStatus)
                 } else {
-                    val (code) = response.parseJSON(MessageCodeBody::class.java)
-                    throw exceptionFrom(errCodeFrom(code))
+                    throw RuntimeException("Unknown friendship status: " + user.friendshipStatus)
                 }
-            }
+            }.toList()
         }
     }
 }

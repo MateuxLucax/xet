@@ -13,6 +13,9 @@ private const val TAG = "Request"
 fun jsonRequest(operation: String, body: Any, token: String? = null): Request =
     Request(operation, Gson().toJson(body).toByteArray(), token)
 
+fun emptyRequest(operation: String, token: String? = null): Request =
+    Request(operation, byteArrayOf(), token)
+
 class Request(
     val operation: String,
     val body: ByteArray,

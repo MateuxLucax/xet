@@ -36,7 +36,6 @@
     <string name="search_contact_button">Quadrado com uma lupa no meio</string>
     <string name="search_friend_description">Ícone de conversa que representa uma amizade</string>
     <string name="search_pending_description">Ícone de relógio que representa um convite de amizade pendente</string>
-    <string name="search_refused_description">Ícone da letra X que representa um convite de amizade recusado</string>
     <string name="search_send_icon">Ícone de envio representando que um convite pode ser enviado ao usuário</string>
     <string name="search_list_empty">Nenhum usuário encontrado baseado em sua pesquisa</string>
     <string name="search_list_error">Não foi possível carregar usuários</string>

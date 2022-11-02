@@ -28,22 +28,16 @@ class SearchAdapter(
             val displayName: TextView = itemView.findViewById(R.id.contact_search_item_name)
             val actionBtn: ImageButton = itemView.findViewById(R.id.contact_search_item_btn)
 
-            if (contact.friendshipStatus != null) {
-                actionBtn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, contact.friendshipStatus.toIcon()))
-                actionBtn.contentDescription = contact.friendshipStatus.toDescription().toString()
-                actionBtn.isActivated = false
-                if (contact.friendshipStatus == FriendshipStatus.IS_FRIEND) {
-                    actionBtn.setOnClickListener {
-                        friendCallback(contact.userId)
-                    }
-                } else {
-                    actionBtn.isEnabled = false
-                }
-            } else {
-                actionBtn.setOnClickListener {
-                    sendInviteCallBack(contact.userId)
-                }
+            actionBtn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, contact.friendshipStatus.toIcon()))
+            actionBtn.contentDescription = contact.friendshipStatus.toDescription().toString()
+            actionBtn.isActivated = false
+
+            when (contact.friendshipStatus) {
+                FriendshipStatus.IS_FRIEND -> actionBtn.setOnClickListener { friendCallback(contact.userId) }
+                FriendshipStatus.NO_FRIEND_REQUEST -> actionBtn.setOnClickListener{ sendInviteCallBack(contact.userId) }
+                else -> actionBtn.isEnabled = false
             }
+
             displayName.text = contact.displayName
         }
     }
