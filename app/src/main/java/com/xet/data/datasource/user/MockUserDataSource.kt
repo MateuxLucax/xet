@@ -25,13 +25,13 @@ class MockUserDataSource : IUserDataSource {
         return User(UUID.randomUUID().toString(), fullName, username)
     }
 
-    override fun logout(): Boolean {
+    override suspend fun logout(token: String): Boolean {
         val random = Random()
         return random.nextBoolean()
     }
 
     override suspend fun updateProfile(
-        userId: String,
+        token: String,
         fullName: String,
         password: String
     ): Boolean {

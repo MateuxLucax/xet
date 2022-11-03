@@ -46,8 +46,9 @@ class UserDataSource: IUserDataSource {
         }
     }
 
-    override fun logout(): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun logout(token: String): Boolean {
+        val request = emptyRequest("end-session", token)
+        return fetchDSD(request) { it.ok }
     }
 
     private data class UpdateProfileRequestData(

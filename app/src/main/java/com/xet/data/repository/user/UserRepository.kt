@@ -38,11 +38,12 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
     }
 
     override suspend fun logout(): Boolean {
-        if (dataSource.logout()) {
-            user = null
-            return true
+        if (user != null) {
+            if (dataSource.logout(user!!.token)) {
+                user = null
+                return true
+            }
         }
-
         return false
     }
 
