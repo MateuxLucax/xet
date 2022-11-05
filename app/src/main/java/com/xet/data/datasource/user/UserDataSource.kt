@@ -48,7 +48,7 @@ class UserDataSource: IUserDataSource {
 
     override suspend fun logout(token: String): Boolean {
         val request = emptyRequest("end-session", token)
-        return fetchDSD(request) { it.ok }
+        return fetchDSD(request) { okElseThrow(it) }
     }
 
     private data class UpdateProfileRequestData(
@@ -63,9 +63,6 @@ class UserDataSource: IUserDataSource {
     ): Boolean {
         val dto = UpdateProfileRequestData(fullName, password)
         val request = jsonRequest("edit-user", dto, token)
-        return fetchDSD(request) { response ->
-            if (!response.ok) throw exceptionFrom(response)
-            true
-        }
+        return fetchDSD(request) { okElseThrow(it) }
     }
 }

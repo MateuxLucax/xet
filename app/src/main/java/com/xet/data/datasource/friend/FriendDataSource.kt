@@ -9,7 +9,7 @@ class FriendDataSource : IFriendDataSource {
         val id: Long,
         val username: String,
         val fullname: String
-    ) {}
+    )
 
     override suspend fun getFriends(userToken: String): List<Friend> {
         val request = emptyRequest("get-friends", userToken)
@@ -24,15 +24,12 @@ class FriendDataSource : IFriendDataSource {
         }
     }
 
-    private data class SendInviteRequest(val userId: Long) {}
+    private data class SendInviteRequest(val userId: Long)
 
     override suspend fun sendInvite(tokenUserFrom: String, userTo: String): Boolean {
         val body = SendInviteRequest(userId = userTo.toLong())
         val request = jsonRequest("send-friend-request", body, tokenUserFrom)
-        return fetchDSD(request) { response ->
-            if (response.ok) true
-            else throw exceptionFrom(response)
-        }
+        return fetchDSD(request) { okElseThrow(it) }
     }
 
     private data class GetInvitesUserData(
@@ -64,11 +61,18 @@ class FriendDataSource : IFriendDataSource {
         }
     }
 
+    private data class UpdateInviteData(
+        val senderId: Long,
+        val accepted: Boolean
+    )
+
     override suspend fun updateInvite(
         userFrom: String,
-        userTo: String,
+        tokenUserTo: String,
         accepted: Boolean
     ): Boolean {
-        TODO("Not yet implemented")
+        val body = UpdateInviteData(userFrom.toLong(), accepted)
+        val request = jsonRequest("finish-friend-request", body, tokenUserTo)
+        return fetchDSD(request) { okElseThrow(it) }
     }
 }

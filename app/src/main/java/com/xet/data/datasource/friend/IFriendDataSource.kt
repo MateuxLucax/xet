@@ -16,6 +16,6 @@ interface IFriendDataSource {
     suspend fun getInvites(user: LoggedUser): List<Contact>
 
     @Throws(Exception::class)
-    suspend fun updateInvite(userFrom: String, userTo: String, accepted: Boolean): Boolean
+    suspend fun updateInvite(userFrom: String, tokenUserTo: String, accepted: Boolean): Boolean
 
 }

@@ -16,7 +16,7 @@ class SearchAdapter(
     private val contacts: List<Contact>,
     private val context: Context,
     private val friendCallback: (String) -> Unit,
-    private val sendInviteCallBack: (String) -> Unit
+    private val sendInviteCallback: (String) -> Unit
 ): RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,12 +49,7 @@ class SearchAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contacts[position]
-        val sendInviteCallBack1 = { it: String ->
-            this.sendInviteCallBack(it)
-            contact.friendshipStatus = FriendshipStatus.RECEIVED_FRIEND_REQUEST
-            this.notifyItemChanged(position)
-        }
-        holder.bindView(contact, friendCallback, sendInviteCallBack1)
+        holder.bindView(contact, friendCallback, sendInviteCallback)
     }
 
     override fun getItemCount(): Int {

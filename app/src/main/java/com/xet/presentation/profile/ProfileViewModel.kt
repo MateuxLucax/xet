@@ -72,7 +72,7 @@ class ProfileViewModel(
 
    fun updateInvite(userFrom: String, accepted: Boolean) {
       viewModelScope.launch {
-         val result = friendUseCases.updateInvite(userFrom, user.userId, accepted)
+         val result = friendUseCases.updateInvite(userFrom, user.token, accepted)
 
          if (result is Result.Success) {
             if (accepted) {

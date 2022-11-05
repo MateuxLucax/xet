@@ -20,3 +20,7 @@ fun exceptionFrom(response: Response): Exception {
     val (messageCode) = response.parseJSON(MessageCodeBody::class.java)
     return exceptionFrom(errCodeFrom(messageCode))
 }
+
+fun okElseThrow(response: Response): Boolean {
+    return if (response.ok) true else throw exceptionFrom(response)
+}

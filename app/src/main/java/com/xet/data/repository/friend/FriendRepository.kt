@@ -42,11 +42,11 @@ class FriendRepository(
 
     override suspend fun updateInvite(
         userFrom: String,
-        userTo: String,
+        tokenUserTo: String,
         accepted: Boolean
     ): Result<Boolean> {
         return try {
-            val result =  dataSource.updateInvite(userFrom, userTo, accepted)
+            val result =  dataSource.updateInvite(userFrom, tokenUserTo, accepted)
 
             Result.Success(result)
         } catch (e: Exception) {
