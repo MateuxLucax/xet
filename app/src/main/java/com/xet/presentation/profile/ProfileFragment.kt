@@ -1,7 +1,6 @@
 package com.xet.presentation.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,11 +69,11 @@ class ProfileFragment(
                 context?.getColor(R.color.errorColor)?.let { it1 -> invitesMessage.setTextColor(it1) }
             } else if (result.success != null && container != null) {
 
-                // TODO invites aren't beign shown yet
-                // TODO also here we should only show invites where the logged user is the receiver,
+                // TODO here we should only show invites where the logged user is the receiver,
                 //   because that's the only situation where the accept and reject buttons make sense
 
                 val recyclerView = binding.profileInvites
+                recyclerView.visibility = View.VISIBLE
                 recyclerView.adapter = InvitesAdapter(result.success, container.context, viewModel::updateInvite)
             }
         })

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.domain.model.Contact
+import com.xet.domain.model.FriendshipStatus
 
 class InvitesAdapter(
     private val contacts: List<Contact>,
@@ -22,7 +23,7 @@ class InvitesAdapter(
             val refuseBtn: ImageButton = itemView.findViewById(R.id.profileInviteRefuse)
             val acceptBtn: ImageButton = itemView.findViewById(R.id.profileInviteAccept)
 
-            if (contact.friendshipStatus != null) {
+            if (contact.friendshipStatus == FriendshipStatus.SENT_FRIEND_REQUEST) {
                 refuseBtn.setOnClickListener {
                     callback(contact.userId, false)
                 }
