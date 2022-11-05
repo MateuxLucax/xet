@@ -49,8 +49,12 @@ class SearchAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contacts[position]
-
-        holder.bindView(contact, friendCallback, sendInviteCallBack)
+        val sendInviteCallBack1 = { it: String ->
+            this.sendInviteCallBack(it)
+            contact.friendshipStatus = FriendshipStatus.RECEIVED_FRIEND_REQUEST
+            this.notifyItemChanged(position)
+        }
+        holder.bindView(contact, friendCallback, sendInviteCallBack1)
     }
 
     override fun getItemCount(): Int {

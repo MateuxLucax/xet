@@ -4,7 +4,7 @@ open class Contact(
     override val userId: String,
     override val displayName: String,
     override val username: String,
-    val friendshipStatus: FriendshipStatus
+    var friendshipStatus: FriendshipStatus
 ) : User (userId, displayName, username) {
 
     override fun toString(): String {
