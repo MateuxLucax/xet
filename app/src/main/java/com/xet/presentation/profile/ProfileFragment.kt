@@ -61,20 +61,28 @@ class ProfileFragment(
 
         viewModel.invites.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
+
+            val recyclerView = binding.profileInvites
+
             loading.visibility = View.GONE
             if (result.empty != null) {
                 invitesMessage.text = context?.getString(result.empty)
+                recyclerView.visibility = View.GONE
             } else if (result.error != null) {
                 invitesMessage.text = context?.getString(result.error)
                 context?.getColor(R.color.errorColor)?.let { it1 -> invitesMessage.setTextColor(it1) }
+                recyclerView.visibility = View.GONE
             } else if (result.success != null && container != null) {
 
                 // TODO here we should only show invites where the logged user is the receiver,
                 //   because that's the only situation where the accept and reject buttons make sense
 
-                val recyclerView = binding.profileInvites
                 recyclerView.visibility = View.VISIBLE
-                recyclerView.adapter = InvitesAdapter(result.success, container.context, viewModel::updateInvite)
+                if (recyclerView.adapter != null) {
+                    recyclerView.adapter!!.notifyDataSetChanged()
+                } else {
+                    recyclerView.adapter = InvitesAdapter(result.success, container.context, viewModel::updateInvite)
+                }
             }
         })
 

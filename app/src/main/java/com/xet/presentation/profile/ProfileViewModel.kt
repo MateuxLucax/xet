@@ -1,6 +1,5 @@
 package com.xet.presentation.profile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
 import com.xet.domain.model.LoggedUser
-import com.xet.domain.model.User
 import com.xet.domain.usecase.friend.FriendUseCases
 import com.xet.domain.usecase.user.UserUseCases
 import com.xet.presentation.search.UpdateInviteResult
@@ -62,7 +60,7 @@ class ProfileViewModel(
             if (result.data.isEmpty()) {
                _invitesResult.value = InvitesResult(empty = R.string.profile_invites_empty)
             } else {
-               _invitesResult.value = InvitesResult(success = result.data)
+               _invitesResult.value = InvitesResult(success = result.data.toMutableList())
             }
          } else if (result is Result.Error) {
             _invitesResult.value = InvitesResult(error = R.string.profile_invites_error)
@@ -86,19 +84,12 @@ class ProfileViewModel(
 
          val userInvites = _invitesResult.value?.success
 
-         if (userInvites != null) {
-            for (invite in userInvites) {
-               if (invite.userId == userFrom) {
-                  userInvites.drop(userInvites.indexOf(invite))
-               }
-            }
-         }
-
+         userInvites?.removeIf{ it.userId == userFrom }
          if (userInvites != null) {
             if (userInvites.isEmpty()) {
-                 _invitesResult.value = InvitesResult(empty = R.string.profile_invites_empty)
+               _invitesResult.value = InvitesResult(empty = R.string.profile_invites_empty)
             } else {
-                 _invitesResult.value = InvitesResult(success = userInvites)
+               _invitesResult.value = InvitesResult(success = userInvites)
             }
          }
       }
