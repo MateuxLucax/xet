@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
+import com.xet.domain.model.FriendshipStatus
 import com.xet.domain.usecase.friend.FriendUseCases
 import com.xet.domain.usecase.search.SearchUseCases
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val searchUseCases: SearchUseCases,
-    private val friendUseCases: FriendUseCases
+    private val friendUseCases: FriendUseCases,
 ): ViewModel() {
 
     private val page = 1
@@ -23,11 +24,17 @@ class SearchViewModel(
         currentUserToken = userToken
     }
 
+    fun onInviteSent(fn: () -> Unit) {
+        inviteSentCallback = fn
+    }
+
     private val _searchResult = MutableLiveData<SearchResult>()
     val searchResult: LiveData<SearchResult> = _searchResult
 
     private val _Update_inviteResult = MutableLiveData<UpdateInviteResult>()
     val updateInviteResult: LiveData<UpdateInviteResult> = _Update_inviteResult
+
+    private var inviteSentCallback: (() -> Unit)? = null
 
     fun search(query: String) {
         viewModelScope.launch {
@@ -50,9 +57,14 @@ class SearchViewModel(
 
             if (result is Result.Success) {
                 _Update_inviteResult.value = UpdateInviteResult(success = R.string.search_invite_sent_successfully)
+                _searchResult.value?.success?.find{ it.userId == userTo }?.let {
+                    it.friendshipStatus = FriendshipStatus.RECEIVED_FRIEND_REQUEST
+                    inviteSentCallback?.invoke()
+                }
             } else {
                 _Update_inviteResult.value = UpdateInviteResult(error = R.string.search_invite_sent_fail)
             }
+
         }
     }
 }

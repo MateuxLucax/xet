@@ -51,14 +51,13 @@ class SearchFragment(
             val friendCallback = this::redirectToMessageActivity
             val sendInviteCallback = viewModel::sendInvite
             SearchAdapter(contacts, it.context, friendCallback, sendInviteCallback)
+        }
 
-            // TODO when the user send invite, the other user should be updated
-            //  - change icon
-            //  - change btn listener (in this case, remove)
+        viewModel.onInviteSent {
+            adapter?.notifyDataSetChanged()
         }
 
         recyclerView.adapter = adapter
-
 
         viewModel.searchResult.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
