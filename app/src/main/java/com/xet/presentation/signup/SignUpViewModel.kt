@@ -8,12 +8,13 @@ import com.xet.R
 import com.xet.data.Result
 import com.xet.domain.usecase.user.UserUseCases
 import com.xet.dsd.ErrCodeException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val useCases: UserUseCases,
 ): ViewModel() {
-
+    private lateinit var scope: Job
     private val _signUpForm = MutableLiveData<SignUpFormState>()
     val signUpFormState: LiveData<SignUpFormState> = _signUpForm
 
@@ -21,7 +22,7 @@ class SignUpViewModel(
     val signUpResult: LiveData<SignUpResult> = _signUpResult
 
     fun signUp(fullName: String, username: String,password: String) {
-        viewModelScope.launch {
+        scope = viewModelScope.launch {
             val result = useCases.doSignUp(fullName, username, password)
 
             _signUpResult.value = when (result) {
@@ -46,4 +47,7 @@ class SignUpViewModel(
         )
     }
 
+    fun getScope(): Job {
+        return this.scope
+    }
 }

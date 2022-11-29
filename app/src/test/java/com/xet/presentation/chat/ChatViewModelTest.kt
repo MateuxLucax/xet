@@ -3,6 +3,7 @@ package com.xet.presentation.chat
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.xet.R
 import com.xet.data.datasource.chat.MockTestChatDataSource
+import com.xet.data.datasource.user.MockTestUserDataSource
 import com.xet.data.datasource.user.MockUserDataSource
 import com.xet.data.repository.chat.ChatRepository
 import com.xet.data.repository.user.UserRepository
@@ -38,7 +39,7 @@ class ChatViewModelTest: TestSuite() {
 
     @Before
     fun setUp() = runBlocking {
-        val userRepository = UserRepository(MockUserDataSource());
+        val userRepository = UserRepository(MockTestUserDataSource());
         val chatRepository = ChatRepository(MockTestChatDataSource());
 
         chatUseCases = ChatUseCases(GetMessagesUseCase(chatRepository))
