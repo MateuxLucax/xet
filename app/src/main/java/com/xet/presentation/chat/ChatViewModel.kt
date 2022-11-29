@@ -10,7 +10,11 @@ import com.xet.domain.usecase.chat.ChatUseCases
 import com.xet.domain.usecase.user.UserUseCases
 import kotlinx.coroutines.launch
 import com.xet.data.Result
+import com.xet.domain.model.Friend
 import com.xet.presentation.friends.FriendsResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.runBlocking
 
 class ChatViewModel(
     private val chatUseCases: ChatUseCases,
@@ -21,6 +25,7 @@ class ChatViewModel(
     private lateinit var user: User
     private var offset = 0
     private var limit = 20
+    private lateinit var scope: Job
 
     fun initialize(friend: User) {
         this.friend = friend
@@ -35,9 +40,8 @@ class ChatViewModel(
     val messagesResult: LiveData<MessagesResult> = _messagesResult
 
     fun loadMessages() {
-        viewModelScope.launch {
+       scope =  viewModelScope.launch {
             val result = chatUseCases.getMessages(user.userId, friend.userId, offset, limit)
-
             if (result is Result.Success) {
                 if (result.data.isEmpty()) {
                     _messagesResult.value = MessagesResult(empty = R.string.chat_no_messages)
@@ -50,6 +54,15 @@ class ChatViewModel(
         }
     }
 
+    fun getFriend(): User {
+        return this.friend
+    }
 
+    fun getUser(): User {
+        return this.user
+    }
 
+    fun getScope(): Job {
+        return this.scope
+    }
 }
