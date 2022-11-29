@@ -1,6 +1,7 @@
 package com.xet.presentation.chat
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.xet.R
 import com.xet.data.datasource.user.MockTestUserDataSource
 import com.xet.data.datasource.user.MockUserDataSource
 import com.xet.data.repository.user.UserRepository
@@ -55,5 +56,29 @@ class SignUpViewModelTest: TestSuite() {
         viewModel.signUp("Admin", "admin", "admin132")
         viewModel.getScope().join()
         Assert.assertEquals(viewModel.signUpResult.value?.error, ErrCode.USERNAME_IN_USE.resource)
+    }
+
+    @Test
+    fun shouldInformUserNameError() = runTest() {
+        viewModel.loginDataChanged("Guilherme Lange", "", "XSDC21SD")
+        Assert.assertEquals(viewModel.signUpFormState.value?.usernameError, R.string.signup_invalid_username)
+    }
+
+    @Test
+    fun shouldInformPasswordError() = runTest() {
+        viewModel.loginDataChanged("Guilherme Lange", "guilherme.lange", "123")
+        Assert.assertEquals(viewModel.signUpFormState.value?.passwordError, R.string.signup_invalid_password)
+    }
+
+    @Test
+    fun shouldInformFullnameError() = runTest() {
+        viewModel.loginDataChanged("", "guilherme.lange", "XSDC21SD")
+        Assert.assertEquals(viewModel.signUpFormState.value?.fullNameError, R.string.signup_invalid_full_name)
+    }
+
+    @Test
+    fun shouldValidadeForm() = runTest() {
+        viewModel.loginDataChanged("Guilherme Luiz Lange", "guilherme.lange", "XSDC21SD")
+        Assert.assertTrue(viewModel.signUpFormState.value!!.isDataValid)
     }
 }
