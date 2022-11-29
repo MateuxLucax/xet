@@ -1,4 +1,4 @@
-package com.xet.data.user
+package com.xet.data.datasource.user
 
 import com.xet.data.datasource.user.UserDataSource
 import com.xet.dsd.ErrCode
