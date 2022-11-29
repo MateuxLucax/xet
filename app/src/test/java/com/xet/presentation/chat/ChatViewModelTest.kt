@@ -2,7 +2,6 @@ package com.xet.presentation.chat
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.xet.R
-import com.xet.data.datasource.chat.MockChatDataSource
 import com.xet.data.datasource.chat.MockTestChatDataSource
 import com.xet.data.datasource.user.MockUserDataSource
 import com.xet.data.repository.chat.ChatRepository
@@ -11,7 +10,7 @@ import com.xet.domain.model.User
 import com.xet.domain.usecase.chat.ChatUseCases
 import com.xet.domain.usecase.chat.GetMessagesUseCase
 import com.xet.domain.usecase.user.*
-import com.xet.presentation.chat.ChatViewModel
+import com.xet.utils.MainCoroutineRule
 import junit.framework.TestSuite
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -49,13 +48,13 @@ class ChatViewModelTest: TestSuite() {
             DoSignUp(userRepository),
             IsUserLoggedIn(userRepository),
             DoUpdateProfile(userRepository))
+
+        userUseCases.doLogin.invoke("me", "thatisme")
+        viewModel = ChatViewModel(chatUseCases, userUseCases)
     }
 
     @Test
     fun shouldInitializeLoadUserAndFriendData() = runBlocking {
-        userUseCases.doLogin.invoke("me", "thatisme")
-        viewModel = ChatViewModel(chatUseCases, userUseCases)
-
         val friend = User(UUID.randomUUID().toString(), "Dude", "dude")
         viewModel.initialize(friend)
 
@@ -65,9 +64,6 @@ class ChatViewModelTest: TestSuite() {
 
     @Test
     fun shouldReturnErrorAndUpdateViewToUser() = runTest(UnconfinedTestDispatcher()) {
-        userUseCases.doLogin.invoke("me", "thatisme")
-        viewModel = ChatViewModel(chatUseCases, userUseCases)
-
         val friend = User("unknownid", "Unknown", "unknown")
         viewModel.initialize(friend)
 
@@ -79,9 +75,6 @@ class ChatViewModelTest: TestSuite() {
 
     @Test
     fun shouldReturnNoMessagesYet() = runTest(UnconfinedTestDispatcher()) {
-        userUseCases.doLogin.invoke("me", "thatisme")
-        viewModel = ChatViewModel(chatUseCases, userUseCases)
-
         val friend = User("newfriend", "Dude", "dude")
         viewModel.initialize(friend)
 
@@ -93,9 +86,6 @@ class ChatViewModelTest: TestSuite() {
 
     @Test
     fun shouldReturnMessages() = runTest(UnconfinedTestDispatcher()) {
-        userUseCases.doLogin.invoke("me", "thatisme")
-        viewModel = ChatViewModel(chatUseCases, userUseCases)
-
         val friend = User(UUID.randomUUID().toString(), "Dude", "dude")
         viewModel.initialize(friend)
 

@@ -1,4 +1,4 @@
-package com.xet.presentation.chat
+package com.xet.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
