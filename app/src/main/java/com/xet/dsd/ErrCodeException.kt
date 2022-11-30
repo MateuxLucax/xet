@@ -6,5 +6,4 @@ fun exceptionFrom(code: ErrCode?): Exception {
     else Exception()
 }
 
-class ErrCodeException(val code: ErrCode): Exception() {
-}
+class ErrCodeException(val code: ErrCode): Exception() {}
