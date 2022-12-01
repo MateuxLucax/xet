@@ -1,7 +1,9 @@
 package com.xet.dsd
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.InputStream
 import java.net.Socket
 
 const val DSD_HOST = "192.168.2.2" // lan, localhost wouldn't work (different computers)
@@ -24,3 +26,6 @@ fun exceptionFrom(response: Response): Exception {
 fun okElseThrow(response: Response): Boolean {
     return if (response.ok) true else throw exceptionFrom(response)
 }
+
+
+var theLiveThread: Thread? = null
