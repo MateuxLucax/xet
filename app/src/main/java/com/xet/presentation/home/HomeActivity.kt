@@ -60,7 +60,7 @@ class HomeActivity(
 
     override fun onDestroy() {
         super.onDestroy()
-        theLiveThread()?.interrupt()
+        theLiveThread()?.goOffline()
         setTheLiveThread(null)
     }
 

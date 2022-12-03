@@ -8,6 +8,7 @@ private const val TAG = "LiveSocketListener"
 class LiveSocketListener(private val token: String): Thread() {
 
     private var handler: ((String) -> Unit)? = null
+    private var goOffline: Boolean = false
 
     fun attachHandler(handler: (String) -> Unit) {
         this.handler = handler
@@ -17,21 +18,23 @@ class LiveSocketListener(private val token: String): Thread() {
         this.handler = null
     }
 
-    override fun run() {
+    fun goOffline() {
+        this.goOffline = true
+    }
 
-        // TODO outer loop for restarting the socket if it gets (wrongfully) closed by the server
+    private fun connectAndListen() {
 
-        // first, go online
+        // first, go online (connect)
         val socket = Socket(DSD_HOST, DSD_PORT)
         val request = emptyRequest("go-online", token)
         val response = request.sendAndRead(socket)
-        // TODO check response ok
 
-        // TODO so the activity can do something with the message:
-        //  setHandler((message: String) -> Unit)
-        //  unsetHandler()
+        // the server is responsible for closing the socket
 
-        // TODO eventually go offline
+        if (!response.ok) {
+            Log.e(TAG, "Non-ok go-online response: $response");
+            return;
+        }
 
         val input = socket.getInputStream()
         val output = socket.getOutputStream()
@@ -42,8 +45,10 @@ class LiveSocketListener(private val token: String): Thread() {
         var off = 0
         var readingSize = true
         var messageSize = 0
-        while (true) {
+        while (!goOffline) {
             val c = input.read()
+            if (c == -1) break;
+
             if (off == bufsiz) {
                 Log.e(TAG, "message size exceeded bufsiz!") // really shouldn't happen
                 off = 0
@@ -78,6 +83,21 @@ class LiveSocketListener(private val token: String): Thread() {
                     off = 0
                 }
             }
+        }
+    }
+
+    // TODO didn't test this yet
+
+    override fun run() {
+        // Keep reconnecting
+        while (!goOffline) {
+            connectAndListen()
+        }
+
+        // Go offline
+        Log.v(TAG, "Sending go-offline request")
+        Socket(DSD_HOST, DSD_PORT).use {
+            emptyRequest("go-offline", token).sendAndRead(it)
         }
     }
 }
