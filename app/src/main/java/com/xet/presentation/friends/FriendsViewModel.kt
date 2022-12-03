@@ -23,11 +23,10 @@ class FriendsViewModel(
     private val _friendsResult = MutableLiveData<FriendsResult>()
     val friendsResult: LiveData<FriendsResult> = _friendsResult
 
-    // FIXME! each time we open the fragment we get the contacts from getFriends(),
-    //  which always returns them offline
-    //  so we need to additionally need to keep a separate list of online users that gets queried on getContacts
-
-    // FIXME making a user online from online-user-list does not seem to be working
+    // TODO maybe this could be a MutableLiveData, even if used only internally
+    //  (set observer to update friendsResult on init {})
+    // TODO also if we want to keep the clean arch thing going this would be a repository or model or something
+    private val onlineUserIDs: MutableSet<String> = mutableSetOf()
 
     fun getContacts(userToken: String) {
         viewModelScope.launch {
@@ -38,6 +37,7 @@ class FriendsViewModel(
                     _friendsResult.value = FriendsResult(empty = R.string.friends_empty)
                 } else {
                     _friendsResult.value = FriendsResult(success = result.data)
+                    refreshStatuses(false)
                 }
             } else {
                 _friendsResult.value = FriendsResult(error = R.string.friends_fail)
@@ -49,35 +49,34 @@ class FriendsViewModel(
         Log.v(TAG, "Got live message $m, now handling it")
         _friendsResult.value?.success?.let { friends ->
             try {
+                var doRefresh: Boolean
                 JsonParser.parseString(m)?.asJsonObject?.let { json ->
+                    doRefresh = true
                     val type = json["type"].asJsonPrimitive.asString
                     when (type) {
                         "online-user-list" -> {
                             Log.i(TAG, "Got a ONLINE USER LIST message")
-                            val onlineIDs = json["userIDs"].asJsonArray.map{ id -> id.asJsonPrimitive.asString }.toSet()
-                            for (friend in friends) {
-                                val online = friend.userId in onlineIDs
-                                Log.v(TAG, "friend $friend.username is ${if (online) "ONline" else "OFFline"}")
-                                friend.status = statusFrom(online)
-                            }
+                            val ids = json["userIDs"].asJsonArray.map{ id -> id.asJsonPrimitive.asString }
+                            onlineUserIDs.addAll(ids)
                         }
                         // using find is slower than if the users were in a Map<String, Friend> but whatever
                         "user-online" -> {
                             Log.i(TAG, "Got a USER ONLINE message")
-                            val onlineUserID = json["userID"].asJsonPrimitive.asString
-                            friends.find{ it.userId == onlineUserID }?.status = Status.ONLINE
+                            val id = json["userID"].asJsonPrimitive.asString
+                            onlineUserIDs.add(id)
                         }
                         "user-offline" -> {
                             Log.i(TAG, "Got a USER ONLINE message")
-                            val offlineUserID = json["userID"].asJsonPrimitive.asString
-                            friends.find{ it.userId == offlineUserID }?.status = Status.OFFLINE
+                            val id = json["userID"].asJsonPrimitive.asString
+                            onlineUserIDs.remove(id)
                         }
-                        else -> {}
+                        else -> {
+                            doRefresh = false
+                        }
                     }
 
-                    // This works but idk if it's the right way to do it
-                    _friendsResult.value?.copy().let {
-                        _friendsResult.postValue(it)
+                    if (doRefresh) {
+                        refreshStatuses(true)
                     }
 
                 }
@@ -87,6 +86,21 @@ class FriendsViewModel(
 
         }
 
+    }
+
+    private fun refreshStatuses(repaint: Boolean) {
+        _friendsResult.value?.success?.let { friends ->
+            for (friend in friends) {
+                friend.status = statusFrom(friend.userId in onlineUserIDs)
+            }
+        }
+
+        if (repaint) {
+            // This works but idk if it's the right way to do it
+            _friendsResult.value?.copy().let {
+                _friendsResult.postValue(it)
+            }
+        }
     }
 
 }
