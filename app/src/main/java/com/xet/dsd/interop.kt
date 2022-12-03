@@ -28,4 +28,12 @@ fun okElseThrow(response: Response): Boolean {
 }
 
 
-var theLiveThread: Thread? = null
+private var theLiveThread: LiveSocketListener? = null
+
+fun setTheLiveThread(x: LiveSocketListener?) {
+    theLiveThread = x
+}
+
+fun theLiveThread(): LiveSocketListener? {
+    return theLiveThread
+}

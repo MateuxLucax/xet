@@ -2,6 +2,10 @@ package com.xet.domain.model
 
 import com.xet.R
 
+fun statusFrom(online: Boolean): Status {
+    return if (online) Status.ONLINE else Status.OFFLINE
+}
+
 enum class Status {
     ONLINE, OFFLINE;
 

@@ -2,13 +2,13 @@ package com.xet.presentation.home
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.color.MaterialColors
 import com.xet.R
 import com.xet.databinding.ActivityHomeBinding
 import com.xet.dsd.LiveSocketListener
+import com.xet.dsd.setTheLiveThread
 import com.xet.dsd.theLiveThread
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.friends.ContactsFragment
@@ -50,18 +50,18 @@ class HomeActivity(
         window.navigationBarColor = color
 
 
-        theLiveThread = LiveSocketListener(userToken)
+        setTheLiveThread(LiveSocketListener(userToken))
     }
 
     override fun onStart() {
         super.onStart()
-        if (theLiveThread != null) theLiveThread!!.start()
+        theLiveThread()?.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (theLiveThread != null) theLiveThread!!.interrupt()
-        theLiveThread = null
+        theLiveThread()?.interrupt()
+        setTheLiveThread(null)
     }
 
     private fun setCurrentFragment(fragment: Fragment) =

@@ -17,9 +17,8 @@ class FriendDataSource : IFriendDataSource {
             if (!response.ok) throw exceptionFrom(response)
             val friendArray = response.parseJSON(Array<FriendData>::class.java)
             friendArray.map{
-                val status = Status.ONLINE // TODO
-                val lastMessage = null // TODO
-                Friend(it.id.toString(), it.fullname, it.username, status, lastMessage)
+                val status = Status.OFFLINE
+                Friend(it.id.toString(), it.fullname, it.username, status)
             }.toList()
         }
     }

@@ -20,15 +20,13 @@ class FriendsAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(friend: Friend) {
             val displayName: TextView = itemView.findViewById(R.id.contact_list_item_name)
-            val lastMessage: TextView = itemView.findViewById(R.id.contact_list_item_last_message)
             val status: TextView = itemView.findViewById(R.id.contact_list_item_status)
             val profileImage: TextView = itemView.findViewById(R.id.contact_list_item_picture)
 
-            lastMessage.text = friend.lastMessage ?: ""
             displayName.text = friend.displayName
-            if (friend.status != null) {
-                status.setText(friend.status.toResourceString())
-                status.setTextColor(itemView.context.getColor(friend.status.toColor()))
+            friend.status?.let {
+                status.setText(it.toResourceString())
+                status.setTextColor(itemView.context.getColor(it.toColor()))
             }
             profileImage.text = friend.displayName[0].toString()
 

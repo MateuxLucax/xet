@@ -1,6 +1,7 @@
 package com.xet.presentation.friends
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.xet.R
 import com.xet.databinding.FragmentFriendsBinding
+import com.xet.dsd.theLiveThread
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.friends.components.FriendsAdapter
 
 private const val USER_TOKEN = "user_token"
+
+private const val TAG = "FriendsFragment"
 
 class ContactsFragment(
     private var viewModel: FriendsViewModel = ServiceLocator.getContactsViewModel()
@@ -24,7 +28,17 @@ class ContactsFragment(
         arguments?.let {
             userToken = it.getString(USER_TOKEN)
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
+        theLiveThread()?.attachHandler(viewModel::messageHandler)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // TODO test
+        theLiveThread()?.detachHandler()
     }
 
     override fun onCreateView(

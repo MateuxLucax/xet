@@ -1,14 +1,21 @@
 package com.xet.dsd
 
 import android.util.Log
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 import java.net.Socket
 
 private const val TAG = "LiveSocketListener"
 
 class LiveSocketListener(private val token: String): Thread() {
+
+    private var handler: ((String) -> Unit)? = null
+
+    fun attachHandler(handler: (String) -> Unit) {
+        this.handler = handler
+    }
+
+    fun detachHandler() {
+        this.handler = null
+    }
 
     override fun run() {
 
@@ -51,6 +58,7 @@ class LiveSocketListener(private val token: String): Thread() {
                 if (off == messageSize) {
                     val message = String(buf, 0, off)
                     Log.v(TAG, "Got live message $message")
+                    handler?.invoke(message)
                     readingSize = true
                     off = 0
                 }

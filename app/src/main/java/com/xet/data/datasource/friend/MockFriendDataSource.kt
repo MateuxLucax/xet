@@ -17,21 +17,18 @@ class MockFriendDataSource: IFriendDataSource {
                 userId = UUID.randomUUID().toString(),
                 displayName = "James Mary",
                 status = Status.ONLINE,
-                lastMessage = "Good afternoon deadbeat",
                 username = "james.mary"
             ),
             Friend(
                 userId = UUID.randomUUID().toString(),
                 displayName = "Robert Patricia",
                 status = Status.OFFLINE,
-                lastMessage = "Hey! U owe me 100 bucks",
                 username = "robert.patricia"
             ),
             Friend(
                 userId = UUID.randomUUID().toString(),
                 displayName = "John Jennifer",
                 status = Status.OFFLINE,
-                lastMessage = null,
                 username = "john.jennifer"
             )
         )

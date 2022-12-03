@@ -4,6 +4,5 @@ data class Friend(
     override val userId: String,
     override val displayName: String,
     override val username: String,
-    val status: Status?,
-    val lastMessage: String?,
+    var status: Status?,
 ): User(userId, displayName, username)
