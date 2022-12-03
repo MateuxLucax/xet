@@ -3,10 +3,6 @@ package com.xet.data.datasource.search
 import com.xet.domain.model.Contact
 import com.xet.domain.model.friendshipStatusFrom
 import com.xet.dsd.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.net.Socket
-import kotlin.RuntimeException;
 
 class SearchDataSource : ISearchDataSource {
 

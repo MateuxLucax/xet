@@ -58,7 +58,7 @@
     <!-- chat activity -->
     <string name="chat_message_date">12/12/2012 19:03:35</string>
     <string name="chat_message_text">Opa, e aqueles 100zao que tu pegou de mim semana passada e ainda nem deu sinal de quando vai me pagar. Se liga man, vai perder uns dedos</string>
-    <string name="chat_input_hint">Digite sua mensagem</string>
+    <string name="chat_input_hint">Mensagem</string>
     <string name="chat_title">Alfredo Alvarez</string>
     <string name="chat_input_btn_text">Icone de representando envio de mensagem</string>
     <string name="chat_no_messages">Vocês ainda não trocaram mensagens. Diga um olá ao seu amigo!</string>
@@ -77,6 +77,11 @@
     <string name="check_icon_description">Ícone de verificado</string>
     <string name="close_icon_description">Ícone de fechar</string>
     <string name="username_in_use">Esse nome de usuário já está em uso</string>
+    <string name="storage_permission_granted">Permisão aceita</string>
+    <string name="storage_permission_denied">Permissão rejeitada</string>
+    <string name="sent_friend_request">Requisição de amizade enviada</string>
+    <string name="received_friend_request">Requsição de amizade recebida</string>
+
     <string name="errcode_no_response" >Sem resposta</string>
     <string name="errcode_malformed_request" >Request mal-formada</string>
     <string name="errcode_token_exired" >Token expirado</string>

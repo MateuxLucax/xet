@@ -61,7 +61,7 @@
     <!-- chat activity -->
     <string name="chat_message_date">12/12/2012 19:03:35</string>
     <string name="chat_message_text">Oops, and those 100zao you took last week and you still haven\'t given a sign of when you\'re going to pay me. If you call man, you\'re going to lose some fingers</string>
-    <string name="chat_input_hint">Type your message</string>
+    <string name="chat_input_hint">Message</string>
     <string name="chat_title">Alfredo Alvarez</string>
     <string name="chat_input_btn_text">Icon representing a plane to send message</string>
     <string name="chat_no_messages">You guys haven\'t exchanged messages yet. Go on and say hello!</string>
@@ -79,6 +79,10 @@
     <string name="updating">Updating…</string>
     <string name="check_icon_description">A check icon</string>
     <string name="close_icon_description">A close icon</string>
+    <string name="storage_permission_granted">Permission granted</string>
+    <string name="storage_permission_denied">Permission denied</string>
+    <string name="sent_friend_request">Friendship request sent</string>
+    <string name="received_friend_request">Received friendship request</string>
 
     <string name="username_in_use">This username is already in use</string>
     <string name="errcode_no_response" >No response</string>
@@ -87,5 +91,4 @@
     <string name="errcode_unknown_operation" >Unknown operation</string>
     <string name="errcode_no_user_with_given_id" >No user with the given ID</string>
     <string name="errcode_failed_to_parse_json" >Failed to parse the request JSON</string>
-    <string name="TODO">TODO</string>
 </resources>

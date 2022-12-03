@@ -1,12 +1,8 @@
 package com.xet.data.datasource.user
 
-import android.util.Log
 import com.xet.domain.model.LoggedUser
 import com.xet.domain.model.User
 import com.xet.dsd.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.net.Socket
 
 private const val TAG = "UserDataSource"
 

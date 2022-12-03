@@ -5,16 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
+import com.xet.data.Result
 import com.xet.domain.model.User
 import com.xet.domain.usecase.chat.ChatUseCases
 import com.xet.domain.usecase.user.UserUseCases
-import kotlinx.coroutines.launch
-import com.xet.data.Result
-import com.xet.domain.model.Friend
-import com.xet.presentation.friends.FriendsResult
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 class ChatViewModel(
     private val chatUseCases: ChatUseCases,

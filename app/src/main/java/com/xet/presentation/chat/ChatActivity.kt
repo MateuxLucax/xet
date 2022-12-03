@@ -10,21 +10,24 @@ import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.color.MaterialColors
+import com.xet.R
 import com.xet.databinding.ActivityChatBinding
 import com.xet.domain.model.Message
 import com.xet.domain.model.User
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.chat.components.ChatAdapter
 import java.io.IOException
-
 
 const val REQUEST_AUDIO_PERMISSION_CODE = 1
 
@@ -50,11 +53,11 @@ class ChatActivity(
         setContentView(binding.root)
 
         val chatInput = binding.chatMessageInput
+        val chatAudioBtn = binding.chatAudioMessageBtn
         val chatButton = binding.chatMessageBtn
         val chatTitle = binding.chatHeaderTitle
         val loading = binding.searchListLoading
         val errorMessage = binding.chatErrorMessage
-        val header = binding.chatHeader
         val recyclerView = binding.chatRecyclerView
 
         chatTitle.title = friend.displayName
@@ -89,6 +92,17 @@ class ChatActivity(
                 playAudio()
             } else {
                 startAudioRecording()
+            }
+        }
+
+        chatInput.afterTextChanged {
+            stopAudioRecording();
+            if (it.isNotEmpty()) {
+                chatButton.visibility = View.VISIBLE
+                chatAudioBtn.visibility = View.GONE
+            } else {
+                chatButton.visibility = View.GONE
+                chatAudioBtn.visibility = View.VISIBLE
             }
         }
 
@@ -137,11 +151,9 @@ class ChatActivity(
             && grantResults.first() == PackageManager.PERMISSION_GRANTED
             && grantResults.last() == PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: replace with string resource
-            Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, R.string.storage_permission_granted, Toast.LENGTH_LONG).show()
         } else {
-            // TODO: replace with string resource
-            Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, R.string.storage_permission_denied, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -153,7 +165,7 @@ class ChatActivity(
                 MediaRecorder()
             }
 
-            audioFile = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)}/audio.3gp"
+            audioFile = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)}/xet/audio.3gp"
             recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
             recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
@@ -191,5 +203,16 @@ class ChatActivity(
             Log.e("TAG", "prepare() failed")
         }
     }
+}
 
+fun TextView.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+    })
 }

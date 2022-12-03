@@ -31,8 +31,8 @@ class SearchViewModel(
     private val _searchResult = MutableLiveData<SearchResult>()
     val searchResult: LiveData<SearchResult> = _searchResult
 
-    private val _Update_inviteResult = MutableLiveData<UpdateInviteResult>()
-    val updateInviteResult: LiveData<UpdateInviteResult> = _Update_inviteResult
+    private val _updateInviteResult = MutableLiveData<UpdateInviteResult>()
+    val updateInviteResult: LiveData<UpdateInviteResult> = _updateInviteResult
 
     private var inviteSentCallback: (() -> Unit)? = null
 
@@ -56,13 +56,13 @@ class SearchViewModel(
             val result = friendUseCases.sendInvite(currentUserToken, userTo)
 
             if (result is Result.Success) {
-                _Update_inviteResult.value = UpdateInviteResult(success = R.string.search_invite_sent_successfully)
+                _updateInviteResult.value = UpdateInviteResult(success = R.string.search_invite_sent_successfully)
                 _searchResult.value?.success?.find{ it.userId == userTo }?.let {
                     it.friendshipStatus = FriendshipStatus.RECEIVED_FRIEND_REQUEST
                     inviteSentCallback?.invoke()
                 }
             } else {
-                _Update_inviteResult.value = UpdateInviteResult(error = R.string.search_invite_sent_fail)
+                _updateInviteResult.value = UpdateInviteResult(error = R.string.search_invite_sent_fail)
             }
 
         }

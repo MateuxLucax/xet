@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.domain.model.Friend
 import com.xet.presentation.chat.ChatActivity
-import com.xet.presentation.signup.SignUpActivity
 
 class FriendsAdapter(
     private val friends: List<Friend>,

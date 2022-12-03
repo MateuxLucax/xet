@@ -1,12 +1,10 @@
 package com.xet.dsd
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.InputStream
 import java.net.Socket
 
-const val DSD_HOST = "192.168.2.2" // lan, localhost wouldn't work (different computers)
+const val DSD_HOST = "localhost" // lan, localhost wouldn't work (different computers)
 const val DSD_PORT = 8080
 
 suspend fun <R> fetchDSD(request: Request, block: (Response) -> R): R {
