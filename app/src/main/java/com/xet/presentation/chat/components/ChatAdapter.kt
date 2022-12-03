@@ -17,23 +17,22 @@ class ChatAdapter(
 ): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindViewRight(message: Message) {
-            val messageText: TextView = itemView.findViewById(R.id.messageBubbleText)
-            val dateText: TextView = itemView.findViewById(R.id.messageBubbleDate)
+        fun bindData(message: Message) {
+            val messageText: TextView = itemView.findViewById(R.id.chatBubbleText)
+            val dateText: TextView = itemView.findViewById(R.id.chatBubbleDate)
 
             messageText.text = message.message
             dateText.text = message.sentAt
+        }
 
+        fun bindViewRight(message: Message) {
+            bindData(message)
             itemView.background = AppCompatResources.getDrawable(itemView.context, R.drawable.chat_bubble_right)
             itemView.margin(left = 48F, right = 0F)
         }
 
         fun bindViewLeft(message: Message) {
-            val messageText: TextView = itemView.findViewById(R.id.messageBubbleText)
-            val dateText: TextView = itemView.findViewById(R.id.messageBubbleDate)
-
-            messageText.text = message.message
-            dateText.text = message.sentAt
+            bindData(message)
         }
     }
 

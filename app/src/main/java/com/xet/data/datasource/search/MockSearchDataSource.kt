@@ -2,8 +2,6 @@ package com.xet.data.datasource.search
 
 import com.xet.domain.model.Contact
 import com.xet.domain.model.FriendshipStatus
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class MockSearchDataSource: ISearchDataSource {
@@ -13,9 +11,6 @@ class MockSearchDataSource: ISearchDataSource {
         query: String,
         page: Int,
     ): List<Contact> {
-        withContext(Dispatchers.IO) {
-            Thread.sleep(2_000)
-        }
         return if (query == "test") listOf(
             Contact(
                 userId = UUID.randomUUID().toString(),

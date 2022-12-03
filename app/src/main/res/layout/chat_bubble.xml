@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/messageBubbleLeft"
+    android:id="@+id/chatBubble"
     android:layout_marginBottom="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,31 +10,53 @@
     android:layout_marginEnd="48dp">
 
     <TextView
-        android:id="@+id/messageBubbleText"
+        android:id="@+id/chatBubbleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:text="@string/chat_message_text" />
 
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/chatMessageBtn"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/chat_input_btn_text"
+            android:src="@drawable/ic_baseline_play_arrow_24" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight = "1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <SeekBar
+                android:id="@+id/audioSeekbar"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/audioTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/messageBubbleDate"
+        android:id="@+id/chatBubbleDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
         android:textColor="@color/undefinedColor"
         android:text="@string/chat_message_date" />
-
-    <SeekBar
-        android:id="@+id/seekbar"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

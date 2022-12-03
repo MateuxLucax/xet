@@ -19,14 +19,14 @@ enum class FriendshipStatus {
     // User is not a friend but you have sent him a friend request
     RECEIVED_FRIEND_REQUEST,
 
-    // User is a friend :)
+    // User is a friend :D
     IS_FRIEND;
 
     fun toDescription(): Int {
         return when(this) {
             IS_FRIEND -> R.string.search_friend_description
-            SENT_FRIEND_REQUEST -> R.string.TODO
-            RECEIVED_FRIEND_REQUEST -> R.string.TODO
+            SENT_FRIEND_REQUEST -> R.string.sent_friend_request
+            RECEIVED_FRIEND_REQUEST -> R.string.received_friend_request
             NO_FRIEND_REQUEST -> R.string.search_send_icon
         }
     }

@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import com.xet.R
 import com.xet.databinding.ActivitySignUpBinding
 import com.xet.presentation.ServiceLocator
-import com.xet.presentation.home.HomeActivity
 import com.xet.presentation.login.LoginActivity
 import com.xet.presentation.login.afterTextChanged
 

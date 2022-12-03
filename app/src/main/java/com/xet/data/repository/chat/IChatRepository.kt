@@ -1,7 +1,7 @@
 package com.xet.data.repository.chat
 
-import com.xet.domain.model.Message
 import com.xet.data.Result
+import com.xet.domain.model.Message
 
 interface IChatRepository {
 

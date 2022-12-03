@@ -1,8 +1,6 @@
 package com.xet.data.datasource.chat
 
 import com.xet.domain.model.Message
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class MockChatDataSource: IChatDataSource {
@@ -13,10 +11,6 @@ class MockChatDataSource: IChatDataSource {
         offset: Number,
         limit: Number
     ): List<Message> {
-        withContext(Dispatchers.IO) {
-            Thread.sleep(1_000)
-        }
-
         return listOf(
             Message(
                 id = UUID.randomUUID().toString(),

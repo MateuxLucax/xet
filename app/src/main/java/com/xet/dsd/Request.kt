@@ -6,7 +6,6 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.Socket
 import java.util.*
-import kotlin.collections.HashMap
 
 private const val TAG = "Request"
 
