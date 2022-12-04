@@ -12,15 +12,22 @@ class FriendDataSource : IFriendDataSource {
     )
 
     override suspend fun getFriends(userToken: String): List<Friend> {
-        val request = emptyRequest("get-friends", userToken)
-        return fetchDSD(request) { response ->
+        val friends = fetchDSD(emptyRequest("get-friends", userToken)) { response ->
             if (!response.ok) throw exceptionFrom(response)
-            val friendArray = response.parseJSON(Array<FriendData>::class.java)
-            friendArray.map{
-                val status = Status.OFFLINE
-                Friend(it.id.toString(), it.fullname, it.username, status)
-            }.toList()
+            val array = response.parseJSON(Array<FriendData>::class.java)
+            array.map{ Friend(it.id.toString(), it.fullname, it.username, Status.OFFLINE) }.toList()
         }
+
+        val onlineUsers = fetchDSD(emptyRequest("online-users", userToken)) { response ->
+            if (!response.ok) throw exceptionFrom(response)
+            response.parseJSON(Array<String>::class.java).toSet()
+        }
+
+        for (friend in friends) {
+            friend.status = statusFrom(friend.userId in onlineUsers)
+        }
+
+        return friends
     }
 
     private data class SendInviteRequest(val userId: Long)

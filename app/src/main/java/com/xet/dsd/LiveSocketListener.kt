@@ -1,6 +1,7 @@
 package com.xet.dsd
 
 import android.util.Log
+import java.io.IOException
 import java.net.Socket
 
 private const val TAG = "LiveSocketListener"
@@ -22,6 +23,7 @@ class LiveSocketListener(private val token: String): Thread() {
         this.goOffline = true
     }
 
+    @Throws(IOException::class)
     private fun connectAndListen() {
 
         // first, go online (connect)
@@ -86,12 +88,14 @@ class LiveSocketListener(private val token: String): Thread() {
         }
     }
 
-    // TODO didn't test this yet
-
     override fun run() {
         // Keep reconnecting
         while (!goOffline) {
-            connectAndListen()
+            try {
+                connectAndListen()
+            } catch (e: IOException) {
+                Log.e(TAG, "$e")
+            }
         }
 
         // Go offline

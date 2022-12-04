@@ -23,11 +23,6 @@ class FriendsViewModel(
     private val _friendsResult = MutableLiveData<FriendsResult>()
     val friendsResult: LiveData<FriendsResult> = _friendsResult
 
-    // TODO maybe this could be a MutableLiveData, even if used only internally
-    //  (set observer to update friendsResult on init {})
-    // TODO also if we want to keep the clean arch thing going this would be a repository or model or something
-    private val onlineUserIDs: MutableSet<String> = mutableSetOf()
-
     fun getContacts(userToken: String) {
         viewModelScope.launch {
             val result = useCases.getFriends(userToken)
@@ -37,7 +32,6 @@ class FriendsViewModel(
                     _friendsResult.value = FriendsResult(empty = R.string.friends_empty)
                 } else {
                     _friendsResult.value = FriendsResult(success = result.data)
-                    refreshStatuses(false)
                 }
             } else {
                 _friendsResult.value = FriendsResult(error = R.string.friends_fail)
@@ -46,7 +40,6 @@ class FriendsViewModel(
     }
 
     fun messageHandler(m: String) {
-        Log.v(TAG, "Got live message $m, now handling it")
         _friendsResult.value?.success?.let { friends ->
             try {
                 var doRefresh: Boolean
@@ -54,21 +47,14 @@ class FriendsViewModel(
                     doRefresh = true
                     val type = json["type"].asJsonPrimitive.asString
                     when (type) {
-                        "online-user-list" -> {
-                            Log.i(TAG, "Got a ONLINE USER LIST message")
-                            val ids = json["userIDs"].asJsonArray.map{ id -> id.asJsonPrimitive.asString }
-                            onlineUserIDs.addAll(ids)
-                        }
                         // using find is slower than if the users were in a Map<String, Friend> but whatever
                         "user-online" -> {
-                            Log.i(TAG, "Got a USER ONLINE message")
                             val id = json["userID"].asJsonPrimitive.asString
-                            onlineUserIDs.add(id)
+                            friends.find{ it.userId == id }?.status = Status.ONLINE
                         }
                         "user-offline" -> {
-                            Log.i(TAG, "Got a USER ONLINE message")
                             val id = json["userID"].asJsonPrimitive.asString
-                            onlineUserIDs.remove(id)
+                            friends.find{ it.userId == id }?.status = Status.OFFLINE
                         }
                         else -> {
                             doRefresh = false
@@ -76,7 +62,10 @@ class FriendsViewModel(
                     }
 
                     if (doRefresh) {
-                        refreshStatuses(true)
+                        // This works but idk if it's the right way to do it
+                        _friendsResult.value?.copy().let {
+                            _friendsResult.postValue(it)
+                        }
                     }
 
                 }
@@ -86,21 +75,6 @@ class FriendsViewModel(
 
         }
 
-    }
-
-    private fun refreshStatuses(repaint: Boolean) {
-        _friendsResult.value?.success?.let { friends ->
-            for (friend in friends) {
-                friend.status = statusFrom(friend.userId in onlineUserIDs)
-            }
-        }
-
-        if (repaint) {
-            // This works but idk if it's the right way to do it
-            _friendsResult.value?.copy().let {
-                _friendsResult.postValue(it)
-            }
-        }
     }
 
 }

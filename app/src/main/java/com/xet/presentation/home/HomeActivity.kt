@@ -49,13 +49,9 @@ class HomeActivity(
         val color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
         window.navigationBarColor = color
 
-
-        setTheLiveThread(LiveSocketListener(userToken))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        theLiveThread()?.start()
+        val live = LiveSocketListener(userToken)
+        setTheLiveThread(live)
+        live.start()
     }
 
     override fun onDestroy() {
