@@ -4,6 +4,7 @@ import com.xet.data.Result
 import com.xet.data.datasource.user.IUserDataSource
 import com.xet.domain.model.LoggedUser
 import com.xet.domain.model.User
+import com.xet.presentation.ServiceLocator
 
 class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
 
@@ -22,6 +23,7 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
         return try {
             val result = dataSource.signIn(username, password)
             setLoggedInUser(result)
+            ServiceLocator.setUserToken(result.token)
             Result.Success(result)
         } catch (e: Exception) {
             Result.Error(e)
@@ -53,7 +55,7 @@ class UserRepository(private val dataSource: IUserDataSource): IUserRepository {
         return if (user != null) {
             Result.Success(user)
         } else {
-            Result.Error(Exception("User not set"));
+            Result.Error(Exception("User not set"))
         }
     }
 

@@ -34,8 +34,8 @@ class LiveSocketListener(private val token: String): Thread() {
         // the server is responsible for closing the socket
 
         if (!response.ok) {
-            Log.e(TAG, "Non-ok go-online response: $response");
-            return;
+            Log.e(TAG, "Non-ok go-online response: $response")
+            return
         }
 
         val input = socket.getInputStream()
@@ -49,7 +49,7 @@ class LiveSocketListener(private val token: String): Thread() {
         var messageSize = 0
         while (!goOffline) {
             val c = input.read()
-            if (c == -1) break;
+            if (c == -1) break
 
             if (off == bufsiz) {
                 Log.e(TAG, "message size exceeded bufsiz!") // really shouldn't happen

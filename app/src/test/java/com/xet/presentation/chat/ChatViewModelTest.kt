@@ -39,8 +39,8 @@ class ChatViewModelTest: TestSuite() {
 
     @Before
     fun setUp() = runBlocking {
-        val userRepository = UserRepository(MockTestUserDataSource());
-        val chatRepository = ChatRepository(MockTestChatDataSource());
+        val userRepository = UserRepository(MockTestUserDataSource())
+        val chatRepository = ChatRepository(MockTestChatDataSource())
 
         chatUseCases = ChatUseCases(GetMessagesUseCase(chatRepository))
         userUseCases = UserUseCases(DoLogin(userRepository),
@@ -69,7 +69,7 @@ class ChatViewModelTest: TestSuite() {
         viewModel.initialize(friend)
 
         viewModel.loadMessages()
-        viewModel.getScope().join();
+        viewModel.getScope().join()
 
         assertEquals(viewModel.messagesResult.value?.empty, R.string.chat_error)
     }
@@ -80,7 +80,7 @@ class ChatViewModelTest: TestSuite() {
         viewModel.initialize(friend)
 
         viewModel.loadMessages()
-        viewModel.getScope().join();
+        viewModel.getScope().join()
 
         assertEquals(viewModel.messagesResult.value?.empty, R.string.chat_no_messages)
     }
@@ -91,7 +91,7 @@ class ChatViewModelTest: TestSuite() {
         viewModel.initialize(friend)
 
         viewModel.loadMessages()
-        viewModel.getScope().join();
+        viewModel.getScope().join()
 
         val messages = viewModel.messagesResult.value?.success
         assertTrue(messages?.size!! > 0)

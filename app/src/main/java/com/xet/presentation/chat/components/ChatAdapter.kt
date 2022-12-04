@@ -17,11 +17,11 @@ class ChatAdapter(
 ): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindData(message: Message) {
+        private fun bindData(message: Message) {
             val messageText: TextView = itemView.findViewById(R.id.chatBubbleText)
             val dateText: TextView = itemView.findViewById(R.id.chatBubbleDate)
 
-            messageText.text = message.message
+            messageText.text = message.text
             dateText.text = message.sentAt
         }
 

@@ -12,4 +12,10 @@ interface IChatDataSource {
         limit: Number
     ): List<Message>
 
+    suspend fun sendMessage(
+        user: String,
+        friend: String,
+        message: Message
+    ): Message
+
 }

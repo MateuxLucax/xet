@@ -12,4 +12,10 @@ interface IChatRepository {
         limit: Number
     ): Result<List<Message>>
 
+    suspend fun sendMessage(
+        user: String,
+        friend: String,
+        message: Message
+    ): Result<Message>
+
 }
