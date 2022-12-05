@@ -97,9 +97,7 @@ class SearchDatasourceTest: TestSuite() {
             finally {
                 try {
                     val data = friendDs.updateInvite(user1.userId, user5.token, true)
-                } catch (w: Exception) {
-                    println((w as ErrCodeException))
-                }
+                } catch (w: Exception) {}
 
             }
 
@@ -112,7 +110,7 @@ class SearchDatasourceTest: TestSuite() {
         val ds = SearchDataSource()
         val data = ds.search(users[0].token, "", 1)
         Assert.assertNotNull(data)
-        Assert.assertTrue(data.size > 0)
+        Assert.assertTrue(data.isNotEmpty())
 
         Assert.assertEquals(FriendshipStatus.NO_FRIEND_REQUEST,
                             data.filter { item -> item.userId ==  users[1].userId}[0].friendshipStatus)
@@ -129,5 +127,16 @@ class SearchDatasourceTest: TestSuite() {
 
         Assert.assertEquals(data.filter { item -> item.userId ==  users[4].userId}[0].friendshipStatus,
             FriendshipStatus.IS_FRIEND)
+    }
+
+    @Test
+    fun shouldFilterResultWhenQueryIsNotEmpty() = runBlocking {
+        val ds = SearchDataSource()
+        val data = ds.search(users[0].token, "teste", 1)
+        val filteredData = data.filter { item -> item.username.contains("teste".toRegex()) }
+
+        Assert.assertNotNull(data)
+        Assert.assertTrue(data.isNotEmpty())
+        Assert.assertEquals(filteredData.size, data.size)
     }
 }
