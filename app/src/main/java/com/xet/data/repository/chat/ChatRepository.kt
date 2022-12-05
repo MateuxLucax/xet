@@ -23,4 +23,12 @@ class ChatRepository(
         }
     }
 
+    override suspend fun sendMessage(
+        user: String,
+        friend: String,
+        message: Message
+    ): Result<Message> {
+        TODO("Not yet implemented")
+    }
+
 }

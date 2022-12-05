@@ -96,7 +96,7 @@ class ChatActivity(
         }
 
         chatInput.afterTextChanged {
-            stopAudioRecording();
+            stopAudioRecording()
             if (it.isNotEmpty()) {
                 chatButton.visibility = View.VISIBLE
                 chatAudioBtn.visibility = View.GONE

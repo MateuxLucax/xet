@@ -26,7 +26,7 @@ class SearchDataSource : ISearchDataSource {
         val requestData = SearchRequestData(query, page)
         val request = jsonRequest("search-users", requestData, token)
         return fetchDSD(request) { response ->
-            if (!response.ok) throw exceptionFrom(response);
+            if (!response.ok) throw exceptionFrom(response)
             val responseData = response.parseJSON(Array<SearchUserData>::class.java)
             responseData.map{ user ->
                 val friendshipStatus = friendshipStatusFrom(user.friendshipStatus)

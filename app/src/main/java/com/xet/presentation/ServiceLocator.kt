@@ -47,6 +47,8 @@ object ServiceLocator {
     private val chatDataSource: IChatDataSource = MockChatDataSource()
     private val chatRepository: IChatRepository = ChatRepository(chatDataSource)
 
+    private var userToken: String = ""
+
     private val userUseCases = UserUseCases(
         doLogin = DoLogin(userRepository),
         doLogout = DoLogout(userRepository),
@@ -101,6 +103,14 @@ object ServiceLocator {
 
     fun getChatViewModel(): ChatViewModel {
         return ChatViewModel(chatUseCases, userUseCases)
+    }
+
+    fun setUserToken(userToken: String) {
+        this.userToken = userToken
+    }
+
+    fun getUserToken(): String {
+        return userToken
     }
 
 }

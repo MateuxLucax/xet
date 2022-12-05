@@ -26,7 +26,7 @@ class SearchDatasourceTest: TestSuite() {
         @BeforeClass
         @JvmStatic
         fun setUp() = runBlocking {
-            val userDs = UserDataSource();
+            val userDs = UserDataSource()
             val friendDs = FriendDataSource()
 
             val user1 = UserData("", "Logged User", "logged", "")
@@ -37,7 +37,7 @@ class SearchDatasourceTest: TestSuite() {
 
             var data = ""
             try {
-                var data = userDs.signUp(user1.displayName, user1.username, "12345");
+                var data = userDs.signUp(user1.displayName, user1.username, "12345")
             } catch (ex: Exception) {
             } finally {
                 val data = userDs.signIn(user1.username, "12345")
@@ -46,7 +46,7 @@ class SearchDatasourceTest: TestSuite() {
             }
 
             try {
-                val data = userDs.signUp(user2.displayName, user2.username, "12345");
+                val data = userDs.signUp(user2.displayName, user2.username, "12345")
             } catch (ex: Exception) {
             } finally {
                 val data = userDs.signIn(user2.username, "12345")
@@ -55,7 +55,7 @@ class SearchDatasourceTest: TestSuite() {
             }
 
             try {
-                var data = userDs.signUp(user3.displayName, user3.username, "12345");
+                var data = userDs.signUp(user3.displayName, user3.username, "12345")
             } catch (ex: Exception) {
             } finally {
                 val data = userDs.signIn(user3.username, "12345")
@@ -64,7 +64,7 @@ class SearchDatasourceTest: TestSuite() {
             }
 
             try {
-                var data = userDs.signUp(user4.displayName, user4.username, "12345");
+                var data = userDs.signUp(user4.displayName, user4.username, "12345")
             } catch (ex: Exception) {
             } finally {
                 val data = userDs.signIn(user4.username, "12345")
@@ -73,7 +73,7 @@ class SearchDatasourceTest: TestSuite() {
             }
 
             try {
-                val data = userDs.signUp(user5.displayName, user5.username, "teste123");
+                val data = userDs.signUp(user5.displayName, user5.username, "teste123")
             } catch (ex: Exception) {
             } finally {
                 val data = userDs.signIn(user5.username, "teste123")
