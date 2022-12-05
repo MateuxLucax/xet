@@ -1,9 +1,6 @@
 package com.xet.data.datasource.chat
 
-import com.xet.data.datasource.friend.FriendDataSource
-import com.xet.data.datasource.search.SearchDatasourceTest
 import com.xet.data.datasource.user.UserDataSource
-import com.xet.domain.model.LoggedUser
 import com.xet.domain.model.Message
 import com.xet.dsd.ErrCode
 import com.xet.dsd.ErrCodeException
@@ -15,7 +12,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import java.util.*
 
-class ChatDatasourceTest: TestSuite() {
+class ChatDatasourceSendTest: TestSuite() {
     open class UserData(
         open var userId: String,
         open var displayName: String,
