@@ -9,29 +9,34 @@ import java.util.*
 
 private const val TAG = "Request"
 
+fun jsonRequest(operation: String, body: Any, token: String? = null, headers: List<String>?): Request {
+    headers?.toMutableList()?.add("token $token")
+    return Request(operation, Gson().toJson(body).toByteArray(), headers)
+}
+
 fun jsonRequest(operation: String, body: Any, token: String? = null): Request =
-    Request(operation, Gson().toJson(body).toByteArray(), token)
+    Request(operation, Gson().toJson(body).toByteArray(), listOf("token $token"))
 
 fun emptyRequest(operation: String, token: String? = null): Request =
-    Request(operation, byteArrayOf(), token)
+    Request(operation, byteArrayOf(), listOf("token $token"))
 
 class Request(
-    val operation: String,
-    val body: ByteArray,
-    val token: String? = null
+    private val operation: String,
+    private val body: ByteArray,
+    private val headers: List<String>? = null,
 ) {
     @Throws(IOException::class)
     private fun send(socket: Socket) {
         Log.v(TAG, "send")
 
-        val headers = ArrayList<String>(3)
-        headers.add("operation $operation")
-        headers.add("body-size ${body.size}")
-        if (token != null){
-            headers.add("token $token")
+        val reqHeaders = ArrayList<String>(4)
+        reqHeaders.add("operation $operation")
+        reqHeaders.add("body-size ${body.size}")
+        if (headers != null){
+            reqHeaders.addAll(headers)
         }
 
-        val beforeBody = (headers + listOf("")).joinToString("\n") + "\n"
+        val beforeBody = (reqHeaders + listOf("")).joinToString("\n") + "\n"
 
         val buffer = ByteArrayOutputStream()
         buffer.write(beforeBody.toByteArray())

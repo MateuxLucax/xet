@@ -63,6 +63,7 @@
     <string name="chat_input_btn_text">Icone de representando envio de mensagem</string>
     <string name="chat_no_messages">Vocês ainda não trocaram mensagens. Diga um olá ao seu amigo!</string>
     <string name="chat_error">Não foi possível carregar as mensagens.</string>
+    <string name="chat_send_error">Could\'t send message.</string>
 
     <!-- general -->
     <string name="main_logo">Logo do Xet</string>

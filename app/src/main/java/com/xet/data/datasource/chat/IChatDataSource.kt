@@ -1,5 +1,6 @@
 package com.xet.data.datasource.chat
 
+import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.domain.model.Message
 
 interface IChatDataSource {
@@ -15,7 +16,7 @@ interface IChatDataSource {
     suspend fun sendMessage(
         user: String,
         friend: String,
-        message: Message
+        payload: SendMessagePayload
     ): Message
 
 }

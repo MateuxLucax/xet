@@ -1,39 +1,32 @@
-package com.xet.domain.model
+package com.xet.data.repository.chat.model
 
-import java.time.LocalDateTime
+import com.xet.domain.model.FileType
 
-data class Message(
-    val id: String,
+data class SendMessagePayload(
     val text: String? = null,
     val file: ByteArray? = null,
-    val fileType: FileType?  = null,
-    val sentAt: LocalDateTime,
-    val isMine: Boolean
+    val fileType: FileType? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Message
+        other as SendMessagePayload
 
-        if (id != other.id) return false
         if (text != other.text) return false
         if (file != null) {
             if (other.file == null) return false
             if (!file.contentEquals(other.file)) return false
         } else if (other.file != null) return false
-        if (sentAt != other.sentAt) return false
-        if (isMine != other.isMine) return false
+        if (fileType != other.fileType) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + (text?.hashCode() ?: 0)
+        var result = text?.hashCode() ?: 0
         result = 31 * result + (file?.contentHashCode() ?: 0)
-        result = 31 * result + sentAt.hashCode()
-        result = 31 * result + isMine.hashCode()
+        result = 31 * result + (fileType?.hashCode() ?: 0)
         return result
     }
 }

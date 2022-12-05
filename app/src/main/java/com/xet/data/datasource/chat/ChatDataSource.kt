@@ -1,5 +1,8 @@
 package com.xet.data.datasource.chat
 
+import com.xet.data.Utils
+import com.xet.data.repository.chat.model.SendMessagePayload
+import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
 import com.xet.dsd.exceptionFrom
 import com.xet.dsd.fetchDSD
@@ -27,7 +30,7 @@ class ChatDataSource: IChatDataSource {
     )
 
     private data class SendMessageRequest(
-        val id: Int,
+        val to: Int,
         val textContents: String?,
         val fileReference: String?
     )
@@ -49,8 +52,7 @@ class ChatDataSource: IChatDataSource {
                 val msg = Message(
                     id = message.id.toString(),
                     text = message.textContents,
-                    file = null,
-                    sentAt = message.sentAt,
+                    sentAt = Utils.parseDate(message.sentAt),
                     isMine = message.userId.toString() == user
                 )
 
@@ -69,21 +71,21 @@ class ChatDataSource: IChatDataSource {
 
                 messages[messages.indexOf(it.value)] = Message(
                     id = it.value.id,
-                    text = null,
                     file = response.body,
+                    fileType = FileType.fromExtension(it.key.split(".").last()),
                     sentAt = it.value.sentAt,
                     isMine = it.value.isMine
                 )
             }
         }
 
-        return messages
+        return messages.asReversed()
     }
 
-    override suspend fun sendMessage(user: String, friend: String, message: Message): Message {
+    override suspend fun sendMessage(user: String, friend: String, payload: SendMessagePayload): Message {
         var fileName: String? = null
-        if (message.file != null) {
-            var request = jsonRequest("put-file", message.file, ServiceLocator.getUserToken())
+        if (payload.file != null) {
+            var request = jsonRequest("put-file", payload.file, ServiceLocator.getUserToken(), listOf("file-extension ${payload.fileType?.toExtension()}"))
             fileName = fetchDSD(request) { response ->
                 if (!response.ok) throw exceptionFrom(response)
 
@@ -91,19 +93,20 @@ class ChatDataSource: IChatDataSource {
             }
         }
 
-        val requestData = SendMessageRequest(user.toInt(), message.text, fileName)
-
+        val requestData = SendMessageRequest(friend.toInt(), payload.text, fileName)
         val request = jsonRequest("send-message", requestData, ServiceLocator.getUserToken())
+
         return fetchDSD(request) { response ->
             if (!response.ok) throw exceptionFrom(response)
 
             val responseData = response.parseJSON(MessageData::class.java)
             Message(
                 id = responseData.id.toString(),
-                text = responseData.textContents,
-                file = message.file,
-                sentAt = responseData.sentAt,
-                isMine = responseData.userId.toString() == user
+                text = payload.text,
+                file = payload.file,
+                fileType = payload.fileType,
+                sentAt = Utils.parseDate(responseData.sentAt, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"), // Dunno why it returns in this format
+                isMine = true
             )
         }
     }

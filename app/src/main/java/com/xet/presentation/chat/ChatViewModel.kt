@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
+import com.xet.data.repository.chat.model.SendMessagePayload
+import com.xet.domain.model.Message
 import com.xet.domain.model.User
 import com.xet.domain.usecase.chat.ChatUseCases
 import com.xet.domain.usecase.user.UserUseCases
@@ -32,6 +34,9 @@ class ChatViewModel(
         }
     }
 
+    private val _messages = MutableLiveData<List<Message>>()
+    val messages: LiveData<List<Message>> = _messages
+
     private val _messagesResult = MutableLiveData<MessagesResult>()
     val messagesResult: LiveData<MessagesResult> = _messagesResult
 
@@ -42,10 +47,21 @@ class ChatViewModel(
                 if (result.data.isEmpty()) {
                     _messagesResult.value = MessagesResult(empty = R.string.chat_no_messages)
                 } else {
-                    _messagesResult.value = MessagesResult(success = result.data)
+                    _messages.value = result.data
                 }
             } else {
                 _messagesResult.value = MessagesResult(empty = R.string.chat_error)
+            }
+        }
+    }
+
+    fun sendMessage(payload: SendMessagePayload) {
+        scope =  viewModelScope.launch {
+            val result = chatUseCases.sendMessageUseCase(user.userId, friend.userId, payload)
+            if (result is Result.Success) {
+                _messages.value = listOf(result.data)
+            } else {
+                _messagesResult.value = MessagesResult(empty = R.string.chat_send_error)
             }
         }
     }

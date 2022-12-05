@@ -1,15 +1,12 @@
 package com.xet.presentation
 
+import com.xet.data.datasource.chat.ChatDataSource
 import com.xet.data.datasource.chat.IChatDataSource
-import com.xet.data.datasource.chat.MockChatDataSource
 import com.xet.data.datasource.friend.FriendDataSource
 import com.xet.data.datasource.friend.IFriendDataSource
-import com.xet.data.datasource.friend.MockFriendDataSource
 import com.xet.data.datasource.search.ISearchDataSource
-import com.xet.data.datasource.search.MockSearchDataSource
 import com.xet.data.datasource.search.SearchDataSource
 import com.xet.data.datasource.user.IUserDataSource
-import com.xet.data.datasource.user.MockUserDataSource
 import com.xet.data.datasource.user.UserDataSource
 import com.xet.data.repository.chat.ChatRepository
 import com.xet.data.repository.chat.IChatRepository
@@ -21,6 +18,7 @@ import com.xet.data.repository.user.IUserRepository
 import com.xet.data.repository.user.UserRepository
 import com.xet.domain.usecase.chat.ChatUseCases
 import com.xet.domain.usecase.chat.GetMessagesUseCase
+import com.xet.domain.usecase.chat.SendMessageUseCase
 import com.xet.domain.usecase.friend.*
 import com.xet.domain.usecase.search.GetUsers
 import com.xet.domain.usecase.search.SearchUseCases
@@ -44,7 +42,7 @@ object ServiceLocator {
     private val searchDataSource: ISearchDataSource = SearchDataSource()
     private val searchRepository: ISearchRepository = SearchRepository(searchDataSource)
 
-    private val chatDataSource: IChatDataSource = MockChatDataSource()
+    private val chatDataSource: IChatDataSource = ChatDataSource()
     private val chatRepository: IChatRepository = ChatRepository(chatDataSource)
 
     private var userToken: String = ""
@@ -70,7 +68,8 @@ object ServiceLocator {
     )
 
     private val chatUseCases = ChatUseCases(
-        getMessages = GetMessagesUseCase(chatRepository)
+        getMessages = GetMessagesUseCase(chatRepository),
+        sendMessageUseCase = SendMessageUseCase(chatRepository)
     )
 
     fun getLoginViewModel(): LoginViewModel {

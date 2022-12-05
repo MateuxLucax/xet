@@ -1,6 +1,7 @@
 package com.xet.data.repository.chat
 
 import com.xet.data.Result
+import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.domain.model.Message
 
 interface IChatRepository {
@@ -15,7 +16,7 @@ interface IChatRepository {
     suspend fun sendMessage(
         user: String,
         friend: String,
-        message: Message
+        payload: SendMessagePayload
     ): Result<Message>
 
 }

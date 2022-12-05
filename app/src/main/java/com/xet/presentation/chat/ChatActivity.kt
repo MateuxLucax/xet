@@ -17,16 +17,20 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.color.MaterialColors
 import com.xet.R
+import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.databinding.ActivityChatBinding
+import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
 import com.xet.domain.model.User
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.chat.components.ChatAdapter
+import java.io.File
 import java.io.IOException
 
 const val REQUEST_AUDIO_PERMISSION_CODE = 1
@@ -40,7 +44,7 @@ class ChatActivity(
     private val messages: MutableList<Message> = mutableListOf()
     private var recorder: MediaRecorder? = null
     private var isRecording = false
-    private var audioFile: String? = null
+    private val audioPath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)}/xet/audio.3gp"
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,30 +77,48 @@ class ChatActivity(
             val result = it ?: return@Observer
 
             loading.visibility = View.GONE
-            if (result.empty != null) {
+            if (result.error != null) {
+                Toast.makeText(applicationContext, getString(result.error), Toast.LENGTH_LONG).show()
+            } else if (result.empty != null) {
                 errorMessage.text = getString(result.empty)
-            } else if (result.success != null) {
-                messages.addAll(result.success)
-                adapter.notifyDataSetChanged()
-            } else if (result.error != null) {
-                errorMessage.text = getString(result.error)
             }
+        })
+
+        viewModel.messages.observe(this@ChatActivity, Observer {
+            val result = it ?: return@Observer
+
+            loading.visibility = View.GONE
+            messages.addAll(result)
+            adapter.notifyDataSetChanged()
+            recyclerView.scrollToPosition(messages.size - 1);
         })
 
         loading.visibility = View.VISIBLE
         viewModel.loadMessages()
 
         chatButton.setOnClickListener {
+            if (isRecording) stopAudioRecording()
+
+            loading.visibility = View.VISIBLE
+            viewModel.sendMessage(SendMessagePayload(text = chatInput.text.toString()))
+            chatInput.text?.clear()
+        }
+
+        chatAudioBtn.setOnClickListener {
             if (isRecording) {
                 stopAudioRecording()
-                playAudio()
+                chatAudioBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_outline_mic_none_24))
+
+                loading.visibility = View.VISIBLE
+                viewModel.sendMessage(SendMessagePayload(file = File(audioPath).readBytes(), fileType = FileType.AUDIO))
             } else {
+                chatAudioBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_baseline_stop_24))
                 startAudioRecording()
             }
         }
 
         chatInput.afterTextChanged {
-            stopAudioRecording()
+            if (isRecording) stopAudioRecording()
             if (it.isNotEmpty()) {
                 chatButton.visibility = View.VISIBLE
                 chatAudioBtn.visibility = View.GONE
@@ -165,11 +187,10 @@ class ChatActivity(
                 MediaRecorder()
             }
 
-            audioFile = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)}/xet/audio.3gp"
             recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
             recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            recorder?.setOutputFile(audioFile)
+            recorder?.setOutputFile(audioPath)
 
             try {
                 recorder?.prepare()
@@ -196,7 +217,7 @@ class ChatActivity(
     private fun playAudio() {
         val player = MediaPlayer()
         try {
-            player.setDataSource(audioFile)
+            player.setDataSource(audioPath)
             player.prepare()
             player.start()
         } catch (e: IOException) {

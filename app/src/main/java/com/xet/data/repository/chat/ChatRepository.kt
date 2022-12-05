@@ -2,6 +2,7 @@ package com.xet.data.repository.chat
 
 import com.xet.data.Result
 import com.xet.data.datasource.chat.IChatDataSource
+import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.domain.model.Message
 
 class ChatRepository(
@@ -26,9 +27,15 @@ class ChatRepository(
     override suspend fun sendMessage(
         user: String,
         friend: String,
-        message: Message
+        payload: SendMessagePayload
     ): Result<Message> {
-        TODO("Not yet implemented")
+        return try {
+            val result = dataSource.sendMessage(user, friend, payload)
+
+            Result.Success(result)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
     }
 
 }
