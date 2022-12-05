@@ -32,6 +32,7 @@ import com.xet.presentation.ServiceLocator
 import com.xet.presentation.chat.components.ChatAdapter
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
 
 const val REQUEST_AUDIO_PERMISSION_CODE = 1
 
@@ -44,7 +45,7 @@ class ChatActivity(
     private val messages: MutableList<Message> = mutableListOf()
     private var recorder: MediaRecorder? = null
     private var isRecording = false
-    private val audioPath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)}/xet/audio.3gp"
+    private lateinit var audioPath: String
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +53,7 @@ class ChatActivity(
 
         loadExtras()
         viewModel.initialize(friend)
+        audioPath = "${externalCacheDir?.absolutePath}/last_recorded_audio.3gp"
 
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -106,11 +108,10 @@ class ChatActivity(
 
         chatAudioBtn.setOnClickListener {
             if (isRecording) {
+                viewModel.sendMessage(SendMessagePayload(file = File(audioPath).readBytes(), fileType = FileType.AUDIO))
                 stopAudioRecording()
                 chatAudioBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_outline_mic_none_24))
-
                 loading.visibility = View.VISIBLE
-                viewModel.sendMessage(SendMessagePayload(file = File(audioPath).readBytes(), fileType = FileType.AUDIO))
             } else {
                 chatAudioBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_baseline_stop_24))
                 startAudioRecording()
@@ -212,17 +213,6 @@ class ChatActivity(
         isRecording = false
 
         Log.i("event", "stop_recording")
-    }
-
-    private fun playAudio() {
-        val player = MediaPlayer()
-        try {
-            player.setDataSource(audioPath)
-            player.prepare()
-            player.start()
-        } catch (e: IOException) {
-            Log.e("TAG", "prepare() failed")
-        }
     }
 }
 

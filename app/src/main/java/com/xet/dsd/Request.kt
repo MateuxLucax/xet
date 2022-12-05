@@ -9,9 +9,8 @@ import java.util.*
 
 private const val TAG = "Request"
 
-fun jsonRequest(operation: String, body: Any, token: String? = null, headers: List<String>?): Request {
-    headers?.toMutableList()?.add("token $token")
-    return Request(operation, Gson().toJson(body).toByteArray(), headers)
+fun audioRequest(operation: String, body: ByteArray, headers: List<String>?): Request {
+    return Request(operation, body, headers)
 }
 
 fun jsonRequest(operation: String, body: Any, token: String? = null): Request =

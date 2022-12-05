@@ -4,6 +4,7 @@ import com.xet.data.Utils
 import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
+import com.xet.dsd.audioRequest
 import com.xet.dsd.exceptionFrom
 import com.xet.dsd.fetchDSD
 import com.xet.dsd.jsonRequest
@@ -73,6 +74,7 @@ class ChatDataSource: IChatDataSource {
                     id = it.value.id,
                     file = response.body,
                     fileType = FileType.fromExtension(it.key.split(".").last()),
+                    fileReference = it.key,
                     sentAt = it.value.sentAt,
                     isMine = it.value.isMine
                 )
@@ -85,7 +87,7 @@ class ChatDataSource: IChatDataSource {
     override suspend fun sendMessage(user: String, friend: String, payload: SendMessagePayload): Message {
         var fileName: String? = null
         if (payload.file != null) {
-            var request = jsonRequest("put-file", payload.file, ServiceLocator.getUserToken(), listOf("file-extension ${payload.fileType?.toExtension()}"))
+            var request = audioRequest("put-file", payload.file, listOf("file-extension ${payload.fileType?.toExtension()}", "token ${ServiceLocator.getUserToken()}"))
             fileName = fetchDSD(request) { response ->
                 if (!response.ok) throw exceptionFrom(response)
 
@@ -105,6 +107,7 @@ class ChatDataSource: IChatDataSource {
                 text = payload.text,
                 file = payload.file,
                 fileType = payload.fileType,
+                fileReference = fileName,
                 sentAt = Utils.parseDate(responseData.sentAt, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"), // Dunno why it returns in this format
                 isMine = true
             )

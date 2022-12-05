@@ -7,6 +7,7 @@ data class Message(
     val text: String? = null,
     val file: ByteArray? = null,
     val fileType: FileType?  = null,
+    val fileReference: String? = null,
     val sentAt: LocalDateTime,
     val isMine: Boolean
 ) {

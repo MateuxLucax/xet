@@ -1,21 +1,30 @@
 package com.xet.presentation.chat.components
 
 import android.content.Context
+import android.graphics.text.TextRunShaper
+import android.media.MediaPlayer
+import android.opengl.Visibility
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getLongDateFormat
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.data.Utils
+import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
 import java.text.DateFormat
 import java.time.ZoneId
 import java.util.*
+import kotlin.math.ceil
 
 class ChatAdapter(
     private val messages: List<Message>,
@@ -24,11 +33,24 @@ class ChatAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private fun bindData(message: Message) {
-            val messageText: TextView = itemView.findViewById(R.id.chatBubbleText)
             val dateText: TextView = itemView.findViewById(R.id.chatBubbleDate)
 
-            messageText.text = message.text
+            if (message.text != null) bindText(message)
+            else if (message.file != null) bindFile(message)
+
             dateText.text = Utils.formatDate(message.sentAt)
+        }
+
+        private fun bindText(message: Message) {
+            val messageText: TextView = itemView.findViewById(R.id.chatBubbleText)
+            messageText.text = message.text
+        }
+
+        private fun bindFile(message: Message) {
+            when (message.fileType) {
+                FileType.AUDIO -> BindAudio(message, itemView).bind()
+                else -> { Log.i("chat_adapter", "unsupported file type: ${message.fileType}") }
+            }
         }
 
         fun bindViewRight(message: Message) {
