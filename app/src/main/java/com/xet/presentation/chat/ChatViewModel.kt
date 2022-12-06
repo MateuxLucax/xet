@@ -21,7 +21,6 @@ class ChatViewModel(
 
     private lateinit var friend: User
     private lateinit var user: User
-    private var offset = 0
     private var limit = 20
     private lateinit var scope: Job
 
@@ -40,7 +39,7 @@ class ChatViewModel(
     private val _messagesResult = MutableLiveData<MessagesResult>()
     val messagesResult: LiveData<MessagesResult> = _messagesResult
 
-    fun loadMessages() {
+    fun loadMessages(offset: Number) {
        scope =  viewModelScope.launch {
             val result = chatUseCases.getMessages(user.userId, friend.userId, offset, limit)
             if (result is Result.Success) {
@@ -60,6 +59,7 @@ class ChatViewModel(
             val result = chatUseCases.sendMessageUseCase(user.userId, friend.userId, payload)
             if (result is Result.Success) {
                 _messages.value = listOf(result.data)
+                _messagesResult.value = MessagesResult()
             } else {
                 _messagesResult.value = MessagesResult(empty = R.string.chat_send_error)
             }

@@ -10,7 +10,7 @@ import java.util.*
 private const val TAG = "Request"
 
 fun audioRequest(operation: String, body: ByteArray, headers: List<String>?): Request {
-    return Request(operation, body, headers)
+    return Request(operation, Gson().toJson(body).toByteArray(), headers)
 }
 
 fun jsonRequest(operation: String, body: Any, token: String? = null): Request =

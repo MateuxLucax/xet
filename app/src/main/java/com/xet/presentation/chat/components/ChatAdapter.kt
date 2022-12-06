@@ -1,19 +1,11 @@
 package com.xet.presentation.chat.components
 
 import android.content.Context
-import android.graphics.text.TextRunShaper
-import android.media.MediaPlayer
-import android.opengl.Visibility
-import android.text.format.DateFormat.getDateFormat
-import android.text.format.DateFormat.getLongDateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
@@ -21,14 +13,11 @@ import com.xet.R
 import com.xet.data.Utils
 import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
-import java.text.DateFormat
-import java.time.ZoneId
-import java.util.*
-import kotlin.math.ceil
 
 class ChatAdapter(
     private val messages: List<Message>,
-    private val context: Context
+    private val context: Context,
+    private val loadMoreCallback: ((Number)->Unit)
 ): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -70,6 +59,8 @@ class ChatAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//        if ((position >= itemCount - 1)) loadMoreCallback(messages.last().id.toLong())
+
         val message = messages[position]
 
         if (message.isMine) {

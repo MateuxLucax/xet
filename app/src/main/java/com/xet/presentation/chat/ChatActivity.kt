@@ -5,11 +5,9 @@ import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -31,8 +29,7 @@ import com.xet.domain.model.User
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.chat.components.ChatAdapter
 import java.io.File
-import java.io.IOException
-import java.nio.file.Files
+
 
 const val REQUEST_AUDIO_PERMISSION_CODE = 1
 
@@ -62,7 +59,7 @@ class ChatActivity(
         val chatAudioBtn = binding.chatAudioMessageBtn
         val chatButton = binding.chatMessageBtn
         val chatTitle = binding.chatHeaderTitle
-        val loading = binding.searchListLoading
+        var loading = binding.searchListLoading
         val errorMessage = binding.chatErrorMessage
         val recyclerView = binding.chatRecyclerView
 
@@ -71,7 +68,7 @@ class ChatActivity(
             onBackPressedDispatcher.onBackPressed()
         }
 
-        val adapter = ChatAdapter(messages, this)
+        val adapter = ChatAdapter(messages, this, viewModel::loadMessages)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
 
@@ -83,6 +80,8 @@ class ChatActivity(
                 Toast.makeText(applicationContext, getString(result.error), Toast.LENGTH_LONG).show()
             } else if (result.empty != null) {
                 errorMessage.text = getString(result.empty)
+            } else {
+                errorMessage.text = ""
             }
         })
 
@@ -92,11 +91,11 @@ class ChatActivity(
             loading.visibility = View.GONE
             messages.addAll(result)
             adapter.notifyDataSetChanged()
-            recyclerView.scrollToPosition(messages.size - 1);
+            recyclerView.scrollToPosition(messages.size - 1)
         })
 
         loading.visibility = View.VISIBLE
-        viewModel.loadMessages()
+        viewModel.loadMessages(0)
 
         chatButton.setOnClickListener {
             if (isRecording) stopAudioRecording()
@@ -108,8 +107,8 @@ class ChatActivity(
 
         chatAudioBtn.setOnClickListener {
             if (isRecording) {
-                viewModel.sendMessage(SendMessagePayload(file = File(audioPath).readBytes(), fileType = FileType.AUDIO))
                 stopAudioRecording()
+                viewModel.sendMessage(SendMessagePayload(file = File(audioPath).readBytes(), fileType = FileType.AUDIO))
                 chatAudioBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_outline_mic_none_24))
                 loading.visibility = View.VISIBLE
             } else {

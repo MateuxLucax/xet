@@ -5,12 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.xet.R
 import com.xet.data.Result
 import com.xet.domain.model.Status
-import com.xet.domain.model.statusFrom
 import com.xet.domain.usecase.friend.FriendUseCases
 import kotlinx.coroutines.launch
 

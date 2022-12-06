@@ -81,7 +81,7 @@ class ChatDataSource: IChatDataSource {
             }
         }
 
-        return messages.asReversed()
+        return messages
     }
 
     override suspend fun sendMessage(user: String, friend: String, payload: SendMessagePayload): Message {

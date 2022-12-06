@@ -1,7 +1,6 @@
 package com.xet.presentation.chat.components
 
 import android.media.MediaPlayer
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -15,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.domain.model.Message
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 class BindAudio(
     private val message: Message,
-    itemView: View
-): RecyclerView.ViewHolder(itemView) {
+    private val itemView: View
+) {
 
     private val text: TextView = itemView.findViewById(R.id.chatBubbleText)
     private val container: LinearLayout = itemView.findViewById(R.id.chatBubbleAudioContainer)
@@ -73,14 +74,15 @@ class BindAudio(
                 val outputFile = File(path)
 
                 if (outputFile.isFile && outputFile.canRead()) {
-                    player.setDataSource(path)
+                    player.setDataSource(FileInputStream(outputFile).fd)
                     player.prepare()
                     player.setVolume(0.5f, 0.5f)
                     player.isLooping = false
                     player.start()
                 } else {
-                    outputFile.writeBytes(message.file)
-                    play()
+                    val fos = FileOutputStream(path)
+                    fos.write(message.file)
+                    fos.close()
                 }
             }
         } catch (e: Exception) {
@@ -93,5 +95,6 @@ class BindAudio(
         seekbar.progress = 0
         player.stop()
         player.release()
+        player.reset()
     }
 }
