@@ -67,6 +67,7 @@
     <string name="chat_no_messages">You guys haven\'t exchanged messages yet. Go on and say hello!</string>
     <string name="chat_error">Could\'t load messages.</string>
     <string name="chat_send_error">Could\'t send message.</string>
+    <string name="chat_bubble_audio_btn_desc">Icon to interact with audio</string>
 
     <!-- general -->
     <string name="main_logo">Xet logo</string>

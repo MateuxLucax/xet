@@ -64,6 +64,7 @@
     <string name="chat_no_messages">Vocês ainda não trocaram mensagens. Diga um olá ao seu amigo!</string>
     <string name="chat_error">Não foi possível carregar as mensagens.</string>
     <string name="chat_send_error">Could\'t send message.</string>
+    <string name="chat_bubble_audio_btn_desc">Icone representando a interação com arquivo de áudio</string>
 
     <!-- general -->
     <string name="main_logo">Logo do Xet</string>

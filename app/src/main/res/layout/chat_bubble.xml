@@ -24,11 +24,11 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/chatMessageBtn"
+            android:id="@+id/chatMessageBtnAudio"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:contentDescription="icon to interact with audio"
+            android:contentDescription="@string/chat_bubble_audio_btn_desc"
             android:src="@drawable/ic_baseline_play_arrow_24" />
 
         <LinearLayout

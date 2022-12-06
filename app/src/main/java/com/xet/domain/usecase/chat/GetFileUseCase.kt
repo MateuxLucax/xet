@@ -2,7 +2,6 @@ package com.xet.domain.usecase.chat
 
 import com.xet.data.Result
 import com.xet.data.repository.chat.IChatRepository
-import com.xet.domain.model.Message
 
 class GetFileUseCase(
     private val repository: IChatRepository

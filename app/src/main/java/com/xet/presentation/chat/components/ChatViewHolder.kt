@@ -13,7 +13,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
 import com.xet.data.Utils
-import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
 import java.io.File
 import java.io.FileInputStream
@@ -24,10 +23,10 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val dateText: TextView = itemView.findViewById(R.id.chatBubbleDate)
     private val text: TextView = itemView.findViewById(R.id.chatBubbleText)
     private val container: LinearLayout = itemView.findViewById(R.id.chatBubbleAudioContainer)
-    private val btn: ImageButton = itemView.findViewById(R.id.chatMessageBtn)
+    private val btn: ImageButton = itemView.findViewById(R.id.chatMessageBtnAudio)
     private val seekbar: SeekBar = itemView.findViewById(R.id.audioSeekbar)
     private val player = MediaPlayer()
-    private lateinit var runnable: Runnable
+    private var handler: Handler? = null
 
     fun bind(message: Message) {
         if (message.isMine) {
@@ -58,35 +57,30 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun bindFile(message: Message) {
         btn.setOnClickListener {
-            btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, if (player.isPlaying) R.drawable.ic_baseline_stop_24 else R.drawable.ic_baseline_play_arrow_24))
-
             if (player.isPlaying) {
                 stop()
+                btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_baseline_play_arrow_24))
             } else {
                 play(message)
+                btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_baseline_stop_24))
             }
         }
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    player.seekTo(progress)
+                    seekbar.progress = progress
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                if (player != null && player.isPlaying) {
+                if (player.isPlaying) {
                     player.seekTo(seekBar.progress)
                 }
             }
         })
-
-        runnable = Runnable {
-            seekbar.progress = player.currentPosition
-            Handler(Looper.getMainLooper()).postDelayed(runnable, 1000)
-        }
     }
 
     private fun play(message: Message) {
@@ -100,14 +94,16 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 if (outputFile.isFile && outputFile.canRead()) {
                     player.setDataSource(FileInputStream(outputFile).fd)
                     player.prepare()
-                    // TODO: test volume?
-//                    player.setVolume(0.5f, 0.5f)
                     player.isLooping = false
+                    seekbar.max = player.duration
                     player.start()
+                    updateSeekbar()
+                    player.setOnCompletionListener { stop() }
                 } else {
                     val fos = FileOutputStream(path)
                     fos.write(message.file)
                     fos.close()
+                    play(message)
                 }
             }
         } catch (e: Exception) {
@@ -115,11 +111,18 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
+    private fun updateSeekbar() {
+        seekbar.progress = player.currentPosition
+
+        handler = Handler(Looper.getMainLooper())
+        this.handler?.postDelayed({ updateSeekbar() }, 1000)
+    }
+
     private fun stop() {
+        handler?.removeCallbacksAndMessages(null)
         btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_baseline_play_arrow_24))
         seekbar.progress = 0
-        player.stop()
-        player.release()
+        seekbar.max = 1
         player.reset()
     }
 }
