@@ -69,7 +69,7 @@ class ChatActivity(
             onBackPressedDispatcher.onBackPressed()
         }
 
-        val adapter = ChatAdapter(messages, this, viewModel::loadMessages)
+        val adapter = ChatAdapter(messages, this, viewModel::paginateMessages)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
 
@@ -91,10 +91,18 @@ class ChatActivity(
 
             loading.visibility = View.GONE
             for (message in result) {
-                if (!messages.contains(message)) messages.add(message)
+                if (!messages.contains(message)) {
+                    messages.add(result.indexOf(message), message)
+                    adapter.notifyItemInserted(messages.indexOf(message))
+                }
             }
-            adapter.notifyDataSetChanged()
-            recyclerView.scrollToPosition(messages.size - 1)
+        })
+
+        viewModel.newMessageReceived.observe(this@ChatActivity, Observer {
+            val result = it ?: return@Observer
+            if (result) {
+                recyclerView.scrollToPosition(messages.size - 1)
+            }
         })
 
         loading.visibility = View.VISIBLE
@@ -217,6 +225,7 @@ class ChatActivity(
             Log.i("event", "start_recording")
         } else {
             requestPermissions()
+            binding.chatAudioMessageBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_outline_mic_none_24))
         }
     }
 

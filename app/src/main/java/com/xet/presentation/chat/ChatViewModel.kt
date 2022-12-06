@@ -28,6 +28,8 @@ class ChatViewModel(
     private lateinit var user: User
     private var limit = 20
     private lateinit var scope: Job
+    private var loading = false
+    private var needPagination = false
 
     fun initialize(friend: User) {
         this.friend = friend
@@ -38,25 +40,39 @@ class ChatViewModel(
         }
     }
 
+    private val _newMessageReceived = MutableLiveData<Boolean>()
+    val newMessageReceived: LiveData<Boolean> = _newMessageReceived
+
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
 
     private val _messagesResult = MutableLiveData<MessagesResult>()
     val messagesResult: LiveData<MessagesResult> = _messagesResult
 
+    fun paginateMessages(offset: Number) {
+        val messages = _messages.value
+        if (messages != null && messages.size >= limit && !loading && needPagination) {
+            loadMessages(offset.toInt() - 1)
+        }
+    }
+
     fun loadMessages(offset: Number) {
        scope =  viewModelScope.launch {
+           loading = true
+           val currentMessages = _messages.value
             val result = chatUseCases.getMessages(user.userId, friend.userId, offset, limit)
             if (result is Result.Success) {
-                if (result.data.isEmpty()) {
+                if (result.data.isEmpty() && (currentMessages != null && currentMessages.isEmpty())) {
                     _messagesResult.value = MessagesResult(empty = R.string.chat_no_messages)
                 } else {
-                    _messages.value = _messages.value?.plus(result.data) ?: result.data
+                    _messages.value = if (currentMessages != null) result.data.plus(currentMessages) else result.data
+                    needPagination = result.data.isNotEmpty()
                 }
             } else {
                 _messagesResult.value = MessagesResult(empty = R.string.chat_error)
             }
-        }
+           loading = false
+       }
     }
 
     fun sendMessage(payload: SendMessagePayload) {
@@ -65,6 +81,7 @@ class ChatViewModel(
             if (result is Result.Success) {
                 _messages.value = _messages.value?.plus(result.data) ?: listOf(result.data)
                 _messagesResult.value = MessagesResult()
+                _newMessageReceived.value = true
             } else {
                 _messagesResult.value = MessagesResult(empty = R.string.chat_send_error)
             }
@@ -91,6 +108,7 @@ class ChatViewModel(
                                 )
 
                                 _messages.value = _messages.value?.plus(message) ?: listOf(message)
+                                _newMessageReceived.value = true
                             }
                         }
                     } else {
@@ -103,6 +121,7 @@ class ChatViewModel(
 
                         scope =  viewModelScope.launch {
                             _messages.value = _messages.value?.plus(message) ?: listOf(message)
+                            _newMessageReceived.value = true
                         }
                     }
                 }

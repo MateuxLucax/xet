@@ -12,16 +12,16 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
+import com.xet.data.Utils
+import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-class BindAudio(
-    private val message: Message,
-    private val itemView: View
-) {
+class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    private val dateText: TextView = itemView.findViewById(R.id.chatBubbleDate)
     private val text: TextView = itemView.findViewById(R.id.chatBubbleText)
     private val container: LinearLayout = itemView.findViewById(R.id.chatBubbleAudioContainer)
     private val btn: ImageButton = itemView.findViewById(R.id.chatMessageBtn)
@@ -29,17 +29,41 @@ class BindAudio(
     private val player = MediaPlayer()
     private lateinit var runnable: Runnable
 
-    fun bind() {
-        text.visibility = View.GONE
-        container.visibility = View.VISIBLE
+    fun bind(message: Message) {
+        if (message.isMine) {
+            itemView.background = AppCompatResources.getDrawable(itemView.context, R.drawable.chat_bubble_right)
+            itemView.margin(left = 48F, right = 0F)
+        } else {
+            itemView.background = AppCompatResources.getDrawable(itemView.context, R.drawable.chat_bubble_left)
+            itemView.margin(left = 0F, right = 48F)
+        }
 
+        if (message.text != null) {
+            container.visibility = View.GONE
+            text.visibility = View.VISIBLE
+            bindText(message)
+        } else {
+            container.visibility = View.VISIBLE
+            text.visibility = View.GONE
+            bindFile(message)
+        }
+
+        dateText.text = Utils.formatDate(message.sentAt)
+    }
+
+    private fun bindText(message: Message) {
+        val messageText: TextView = itemView.findViewById(R.id.chatBubbleText)
+        messageText.text = message.text
+    }
+
+    private fun bindFile(message: Message) {
         btn.setOnClickListener {
             btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, if (player.isPlaying) R.drawable.ic_baseline_stop_24 else R.drawable.ic_baseline_play_arrow_24))
 
             if (player.isPlaying) {
                 stop()
             } else {
-                play()
+                play(message)
             }
         }
 
@@ -62,10 +86,10 @@ class BindAudio(
         runnable = Runnable {
             seekbar.progress = player.currentPosition
             Handler(Looper.getMainLooper()).postDelayed(runnable, 1000)
-         }
+        }
     }
 
-    private fun play() {
+    private fun play(message: Message) {
         try {
             if (player.isPlaying) {
                 stop()
@@ -76,7 +100,8 @@ class BindAudio(
                 if (outputFile.isFile && outputFile.canRead()) {
                     player.setDataSource(FileInputStream(outputFile).fd)
                     player.prepare()
-                    player.setVolume(0.5f, 0.5f)
+                    // TODO: test volume?
+//                    player.setVolume(0.5f, 0.5f)
                     player.isLooping = false
                     player.start()
                 } else {
