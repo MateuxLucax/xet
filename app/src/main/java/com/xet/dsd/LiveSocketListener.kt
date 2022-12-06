@@ -8,15 +8,15 @@ private const val TAG = "LiveSocketListener"
 
 class LiveSocketListener(private val token: String): Thread() {
 
-    private var handler: ((String) -> Unit)? = null
+    private var handlers: MutableList<((String) -> Unit)> = mutableListOf()
     private var goOffline: Boolean = false
 
     fun attachHandler(handler: (String) -> Unit) {
-        this.handler = handler
+        this.handlers.add(handler)
     }
 
-    fun detachHandler() {
-        this.handler = null
+    fun detachHandler(handler: (String) -> Unit) {
+        this.handlers.drop(this.handlers.indexOf(handler))
     }
 
     fun goOffline() {
@@ -78,7 +78,7 @@ class LiveSocketListener(private val token: String): Thread() {
                     if (isPing) {
                         output.write("pong".toByteArray())
                     } else {
-                        handler?.invoke(message)
+                        handlers.forEach{ handler -> handler.invoke(message) }
                     }
 
                     readingSize = true

@@ -67,4 +67,8 @@ class MockChatDataSource: IChatDataSource {
         )
     }
 
+    override suspend fun getFile(fileReference: String): ByteArray {
+        TODO("Not yet implemented")
+    }
+
 }

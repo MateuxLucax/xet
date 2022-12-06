@@ -13,10 +13,14 @@ interface IChatDataSource {
         limit: Number
     ): List<Message>
 
+    @Throws(Exception::class)
     suspend fun sendMessage(
         user: String,
         friend: String,
         payload: SendMessagePayload
     ): Message
+
+    @Throws(Exception::class)
+    suspend fun getFile(fileReference: String): ByteArray
 
 }

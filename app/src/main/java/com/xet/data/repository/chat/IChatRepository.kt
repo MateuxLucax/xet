@@ -19,4 +19,6 @@ interface IChatRepository {
         payload: SendMessagePayload
     ): Result<Message>
 
+    suspend fun getFile(fileReference: String): Result<ByteArray>
+
 }

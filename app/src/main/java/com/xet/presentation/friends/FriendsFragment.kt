@@ -14,8 +14,6 @@ import com.xet.presentation.friends.components.FriendsAdapter
 
 private const val USER_TOKEN = "user_token"
 
-private const val TAG = "FriendsFragment"
-
 class ContactsFragment(
     private var viewModel: FriendsViewModel = ServiceLocator.getContactsViewModel()
 ) : Fragment() {
@@ -30,14 +28,13 @@ class ContactsFragment(
     }
 
     override fun onStart() {
-        super.onStart()
         theLiveThread()?.attachHandler(viewModel::messageHandler)
+        super.onStart()
     }
 
     override fun onStop() {
+        theLiveThread()?.detachHandler(viewModel::messageHandler)
         super.onStop()
-        // TODO test
-        theLiveThread()?.detachHandler()
     }
 
     override fun onCreateView(

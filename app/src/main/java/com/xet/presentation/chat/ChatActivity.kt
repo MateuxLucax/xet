@@ -26,6 +26,7 @@ import com.xet.databinding.ActivityChatBinding
 import com.xet.domain.model.FileType
 import com.xet.domain.model.Message
 import com.xet.domain.model.User
+import com.xet.dsd.theLiveThread
 import com.xet.presentation.ServiceLocator
 import com.xet.presentation.chat.components.ChatAdapter
 import java.io.File
@@ -89,7 +90,9 @@ class ChatActivity(
             val result = it ?: return@Observer
 
             loading.visibility = View.GONE
-            messages.addAll(result)
+            for (message in result) {
+                if (!messages.contains(message)) messages.add(message)
+            }
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
         })
@@ -131,6 +134,17 @@ class ChatActivity(
         val color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
         window.navigationBarColor = color
     }
+
+    override fun onStart() {
+        super.onStart()
+        theLiveThread()?.attachHandler(viewModel::messageHandler)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        theLiveThread()?.detachHandler(viewModel::messageHandler)
+    }
+
 
     private fun loadExtras() {
         val bundle = intent.extras

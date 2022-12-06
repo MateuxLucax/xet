@@ -38,4 +38,14 @@ class ChatRepository(
         }
     }
 
+    override suspend fun getFile(fileReference: String): Result<ByteArray> {
+        return try {
+            val result = dataSource.getFile(fileReference)
+
+            Result.Success(result)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
 }

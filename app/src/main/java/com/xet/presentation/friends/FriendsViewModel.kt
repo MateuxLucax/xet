@@ -43,8 +43,7 @@ class FriendsViewModel(
                 var doRefresh: Boolean
                 JsonParser.parseString(m)?.asJsonObject?.let { json ->
                     doRefresh = true
-                    val type = json["type"].asJsonPrimitive.asString
-                    when (type) {
+                    when (json["type"].asJsonPrimitive.asString) {
                         // using find is slower than if the users were in a Map<String, Friend> but whatever
                         "user-online" -> {
                             val id = json["userID"].asJsonPrimitive.asString
@@ -65,14 +64,11 @@ class FriendsViewModel(
                             _friendsResult.postValue(it)
                         }
                     }
-
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Exception when parsing JSON message: $e")
             }
-
         }
-
     }
 
 }

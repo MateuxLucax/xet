@@ -17,6 +17,7 @@ import com.xet.data.repository.search.SearchRepository
 import com.xet.data.repository.user.IUserRepository
 import com.xet.data.repository.user.UserRepository
 import com.xet.domain.usecase.chat.ChatUseCases
+import com.xet.domain.usecase.chat.GetFileUseCase
 import com.xet.domain.usecase.chat.GetMessagesUseCase
 import com.xet.domain.usecase.chat.SendMessageUseCase
 import com.xet.domain.usecase.friend.*
@@ -69,7 +70,8 @@ object ServiceLocator {
 
     private val chatUseCases = ChatUseCases(
         getMessages = GetMessagesUseCase(chatRepository),
-        sendMessageUseCase = SendMessageUseCase(chatRepository)
+        sendMessageUseCase = SendMessageUseCase(chatRepository),
+        getFileUseCase = GetFileUseCase(chatRepository)
     )
 
     fun getLoginViewModel(): LoginViewModel {

@@ -81,7 +81,7 @@ class ChatDataSource: IChatDataSource {
             }
         }
 
-        return messages
+        return messages.asReversed()
     }
 
     override suspend fun sendMessage(user: String, friend: String, payload: SendMessagePayload): Message {
@@ -111,6 +111,15 @@ class ChatDataSource: IChatDataSource {
                 sentAt = Utils.parseDate(responseData.sentAt, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"), // Dunno why it returns in this format
                 isMine = true
             )
+        }
+    }
+
+    override suspend fun getFile(fileReference: String): ByteArray {
+        val request = jsonRequest("get-file", GetFileRequest(fileReference), ServiceLocator.getUserToken())
+        return fetchDSD(request) { response ->
+            if (!response.ok) throw exceptionFrom(response)
+
+            response.body
         }
     }
 
