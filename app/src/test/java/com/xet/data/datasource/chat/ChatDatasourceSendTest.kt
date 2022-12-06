@@ -1,6 +1,7 @@
 package com.xet.data.datasource.chat
 
 import com.xet.data.datasource.user.UserDataSource
+import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.domain.model.Message
 import com.xet.dsd.ErrCode
 import com.xet.dsd.ErrCodeException
@@ -55,11 +56,8 @@ class ChatDatasourceSendTest: TestSuite() {
         ServiceLocator.setUserToken("") // Remove auth token
 
         try {
-            ds.sendMessage(users[0].userId, users[1].userId,  Message(
-                id = UUID.randomUUID().toString(),
+            ds.sendMessage(users[0].userId, users[1].userId,  SendMessagePayload(
                 text = "Olá amigo",
-                sentAt = "2022-02-15 13:03:02",
-                isMine = true,
                 file = null
             ))
             Assert.assertTrue(false)
@@ -74,11 +72,8 @@ class ChatDatasourceSendTest: TestSuite() {
         ServiceLocator.setUserToken(users[0].token)
 
         try {
-            ds.sendMessage(users[0].userId, "-1",  Message(
-                id = UUID.randomUUID().toString(),
+            ds.sendMessage(users[0].userId, "-1", SendMessagePayload(
                 text = "Olá amigo",
-                sentAt = "2022-02-15 13:03:02",
-                isMine = true,
                 file = null
             ))
             Assert.assertTrue(false)
@@ -94,13 +89,11 @@ class ChatDatasourceSendTest: TestSuite() {
         val messageContent: String = "Some too long message to be repeated 1000 times".repeat(1000)
 
         try {
-            ds.sendMessage(users[0].userId, users[1].userId,  Message(
-                id = UUID.randomUUID().toString(),
+            ds.sendMessage(users[0].userId, users[1].userId, SendMessagePayload(
                 text = messageContent,
-                sentAt = "2022-02-15 13:03:02",
-                isMine = true,
                 file = null
-            ))
+            )
+            )
             Assert.assertTrue(false)
         } catch (ex: Exception) {
             Assert.assertEquals(ErrCode.MALFORMED_REQUEST, (ex as ErrCodeException).code.resource)
@@ -113,11 +106,8 @@ class ChatDatasourceSendTest: TestSuite() {
         ServiceLocator.setUserToken(users[0].token)
 
         try {
-            val data = ds.sendMessage(users[0].userId, users[1].userId,  Message(
-                id = UUID.randomUUID().toString(),
+            val data = ds.sendMessage(users[0].userId, users[1].userId, SendMessagePayload(
                 text = "Olá amigo.",
-                sentAt = "2022-02-15 13:03:02",
-                isMine = true,
                 file = null
             ))
             Assert.assertNotNull(data)

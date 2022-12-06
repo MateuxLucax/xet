@@ -9,7 +9,9 @@ import com.xet.data.repository.chat.ChatRepository
 import com.xet.data.repository.user.UserRepository
 import com.xet.domain.model.User
 import com.xet.domain.usecase.chat.ChatUseCases
+import com.xet.domain.usecase.chat.GetFileUseCase
 import com.xet.domain.usecase.chat.GetMessagesUseCase
+import com.xet.domain.usecase.chat.SendMessageUseCase
 import com.xet.domain.usecase.user.*
 import com.xet.utils.MainCoroutineRule
 import junit.framework.TestSuite
@@ -42,13 +44,20 @@ class ChatViewModelTest: TestSuite() {
         val userRepository = UserRepository(MockTestUserDataSource())
         val chatRepository = ChatRepository(MockTestChatDataSource())
 
-        chatUseCases = ChatUseCases(GetMessagesUseCase(chatRepository))
-        userUseCases = UserUseCases(DoLogin(userRepository),
-            DoLogout(userRepository),
-            GetLoggedInUser(userRepository),
-            DoSignUp(userRepository),
-            IsUserLoggedIn(userRepository),
-            DoUpdateProfile(userRepository))
+        chatUseCases = ChatUseCases(
+            getMessages =  GetMessagesUseCase(chatRepository),
+            sendMessageUseCase = SendMessageUseCase(chatRepository),
+            getFileUseCase = GetFileUseCase(chatRepository)
+        )
+
+        userUseCases = UserUseCases(
+            doLogin = DoLogin(userRepository),
+            doLogout = DoLogout(userRepository),
+            loggedInUser = GetLoggedInUser(userRepository),
+            doSignUp = DoSignUp(userRepository),
+            isLoggedInUser = IsUserLoggedIn(userRepository),
+            doUpdateProfile = DoUpdateProfile(userRepository)
+        )
 
         userUseCases.doLogin.invoke("me", "thatisme")
         viewModel = ChatViewModel(chatUseCases, userUseCases)
@@ -68,7 +77,7 @@ class ChatViewModelTest: TestSuite() {
         val friend = User("unknownid", "Unknown", "unknown")
         viewModel.initialize(friend)
 
-        viewModel.loadMessages()
+        viewModel.loadMessages(0)
         viewModel.getScope().join()
 
         assertEquals(viewModel.messagesResult.value?.empty, R.string.chat_error)
@@ -79,7 +88,7 @@ class ChatViewModelTest: TestSuite() {
         val friend = User("newfriend", "Dude", "dude")
         viewModel.initialize(friend)
 
-        viewModel.loadMessages()
+        viewModel.loadMessages(0)
         viewModel.getScope().join()
 
         assertEquals(viewModel.messagesResult.value?.empty, R.string.chat_no_messages)
@@ -90,10 +99,10 @@ class ChatViewModelTest: TestSuite() {
         val friend = User(UUID.randomUUID().toString(), "Dude", "dude")
         viewModel.initialize(friend)
 
-        viewModel.loadMessages()
+        viewModel.loadMessages(0)
         viewModel.getScope().join()
 
-        val messages = viewModel.messagesResult.value?.success
-        assertTrue(messages?.size!! > 0)
+        val messages = viewModel.messages.value
+        messages?.isNotEmpty()?.let { assertTrue(it) }
     }
 }

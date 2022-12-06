@@ -62,7 +62,7 @@ class ChatViewModel(
            val currentMessages = _messages.value
             val result = chatUseCases.getMessages(user.userId, friend.userId, offset, limit)
             if (result is Result.Success) {
-                if (result.data.isEmpty() && (currentMessages != null && currentMessages.isEmpty())) {
+                if (result.data.isEmpty() && (currentMessages == null || currentMessages.isEmpty())) {
                     _messagesResult.value = MessagesResult(empty = R.string.chat_no_messages)
                 } else {
                     _messages.value = if (currentMessages != null) result.data.plus(currentMessages) else result.data

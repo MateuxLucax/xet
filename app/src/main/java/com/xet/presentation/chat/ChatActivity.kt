@@ -60,7 +60,7 @@ class ChatActivity(
         val chatAudioBtn = binding.chatAudioMessageBtn
         val chatButton = binding.chatMessageBtn
         val chatTitle = binding.chatHeaderTitle
-        var loading = binding.searchListLoading
+        val loading = binding.searchListLoading
         val errorMessage = binding.chatErrorMessage
         val recyclerView = binding.chatRecyclerView
 
