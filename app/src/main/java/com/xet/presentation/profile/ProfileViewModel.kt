@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
+import com.xet.domain.model.FriendshipStatus
 import com.xet.domain.model.LoggedUser
 import com.xet.domain.usecase.friend.FriendUseCases
 import com.xet.domain.usecase.user.UserUseCases
@@ -57,10 +58,11 @@ class ProfileViewModel(
          val result = friendUseCases.getInvites(user)
 
          if (result is Result.Success) {
-            if (result.data.isEmpty()) {
+            val receivedInvites = result.data.filter { it.friendshipStatus == FriendshipStatus.SENT_FRIEND_REQUEST }
+            if (receivedInvites.isEmpty()) {
                _invitesResult.value = InvitesResult(empty = R.string.profile_invites_empty)
             } else {
-               _invitesResult.value = InvitesResult(success = result.data.toMutableList())
+               _invitesResult.value = InvitesResult(success = receivedInvites.toMutableList())
             }
          } else if (result is Result.Error) {
             _invitesResult.value = InvitesResult(error = R.string.profile_invites_error)
