@@ -108,7 +108,7 @@ class ChatDataSource: IChatDataSource {
                 file = payload.file,
                 fileType = payload.fileType,
                 fileReference = fileName,
-                sentAt = Utils.parseDate(responseData.sentAt, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"), // Dunno why it returns in this format
+                sentAt = Utils.parseDate(responseData.sentAt.substring(0, 19), "yyyy-MM-dd'T'HH:mm:ss"), // Dunno why it returns in this format
                 isMine = true
             )
         }

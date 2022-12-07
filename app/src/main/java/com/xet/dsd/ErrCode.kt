@@ -35,5 +35,7 @@ enum class ErrCode(@StringRes val resource: Int) {
     THEY_ALREADY_SENT_FRIEND_REQUEST(R.string.errcode_placeholder),
     FAILED_TO_SEND_FRIEND_REQUEST(R.string.errcode_placeholder),
     SENT_FRIEND_REQUEST_SUCCESSFULLY(R.string.errcode_placeholder),
+
+    NOT_FRIENDS(R.string.errcode_not_friends)
     ;
 }

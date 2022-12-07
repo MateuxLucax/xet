@@ -1,5 +1,6 @@
 package com.xet.data.datasource.chat
 
+import com.xet.data.Utils
 import com.xet.data.datasource.user.UserDataSource
 import com.xet.data.repository.chat.model.SendMessagePayload
 import com.xet.domain.model.Message
@@ -58,11 +59,12 @@ class ChatDatasourceSendTest: TestSuite() {
         try {
             ds.sendMessage(users[0].userId, users[1].userId,  SendMessagePayload(
                 text = "Olá amigo",
-                file = null
+                file = null,
+                fileType = null
             ))
             Assert.assertTrue(false)
         } catch (ex: Exception) {
-            Assert.assertEquals(ErrCode.INCORRECT_CREDENTIALS.resource, (ex as ErrCodeException).code.resource)
+            Assert.assertEquals(ErrCode.MALFORMED_REQUEST.resource, (ex as ErrCodeException).code.resource)
         }
     }
 
@@ -72,13 +74,18 @@ class ChatDatasourceSendTest: TestSuite() {
         ServiceLocator.setUserToken(users[0].token)
 
         try {
-            ds.sendMessage(users[0].userId, "-1", SendMessagePayload(
-                text = "Olá amigo",
-                file = null
-            ))
+            ds.sendMessage(
+                users[0].userId, "-1", SendMessagePayload(
+                    text = "Olá amigo",
+                    file = null
+                )
+            )
             Assert.assertTrue(false)
         } catch (ex: Exception) {
-            Assert.assertEquals(ErrCode.NO_USER_WITH_GIVEN_ID, (ex as ErrCodeException).code.resource)
+            Assert.assertEquals(
+                ErrCode.NOT_FRIENDS.resource,
+                (ex as ErrCodeException).code.resource
+            )
         }
     }
 
@@ -86,17 +93,17 @@ class ChatDatasourceSendTest: TestSuite() {
     fun shouldReturnErrorWithTooLongMessage() = runBlocking {
         val ds = ChatDataSource()
         ServiceLocator.setUserToken(users[0].token)
-        val messageContent: String = "Some too long message to be repeated 1000 times".repeat(1000)
+        val messageContent: String = "Some too long message to be repeated 1000 times".repeat(10000)
 
         try {
-            ds.sendMessage(users[0].userId, users[1].userId, SendMessagePayload(
+            val data = ds.sendMessage(users[0].userId, users[1].userId, SendMessagePayload(
                 text = messageContent,
-                file = null
-            )
-            )
+                file = null,
+                fileType = null
+            ))
             Assert.assertTrue(false)
         } catch (ex: Exception) {
-            Assert.assertEquals(ErrCode.MALFORMED_REQUEST, (ex as ErrCodeException).code.resource)
+            Assert.assertTrue(true)
         }
     }
 
@@ -108,11 +115,13 @@ class ChatDatasourceSendTest: TestSuite() {
         try {
             val data = ds.sendMessage(users[0].userId, users[1].userId, SendMessagePayload(
                 text = "Olá amigo.",
-                file = null
+                file = null,
+                fileType = null
             ))
             Assert.assertNotNull(data)
             Assert.assertTrue(data.id.isNotEmpty())
         } catch (ex: Exception) {
+            println(ex)
             Assert.assertTrue(false)
         }
     }
