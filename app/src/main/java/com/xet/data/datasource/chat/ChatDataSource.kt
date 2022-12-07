@@ -66,8 +66,8 @@ class ChatDataSource: IChatDataSource {
         }.toMutableList()
 
         messagesToGetFile.forEach {
-            val request = jsonRequest("get-file", GetFileRequest(it.key), ServiceLocator.getUserToken())
-            fetchDSD(request) { response ->
+            val req = jsonRequest("get-file", GetFileRequest(it.key), ServiceLocator.getUserToken())
+            fetchDSD(req) { response ->
                 if (!response.ok) throw exceptionFrom(response)
 
                 messages[messages.indexOf(it.value)] = Message(
@@ -87,7 +87,7 @@ class ChatDataSource: IChatDataSource {
     override suspend fun sendMessage(user: String, friend: String, payload: SendMessagePayload): Message {
         var fileName: String? = null
         if (payload.file != null) {
-            var request = audioRequest("put-file", payload.file, listOf("file-extension ${payload.fileType?.toExtension()}", "token ${ServiceLocator.getUserToken()}"))
+            val request = audioRequest("put-file", payload.file, listOf("file-extension ${payload.fileType?.toExtension()}", "token ${ServiceLocator.getUserToken()}"))
             fileName = fetchDSD(request) { response ->
                 if (!response.ok) throw exceptionFrom(response)
 
@@ -108,7 +108,7 @@ class ChatDataSource: IChatDataSource {
                 file = payload.file,
                 fileType = payload.fileType,
                 fileReference = fileName,
-                sentAt = Utils.parseDate(responseData.sentAt.substring(0, 19), "yyyy-MM-dd'T'HH:mm:ss"), // Dunno why it returns in this format
+                sentAt = Utils.parseDate(responseData.sentAt), // Dunno why it returns in this format
                 isMine = true
             )
         }

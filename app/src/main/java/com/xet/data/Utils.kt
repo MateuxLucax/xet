@@ -8,8 +8,9 @@ import java.time.format.FormatStyle
 
 class Utils {
     companion object {
-        fun parseDate(date: String, format: String? = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): LocalDateTime {
-            return LocalDateTime.parse(date, DateTimeFormatter.ofPattern(format))
+        // TODO: maybe return time in a default format from server :|
+        fun parseDate(date: String, format: String? = "yyyy-MM-dd HH:mm:ss"): LocalDateTime {
+            return LocalDateTime.parse(date.substringBefore(".").replace("T", " "), DateTimeFormatter.ofPattern(format))
         }
 
         fun formatDate(date: LocalDateTime): String {

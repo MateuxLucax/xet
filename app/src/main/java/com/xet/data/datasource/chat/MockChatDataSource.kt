@@ -9,7 +9,7 @@ import java.util.*
 class MockChatDataSource: IChatDataSource {
 
     private fun parseDate(date: String): LocalDateTime {
-        return Utils.parseDate(date, "yyyy-MM-dd HH:mm:ss")
+        return Utils.parseDate(date)
     }
 
     override suspend fun getMessages(

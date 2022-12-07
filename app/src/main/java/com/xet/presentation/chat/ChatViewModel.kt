@@ -103,7 +103,7 @@ class ChatViewModel(
                                     file = result.data,
                                     fileType = FileType.fromExtension(msg.fileReference.split(".").last()),
                                     fileReference = msg.fileReference,
-                                    sentAt = Utils.parseDate(msg.sentAt, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"),
+                                    sentAt = Utils.parseDate(msg.sentAt),
                                     isMine = false
                                 )
 
@@ -115,7 +115,7 @@ class ChatViewModel(
                         val message = Message(
                             id = msg.id.toString(),
                             isMine = false,
-                            sentAt = Utils.parseDate(msg.sentAt, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"),
+                            sentAt = Utils.parseDate(msg.sentAt),
                             text = msg.textContents
                         )
 
