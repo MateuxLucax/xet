@@ -1,6 +1,7 @@
 package com.xet.presentation.search
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -16,6 +17,7 @@ import com.xet.R
 import com.xet.databinding.FragmentSearchBinding
 import com.xet.domain.model.Contact
 import com.xet.presentation.ServiceLocator
+import com.xet.presentation.chat.ChatActivity
 import com.xet.presentation.search.components.SearchAdapter
 
 private const val USER_TOKEN = "userToken"
@@ -100,10 +102,14 @@ class SearchFragment(
         return binding.root
     }
 
-    private fun redirectToMessageActivity(userTo: String) {
+    private fun redirectToMessageActivity(contact: Contact) {
         userToken?.let {
-            Toast.makeText(context, "Redirecting to chat between $userToken and $userTo", Toast.LENGTH_SHORT).show()
-            // TODO actually redirect (?)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra(ChatActivity.FRIEND_ID, contact.userId)
+            intent.putExtra(ChatActivity.FRIEND_NAME, contact.displayName)
+            intent.putExtra(ChatActivity.FRIEND_USER_NAME, contact.username)
+
+            context?.startActivity(intent)
         }
     }
 

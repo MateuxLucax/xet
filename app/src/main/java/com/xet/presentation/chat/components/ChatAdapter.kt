@@ -33,6 +33,14 @@ class ChatAdapter(
     override fun getItemId(position: Int): Long {
         return messages[position].id.toLong()
     }
+
+    override fun onViewDetachedFromWindow(holder: ChatViewHolder) {
+        val message = holder.msg
+        if (message?.fileReference != null) {
+            holder.stop()
+        }
+        super.onViewDetachedFromWindow(holder)
+    }
 }
 
 fun View.margin(left: Float? = null, top: Float? = null, right: Float? = null, bottom: Float? = null) {

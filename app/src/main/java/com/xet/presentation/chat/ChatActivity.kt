@@ -3,6 +3,7 @@ package com.xet.presentation.chat
 import android.Manifest.permission.ACCESS_MEDIA_LOCATION
 import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.MediaRecorder
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -50,8 +52,9 @@ class ChatActivity(
         super.onCreate(savedInstanceState)
 
         loadExtras()
-        viewModel.initialize(friend)
         audioPath = "${externalCacheDir?.absolutePath}/last_recorded_audio.3gp"
+
+        viewModel.initialize(friend)
 
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -106,7 +109,6 @@ class ChatActivity(
         })
 
         loading.visibility = View.VISIBLE
-        viewModel.loadMessages(0)
 
         chatButton.setOnClickListener {
             if (isRecording) stopAudioRecording()
@@ -141,6 +143,12 @@ class ChatActivity(
 
         val color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
         window.navigationBarColor = color
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        viewModel.loadMessages(0)
+
+        return super.onCreateView(name, context, attrs)
     }
 
     override fun onStart() {
@@ -236,6 +244,7 @@ class ChatActivity(
 
         Log.i("event", "stop_recording")
     }
+
 }
 
 fun TextView.afterTextChanged(afterTextChanged: (String) -> Unit) {

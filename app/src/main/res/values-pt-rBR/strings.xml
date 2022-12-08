@@ -65,6 +65,7 @@
     <string name="chat_error">Não foi possível carregar as mensagens.</string>
     <string name="chat_send_error">Could\'t send message.</string>
     <string name="chat_bubble_audio_btn_desc">Icone representando a interação com arquivo de áudio</string>
+    <string name="audio_error">Houve um erro ao tentar reproduzir o audio</string>
 
     <!-- general -->
     <string name="main_logo">Logo do Xet</string>
@@ -90,4 +91,5 @@
     <string name="errcode_unknown_operation" >Operação não encontrada</string>
     <string name="errcode_no_user_with_given_id" >Nenhum usuário com o ID dado</string>
     <string name="errcode_failed_to_parse_json" >Falha no formato JSON da request</string>
+    <string name="errcode_not_friends" >Não são amigos</string>
 </resources>

@@ -15,15 +15,15 @@ import com.xet.domain.model.FriendshipStatus
 class SearchAdapter(
     private val contacts: List<Contact>,
     private val context: Context,
-    private val friendCallback: (String) -> Unit,
-    private val sendInviteCallback: (String) -> Unit
+    private val friendCallback: (Contact) -> Unit,
+    private val sendInviteCallback: (Contact) -> Unit
 ): RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(
             contact: Contact,
-            friendCallback: (String) -> Unit,
-            sendInviteCallBack: (String) -> Unit
+            friendCallback: (Contact) -> Unit,
+            sendInviteCallBack: (Contact) -> Unit
         ) {
             val displayName: TextView = itemView.findViewById(R.id.contact_search_item_name)
             val actionBtn: ImageButton = itemView.findViewById(R.id.contact_search_item_btn)
@@ -33,8 +33,8 @@ class SearchAdapter(
             actionBtn.isActivated = false
 
             when (contact.friendshipStatus) {
-                FriendshipStatus.IS_FRIEND -> actionBtn.setOnClickListener { friendCallback(contact.userId) }
-                FriendshipStatus.NO_FRIEND_REQUEST -> actionBtn.setOnClickListener{ sendInviteCallBack(contact.userId) }
+                FriendshipStatus.IS_FRIEND -> actionBtn.setOnClickListener { friendCallback(contact) }
+                FriendshipStatus.NO_FRIEND_REQUEST -> actionBtn.setOnClickListener{ sendInviteCallBack(contact) }
                 else -> actionBtn.isEnabled = false
             }
 

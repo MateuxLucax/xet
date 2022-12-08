@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xet.R
 import com.xet.data.Result
+import com.xet.domain.model.Contact
 import com.xet.domain.model.FriendshipStatus
 import com.xet.domain.usecase.friend.FriendUseCases
 import com.xet.domain.usecase.search.SearchUseCases
@@ -51,13 +52,13 @@ class SearchViewModel(
         }
     }
 
-    fun sendInvite(userTo: String) {
+    fun sendInvite(contact: Contact) {
         viewModelScope.launch {
-            val result = friendUseCases.sendInvite(currentUserToken, userTo)
+            val result = friendUseCases.sendInvite(currentUserToken, contact.userId)
 
             if (result is Result.Success) {
                 _updateInviteResult.value = UpdateInviteResult(success = R.string.search_invite_sent_successfully)
-                _searchResult.value?.success?.find{ it.userId == userTo }?.let {
+                _searchResult.value?.success?.find{ it.userId == contact.userId }?.let {
                     it.friendshipStatus = FriendshipStatus.RECEIVED_FRIEND_REQUEST
                     inviteSentCallback?.invoke()
                 }

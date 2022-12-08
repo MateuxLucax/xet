@@ -68,6 +68,7 @@
     <string name="chat_error">Could\'t load messages.</string>
     <string name="chat_send_error">Could\'t send message.</string>
     <string name="chat_bubble_audio_btn_desc">Icon to interact with audio</string>
+    <string name="audio_error">There was an error while trying to play audio</string>
 
     <!-- general -->
     <string name="main_logo">Xet logo</string>

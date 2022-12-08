@@ -5,10 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xet.R
@@ -25,10 +22,12 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val container: LinearLayout = itemView.findViewById(R.id.chatBubbleAudioContainer)
     private val btn: ImageButton = itemView.findViewById(R.id.chatMessageBtnAudio)
     private val seekbar: SeekBar = itemView.findViewById(R.id.audioSeekbar)
-    private val player = MediaPlayer()
+    private var player: MediaPlayer? = null
     private var handler: Handler? = null
+    var msg: Message? = null
 
     fun bind(message: Message) {
+        msg = message
         if (message.isMine) {
             itemView.background = AppCompatResources.getDrawable(itemView.context, R.drawable.chat_bubble_right)
             itemView.margin(left = 48F, right = 0F)
@@ -57,12 +56,12 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun bindFile(message: Message) {
         btn.setOnClickListener {
-            if (player.isPlaying) {
-                stop()
+            if (player?.isPlaying == true) {
                 btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_baseline_play_arrow_24))
+                stop()
             } else {
-                play(message)
                 btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_baseline_stop_24))
+                play(message)
             }
         }
 
@@ -76,29 +75,34 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                if (player.isPlaying) {
-                    player.seekTo(seekBar.progress)
+                val mediaPlayer = player
+                if (mediaPlayer != null && mediaPlayer.isPlaying) {
+                    mediaPlayer.seekTo(seekBar.progress)
                 }
             }
         })
     }
 
     private fun play(message: Message) {
+        if (player == null) {
+            player = MediaPlayer()
+        }
+
         try {
-            if (player.isPlaying) {
+            if (player?.isPlaying == true) {
                 stop()
             } else if (message.file != null && message.fileReference != null) {
                 val path = "${itemView.context.cacheDir}/${message.fileReference}"
                 val outputFile = File(path)
 
                 if (outputFile.isFile && outputFile.canRead()) {
-                    player.setDataSource(FileInputStream(outputFile).fd)
-                    player.prepare()
-                    player.isLooping = false
-                    seekbar.max = player.duration
-                    player.start()
+                    player?.setDataSource(FileInputStream(outputFile).fd)
+                    player?.prepare()
+                    player?.isLooping = false
+                    seekbar.max = player?.duration ?: 1
+                    player?.start()
                     updateSeekbar()
-                    player.setOnCompletionListener { stop() }
+                    player?.setOnCompletionListener { stop() }
                 } else {
                     val fos = FileOutputStream(path)
                     fos.write(message.file)
@@ -107,22 +111,24 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 }
             }
         } catch (e: Exception) {
+            Toast.makeText(itemView.context, R.string.audio_error, Toast.LENGTH_SHORT).show()
             Log.w("bind_audio", "error while playing audio: ${e.message}")
+            stop()
         }
     }
 
     private fun updateSeekbar() {
-        seekbar.progress = player.currentPosition
+        seekbar.progress = player?.currentPosition ?: 0
 
         handler = Handler(Looper.getMainLooper())
         this.handler?.postDelayed({ updateSeekbar() }, 1000)
     }
 
-    private fun stop() {
-        handler?.removeCallbacksAndMessages(null)
+    fun stop() {
         btn.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_baseline_play_arrow_24))
+        handler?.removeCallbacksAndMessages(null)
         seekbar.progress = 0
         seekbar.max = 1
-        player.reset()
+        player?.reset()
     }
 }
