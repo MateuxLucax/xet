@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-feature android:name="android.hardware.screen.portrait" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,10 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Xet"
         android:enableOnBackInvokedCallback="true"
-        tools:targetApi="33">
+        android:screenOrientation="sensorPortrait"
+        tools:targetApi="33"
+        >
 
         <activity
             android:name=".presentation.MainActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,16 +37,20 @@
         <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".presentation.signup.SignUpActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".presentation.home.HomeActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="true" />
         <activity
             android:name=".presentation.chat.ChatActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
     </application>
 

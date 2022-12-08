@@ -9,6 +9,7 @@ import com.xet.dsd.exceptionFrom
 import com.xet.dsd.fetchDSD
 import com.xet.dsd.jsonRequest
 import com.xet.presentation.ServiceLocator
+import java.util.Base64
 
 class ChatDataSource: IChatDataSource {
 
@@ -72,7 +73,7 @@ class ChatDataSource: IChatDataSource {
 
                 messages[messages.indexOf(it.value)] = Message(
                     id = it.value.id,
-                    file = response.body,
+                    file = Base64.getDecoder().decode(response.body),
                     fileType = FileType.fromExtension(it.key.split(".").last()),
                     fileReference = it.key,
                     sentAt = it.value.sentAt,
@@ -119,7 +120,7 @@ class ChatDataSource: IChatDataSource {
         return fetchDSD(request) { response ->
             if (!response.ok) throw exceptionFrom(response)
 
-            response.body
+            Base64.getDecoder().decode(response.body)
         }
     }
 

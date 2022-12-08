@@ -95,7 +95,11 @@ class ChatActivity(
             loading.visibility = View.GONE
             for (message in result) {
                 if (!messages.contains(message)) {
-                    messages.add(result.indexOf(message), message)
+                    if (messages.isNotEmpty() && message.id.toLong() > messages.last().id.toLong()) {
+                        messages.add(message)
+                    } else {
+                        messages.add(result.indexOf(message), message)
+                    }
                     adapter.notifyItemInserted(messages.indexOf(message))
                 }
             }
@@ -143,12 +147,8 @@ class ChatActivity(
 
         val color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
         window.navigationBarColor = color
-    }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
         viewModel.loadMessages(0)
-
-        return super.onCreateView(name, context, attrs)
     }
 
     override fun onStart() {
