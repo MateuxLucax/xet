@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import java.net.Socket
 
 const val DSD_HOST = "45.77.148.79"
-const val DSD_PORT = 80
+const val DSD_PORT = 8080
 
 suspend fun <R> fetchDSD(request: Request, block: (Response) -> R): R {
     return withContext(Dispatchers.IO) {
