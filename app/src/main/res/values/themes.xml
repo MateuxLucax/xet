@@ -13,6 +13,7 @@
         <item name="android:textColor">?colorOnBackground</item>
         <item name="android:windowBackground">?backgroundColor</item>
         <item name="strokeColor">?colorPrimary</item>
+        <item name="icon">@color/undefinedColor</item>
 
         <!-- System settings -->
         <item name="android:statusBarColor">?backgroundColor</item>

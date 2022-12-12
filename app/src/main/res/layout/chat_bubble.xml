@@ -13,6 +13,7 @@
         android:id="@+id/chatBubbleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="?colorOnSecondary"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:text="@string/chat_message_text" />
 
@@ -43,7 +44,7 @@
                 android:layout_margin="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:thumbTint="@color/colorPrimary"
+                android:thumbTint="?colorPrimary"
                 android:layout_gravity="center" />
         </LinearLayout>
     </LinearLayout>
@@ -54,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-        android:textColor="@color/undefinedColor"
+        android:textColor="?colorOnSecondary"
         android:text="@string/chat_message_date" />
 
 </LinearLayout>

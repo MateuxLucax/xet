@@ -10,5 +10,5 @@
 
     <color name="errorColor">#B3261E</color>
     <color name="successColor">#A5B356</color>
-    <color name="undefinedColor">#79747E</color>
+    <color name="undefinedColor">#49454F</color>
 </resources>
